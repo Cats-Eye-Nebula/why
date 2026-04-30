@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No Excuses — Your Daily Accountability System</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0a0908;
+  --off-white: #f5f0e8;
+  --cream: #ede8dc;
+  --gold: #c9a84c;
+  --gold-light: #e8c96e;
+  --red: #c0392b;
+  --red-dark: #922b21;
+  --green: #1e6b3c;
+  --blue: #1a3a5c;
+  --warm-gray: #6b6560;
+  --border: #2a2520;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--black);
+  color: var(--off-white);
+  font-family: 'Barlow', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* GRAIN OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
+}
+
+/* HEADER */
+.site-header {
+  padding: 48px 40px 32px;
+  border-bottom: 1px solid #1e1c1a;
+  position: relative;
+}
+.site-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 40px; right: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.header-eyebrow {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--off-white);
+}
+.header-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+.header-sub {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--warm-gray);
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+/* DAILY ROUTINE STRIP */
+.routine-strip {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #1e1c1a;
+  overflow-x: auto;
+}
+.routine-item {
+  flex: 1;
+  min-width: 120px;
+  padding: 16px 20px;
+  border-right: 1px solid #1a1816;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+}
+.routine-item:last-child { border-right: none; }
+.routine-item:hover { background: #111009; }
+.routine-item.active { background: #0f0e0c; }
+.routine-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+}
+.routine-icon { font-size: 22px; margin-bottom: 6px; }
+.routine-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--off-white);
+}
+.routine-time {
+  font-size: 10px;
+  color: var(--warm-gray);
+  margin-top: 3px;
+}
+
+/* MAIN LAYOUT */
+.main {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: calc(100vh - 200px);
+}
+
+/* SIDEBAR */
+.sidebar {
+  border-right: 1px solid #1a1816;
+  padding: 32px 24px;
+  position: sticky;
+  top: 0;
+  height: fit-content;
+}
+.sidebar-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  margin-bottom: 16px;
+}
+.excuse-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  margin-bottom: 6px;
+  background: transparent;
+  border: 1px solid #1e1c1a;
+  border-radius: 4px;
+  color: var(--off-white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1.4;
+}
+.excuse-btn:hover {
+  border-color: var(--gold);
+  background: #100f0d;
+  color: var(--gold);
+}
+.excuse-btn.active {
+  border-color: var(--gold);
+  background: #130f06;
+  color: var(--gold);
+}
+.excuse-btn .excuse-icon {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.sidebar-divider {
+  height: 1px;
+  background: #1a1816;
+  margin: 20px 0;
+}
+.random-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: var(--gold);
+  color: var(--black);
+  border: none;
+  border-radius: 4px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.random-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+/* CARD AREA */
+.card-area {
+  padding: 40px;
+}
+
+/* THE CARD */
+.card {
+  max-width: 720px;
+  position: relative;
+  animation: cardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-tone-badge {
+  display: inline-block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 2px;
+  margin-bottom: 24px;
+}
+.tone-harsh   { background: var(--red-dark); color: #fff; }
+.tone-tough   { background: #1a2e1a; color: #7fc47f; border: 1px solid #2a4a2a; }
+.tone-raw     { background: #1a1a2e; color: #8888cc; border: 1px solid #2a2a4a; }
+
+.card-excuse {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(13px, 2vw, 15px);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  margin-bottom: 8px;
+}
+
+.card-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 4vw, 42px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--off-white);
+  margin-bottom: 28px;
+  position: relative;
+}
+.card-headline::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: var(--gold);
+  margin-top: 16px;
+}
+
+.card-section {
+  margin-bottom: 24px;
+}
+.card-section-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.label-consequence { color: var(--red); }
+.label-vision      { color: var(--gold); }
+.label-action      { color: #7fc47f; }
+
+.card-text {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #ccc8be;
+}
+.card-text strong { color: var(--off-white); font-weight: 600; }
+.card-text em { color: var(--gold); font-style: italic; }
+
+.card-action-box {
+  background: #100f0c;
+  border: 1px solid #2a2520;
+  border-left: 3px solid var(--gold);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin-top: 8px;
+}
+.card-action-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 700;
+  color: var(--off-white);
+  line-height: 1.4;
+}
+.card-action-text .countdown {
+  color: var(--gold);
+  font-size: 1.2em;
+  letter-spacing: 0.1em;
+}
+
+.card-footer {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #1a1816;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: gap;
+  gap: 12px;
+}
+.card-reminder {
+  font-size: 12px;
+  color: var(--warm-gray);
+  font-style: italic;
+  max-width: 400px;
+  line-height: 1.6;
+}
+.next-btn {
+  padding: 12px 24px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.next-btn:hover { background: var(--gold); color: var(--black); }
+
+/* ROUTINE CARD OVERLAY */
+.routine-card-area {
+  display: none;
+  padding: 40px;
+  max-width: 720px;
+  animation: cardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.routine-card-area.visible { display: block; }
+.card-area.hidden { display: none; }
+
+/* DAILY OATH */
+.oath-section {
+  margin-top: 60px;
+  padding: 40px;
+  border-top: 1px solid #1a1816;
+  max-width: 720px;
+}
+.oath-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.oath-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(15px, 2.2vw, 19px);
+  font-style: italic;
+  line-height: 1.9;
+  color: #ccc8be;
+}
+.oath-text strong { color: var(--off-white); font-style: normal; }
+.oath-signature {
+  margin-top: 24px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .main { grid-template-columns: 1fr; }
+  .sidebar { position: static; border-right: none; border-bottom: 1px solid #1a1816; padding: 24px 20px; }
+  .card-area, .routine-card-area { padding: 24px 20px; }
+  .site-header { padding: 32px 20px 24px; }
+  .oath-section { padding: 32px 20px; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-eyebrow">Personal Accountability System — Nebula</div>
+  <h1 class="header-title">No More <em>Excuses.</em><br>No More Tomorrow.</h1>
+  <p class="header-sub">Pick your excuse. Read it. Get up. The agency doesn't build itself. Your family isn't waiting on your mood. Your future doesn't care about your bad day.</p>
+</header>
+
+<!-- ROUTINE STRIP -->
+<div class="routine-strip">
+  <div class="routine-item active" onclick="showRoutine('all')">
+    <div class="routine-icon">⚡</div>
+    <div class="routine-name">Excuses</div>
+    <div class="routine-time">Pick one</div>
+  </div>
+  <div class="routine-item" onclick="showRoutine('exercise')">
+    <div class="routine-icon">💪</div>
+    <div class="routine-name">Exercise</div>
+    <div class="routine-time">15 min</div>
+  </div>
+  <div class="routine-item" onclick="showRoutine('skin')">
+    <div class="routine-icon">🪞</div>
+    <div class="routine-name">Skin Routine</div>
+    <div class="routine-time">10 min</div>
+  </div>
+  <div class="routine-item" onclick="showRoutine('meditate')">
+    <div class="routine-icon">🧘</div>
+    <div class="routine-name">Meditate</div>
+    <div class="routine-time">10 min</div>
+  </div>
+  <div class="routine-item" onclick="showRoutine('emails')">
+    <div class="routine-icon">📬</div>
+    <div class="routine-name">Emails</div>
+    <div class="routine-time">10 min</div>
+  </div>
+  <div class="routine-item" onclick="showRoutine('tasks')">
+    <div class="routine-icon">🎯</div>
+    <div class="routine-name">Tasks</div>
+    <div class="routine-time">Agency work</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-label">What's your excuse right now?</div>
+
+    <button class="excuse-btn active" onclick="showCard('tired')">
+      <span class="excuse-icon">😴</span>
+      "I'm tired. I'll do it later."
+    </button>
+    <button class="excuse-btn" onclick="showCard('overwhelmed')">
+      <span class="excuse-icon">🌀</span>
+      "There's too much. I don't know where to start."
+    </button>
+    <button class="excuse-btn" onclick="showCard('phone')">
+      <span class="excuse-icon">📱</span>
+      "Just five more minutes on my phone..."
+    </button>
+    <button class="excuse-btn" onclick="showCard('notready')">
+      <span class="excuse-icon">🕐</span>
+      "I'm not ready yet. I need to plan more."
+    </button>
+    <button class="excuse-btn" onclick="showCard('nopoint')">
+      <span class="excuse-icon">😶</span>
+      "What's the point? This might not even work."
+    </button>
+    <button class="excuse-btn" onclick="showCard('tomorrow')">
+      <span class="excuse-icon">📅</span>
+      "I'll have a fresh start tomorrow."
+    </button>
+    <button class="excuse-btn" onclick="showCard('toobusy')">
+      <span class="excuse-icon">🏃</span>
+      "I'm too busy with my sales job today."
+    </button>
+    <button class="excuse-btn" onclick="showCard('scared')">
+      <span class="excuse-icon">😰</span>
+      "What if I do all this and it fails?"
+    </button>
+    <button class="excuse-btn" onclick="showCard('noone')">
+      <span class="excuse-icon">🥺</span>
+      "Nobody believes in me anyway."
+    </button>
+    <button class="excuse-btn" onclick="showCard('focus')">
+      <span class="excuse-icon">💭</span>
+      "I can't focus. My mind is all over the place."
+    </button>
+
+    <div class="sidebar-divider"></div>
+    <button class="random-btn" onclick="showRandom()">⚡ Hit Me Randomly</button>
+  </aside>
+
+  <!-- MAIN CARD AREA -->
+  <div id="card-area" class="card-area">
+    <div id="card-display" class="card"></div>
+
+    <div class="oath-section">
+      <div class="oath-label">Your Daily Oath — Read This Every Morning</div>
+      <p class="oath-text">
+        I am <strong>Nebula</strong>. I am building something real — not for applause, not for likes, not for anyone's approval.<br><br>
+        I am building it because I am <strong>tired of being tired</strong>. Because my family deserves more than excuses. Because I have already survived harder things than a hard day.<br><br>
+        Every day I don't act, someone else is taking the client that was supposed to be mine. Every hour I waste, I am choosing the version of my life I am trying to escape.<br><br>
+        <strong>I don't need motivation. I need discipline.</strong> Motivation is a feeling. Discipline is a decision. And today, I decide.<br><br>
+        The agency will be built. The money will come. The freedom will be earned. <em>But only if I show up — especially when I don't feel like it.</em>
+      </p>
+      <div class="oath-signature">— Signed by you, on the day you decided to stop waiting</div>
+    </div>
+  </div>
+
+  <!-- ROUTINE CARD AREA -->
+  <div id="routine-card-area" class="routine-card-area">
+    <div id="routine-display"></div>
+  </div>
+
+</div>
+
+<script>
+const cards = {
+  tired: {
+    tone: 'harsh',
+    toneName: 'NO MERCY',
+    excuse: '"I\'m tired. I\'ll do it later."',
+    headline: 'Tired is not a reason. It\'s a habit.',
+    consequence: `You know what's <strong>actually exhausting?</strong> Waking up five years from now still at the same job, same income, same life — and knowing you had every plan, every tool, every opportunity, and you chose <strong>the couch over your future.</strong> That's the kind of tired that doesn't go away with sleep. That kind of tired lives in your chest. You've felt it. You know exactly what I'm talking about.`,
+    vision: `Picture this: <em>your agency has 10 clients.</em> You check your phone — not for TikTok, but to see a Stripe notification. Another payment. You're not at someone else's desk. You're at yours. Your family sees a different version of you — someone who didn't quit, someone who <em>made it happen.</em> That version of you exists. But he's only built in the moments the current you refuses to move.`,
+    action: `You are not tired. You are <strong>comfortable.</strong> There is a massive difference. Comfort is the enemy of the life you want. Stand up right now. Not in five minutes. <span class="countdown">5 — 4 — 3 — 2 — 1 — MOVE.</span>`,
+    reminder: `The agency doesn't care that you're tired. Your future clients don't care. The version of you that made it never waited to feel ready.`
+  },
+  overwhelmed: {
+    tone: 'tough',
+    toneName: 'TOUGH LOVE',
+    excuse: '"There\'s too much. I don\'t know where to start."',
+    headline: 'Overwhelm is just procrastination in a suit.',
+    consequence: `You built a plan. A real, detailed, phase-by-phase plan. You have the roadmap. And right now, instead of looking at <strong>Task 1</strong>, you're looking at all 64 tasks at once and using that as a reason to do <strong>zero of them.</strong> That's not overwhelm. That's avoidance. And every day you avoid, the gap between you and the agency widens — while your savings target stays exactly where it is.`,
+    vision: `The people who built what you want to build weren't smarter. They weren't less overwhelmed. They just <em>refused to let the size of the goal stop them from doing the next small thing.</em> One task. One day. One month. That's how the agency gets built — not by doing everything, but by doing <strong>something, right now, today.</strong>`,
+    action: `Close every tab except your Notion plan. Find <strong>Phase 1.</strong> Look at the very next unchecked task. Read only that task. Do only that task. Not the whole phase. Not the whole plan. <span class="countdown">One task. Start in 5 — 4 — 3 — 2 — 1.</span>`,
+    reminder: `You don't need to see the whole staircase. You just need to take the next step. That's it. That's the whole strategy.`
+  },
+  phone: {
+    tone: 'raw',
+    toneName: 'RAW TRUTH',
+    excuse: '"Just five more minutes on my phone..."',
+    headline: 'You are trading your agency for someone else\'s content.',
+    consequence: `Every minute you spend scrolling, you are <strong>literally paying with your future.</strong> The math is brutal: you have 2 hours a day on weekdays and full days Monday and Thursday to build this. That's it. That's your runway. And you're handing those minutes — those <em>irreplaceable</em> minutes — to an algorithm designed by billionaires to make sure you never stop. <strong>The app is winning. Your dream is losing.</strong>`,
+    vision: `Imagine the day you post on that same social media — not to scroll, but to <em>announce.</em> First client signed. First $1,000 month. First 10 clients. The people who doubted you will see it. Your family will see it. <em>You</em> will see it. That post only happens if you put the phone down <strong>right now</strong> and do the work that earns it.`,
+    action: `Put your phone face down. Not on silent — <strong>face down, across the room.</strong> Set a 25-minute timer on a clock or another device. For 25 minutes, you work on exactly one agency task. You owe yourself 25 minutes. <span class="countdown">Phone down. Timer set. 5 — 4 — 3 — 2 — 1 — GO.</span>`,
+    reminder: `The scroll feels like rest. It isn't. It's borrowing energy from tomorrow and paying back nothing. Real rest is earned after real work.`
+  },
+  notready: {
+    tone: 'harsh',
+    toneName: 'CALLED OUT',
+    excuse: '"I\'m not ready yet. I need to plan more."',
+    headline: 'You\'ve been planning. It\'s time to stop hiding in preparation.',
+    consequence: `You have a master plan with 64 tasks. You have a finance tracker with 349 formulas. You have a 7-month roadmap. You know the pricing tiers, the VA structure, the funnel, the outreach strategy. <strong>What exactly are you waiting to know?</strong> More planning is not preparation — it's <em>fear wearing a productive disguise.</em> And every day you stay in planning mode, zero dollars come in and zero clients exist.`,
+    vision: `You don't become ready before you start. <em>You become ready by starting.</em> Every successful agency owner you admire launched before they were ready. They figured it out on the way. That's the only way it works. The person you want to become is forged in the doing — <strong>not in the preparing to do.</strong>`,
+    action: `You are ready enough. Right now, open your Notion plan and mark the next task as IN PROGRESS — not done, just in progress. Starting is the only readiness that matters. <span class="countdown">Open Notion. 5 — 4 — 3 — 2 — 1.</span>`,
+    reminder: `Perfection is the most expensive luxury a founder can't afford. Done and learning beats planned and stagnant every single time.`
+  },
+  nopoint: {
+    tone: 'raw',
+    toneName: 'REAL TALK',
+    excuse: '"What\'s the point? This might not even work."',
+    headline: 'You\'re right. It might not work. Now what?',
+    consequence: `Let's say it doesn't work. You spend 7 months building, you launch, and you struggle. <strong>What do you have?</strong> Real sales experience from working as a setter and closer. A built CRM and funnel system. A brand, a legal entity, a finance tracker, skills in ads and outreach. You will have learned more in 7 months than most people learn in 5 years. <em>The downside of trying is skills. The downside of not trying is regret.</em> And you already know what regret feels like. That's why you started this.`,
+    vision: `But it <em>will</em> work — if you don't stop. The agency model you're building is proven. Home service businesses desperately need marketing help. You have GHL experience. You have a sales background. You have a real plan. The only variable that determines whether this works or not <strong>is you showing up.</strong> That part is entirely in your control.`,
+    action: `Doubt is normal. Doubt in motion is called <strong>courage.</strong> Doubt on the couch is called giving up. Pick one task that moves you forward and do it with doubt riding shotgun — it can come along for the ride. <span class="countdown">Choose the task. 5 — 4 — 3 — 2 — 1 — DO IT ANYWAY.</span>`,
+    reminder: `Every person who built something great felt exactly what you're feeling right now. The difference between them and the ones who quit? They kept going after the doubt showed up.`
+  },
+  tomorrow: {
+    tone: 'harsh',
+    toneName: 'ZERO TOLERANCE',
+    excuse: '"I\'ll have a fresh start tomorrow."',
+    headline: 'Tomorrow has never once kept a promise.',
+    consequence: `How many times have you said tomorrow? Count them. Go ahead. How many "fresh starts" have come and gone and the agency was still unbuilt, the savings still unsaved, the plan still unexecuted? <strong>Tomorrow is where dreams go to die.</strong> Tomorrow doesn't exist. There is only right now. Every tomorrow you choose costs you a day of compounding progress — and you only have 5 to 7 months of runway before you need to launch.`,
+    vision: `The version of you that has the agency, the clients, the freedom — that person was built entirely out of todays. Not tomorrows. <em>Today is the only currency that builds your future.</em> And today isn't over yet. There are still hours in this day. There is still time to do <strong>one thing</strong> that tomorrow-you will be grateful for.`,
+    action: `Do not close this page and go to sleep without completing one agency task. Even if it's small. Even if you only have 20 minutes. <strong>Win today.</strong> Tomorrow can be a fresh start and a continuation — but today cannot be surrendered. <span class="countdown">One task. Right now. 5 — 4 — 3 — 2 — 1.</span>`,
+    reminder: `You will not "feel like it" tomorrow either. The feeling doesn't come before the action. The feeling comes from the action. Start first. Feel better after.`
+  },
+  toobusy: {
+    tone: 'tough',
+    toneName: 'PERSPECTIVE CHECK',
+    excuse: '"I\'m too busy with my sales job today."',
+    headline: 'Your job funds the mission. It doesn\'t replace it.',
+    consequence: `Your sales job is real. The hours are real. The exhaustion is real. Nobody is dismissing that. But here's what's also real: <strong>you built a schedule specifically around your job.</strong> One hour in the morning. One hour in the evening. Full Mondays and Thursdays. That schedule exists because you knew busy days would happen. If you abandon the system the moment it gets inconvenient, <em>you don't have a system — you have a wish.</em>`,
+    vision: `Every deal you close at your sales job right now is teaching you something that will make you a better agency owner. The scripts, the objections, the pipeline management — you're getting paid to learn. <em>But only if you also show up for the unpaid hours</em> that build the thing that eventually replaces the need for the job. Your job is the bridge. <strong>The agency is the other side.</strong> You still have to walk it.`,
+    action: `You don't need hours today. You need <strong>one focused block.</strong> If you have a morning hour — use it. If you only have 20 minutes tonight — use it. Small consistent reps beat occasional heroic sessions. Open the plan. Pick the smallest task on the list. Do that one thing. <span class="countdown">20 minutes. That's all. 5 — 4 — 3 — 2 — 1.</span>`,
+    reminder: `The agency is built in the margins of the life you already have — until it becomes the life you actually want. Protect the margins.`
+  },
+  scared: {
+    tone: 'raw',
+    toneName: 'HONEST MIRROR',
+    excuse: '"What if I do all this and it fails?"',
+    headline: 'Fear of failing is already a kind of failure.',
+    consequence: `If you never try, you guarantee the outcome you're afraid of — a life where the agency never existed. <strong>The fear of failure is protecting nothing.</strong> You've already been through a Chapter 7 bankruptcy. You're working through an IRS installment agreement. You're pursuing U.S. citizenship while holding down a job and building a business. <em>You have already survived things that would have broken most people.</em> And you're scared of a business that hasn't failed yet?`,
+    vision: `Think about what you're actually building: financial freedom, a legacy, proof that where you started doesn't define where you end up. <em>That story only gets written if you risk writing it.</em> The scar of a failed attempt heals. The wound of never trying doesn't. You've come too far, built too much of a plan, and sacrificed too much to stop now because of a feeling.`,
+    action: `Write down your worst-case scenario on a piece of paper right now. Be specific. Then write what you'd do if that happened. You'll find you'd survive it. Fear only controls you when it stays in your head. <strong>Name it, then move past it.</strong> <span class="countdown">Write it down. 5 — 4 — 3 — 2 — 1.</span>`,
+    reminder: `Courage is not the absence of fear. It is building the agency while afraid. Every day you work scared is a day you win twice.`
+  },
+  noone: {
+    tone: 'raw',
+    toneName: 'DEEPLY HONEST',
+    excuse: '"Nobody believes in me anyway."',
+    headline: 'Good. Build it without their permission.',
+    consequence: `Let me tell you what happens when nobody believes in you and you do it anyway — <strong>you become undeniable.</strong> Nobody's belief was the missing ingredient. Execution was. The people who doubted you didn't doubt your potential. They doubted your follow-through. Every plan you abandoned, every late night you chose comfort over work, every "I'll start Monday" — that's what built their doubt. <em>You can't control what they believe. You can control what you build.</em>`,
+    vision: `Imagine the day you show them — not with words, not with arguments, but with <em>results.</em> A real business. Real clients. Real income. You, Nebula, who came from nothing, who survived bankruptcy, who is pursuing citizenship, who is building something real against every odd. <strong>That's the story that ends with them eating their words.</strong> But it only ends that way if you write it with your actions starting right now.`,
+    action: `You don't need a cheerleader. You need a decision. Decide right now that their doubt becomes your fuel. <strong>Use it.</strong> Every time someone doesn't believe in you, add that energy to the work. Get up. Open the plan. Do the next task — not for them, not for their approval. <span class="countdown">For you. 5 — 4 — 3 — 2 — 1 — PROVE IT.</span>`,
+    reminder: `The most powerful motivation is a quiet, relentless dedication to becoming exactly who they said you couldn't be. Don't announce it. Build it.`
+  },
+  focus: {
+    tone: 'tough',
+    toneName: 'SYSTEMS CHECK',
+    excuse: '"I can\'t focus. My mind is all over the place."',
+    headline: 'Scattered mind is a sign you\'re avoiding the hardest task.',
+    consequence: `Your mind is scattered because <strong>you're giving it too many open loops.</strong> Every unstarted task, every unmade decision, every thing you said you'd do but haven't — your brain is holding all of it, and it's exhausting. Focus isn't a personality trait. It's a muscle. And it atrophies when you avoid using it. The longer you sit in scattered mode, the harder the next hour becomes. <em>You are making the problem worse by not starting.</em>`,
+    vision: `There's a version of this evening where you close your laptop feeling <em>genuinely good</em> — not because you did everything, but because you did <strong>one real thing.</strong> That feeling of earned rest, of actual progress, of going to sleep knowing today wasn't wasted — it's available to you right now. It costs exactly one decision.`,
+    action: `Pick up a piece of paper and write down every open thought in your head right now. Everything — work, agency, personal, worries, tasks. Write it all down. Get it out of your head and onto paper. Then circle the <strong>one thing</strong> on that list that matters most for the agency right now. Do only that. <span class="countdown">Paper out. Write. 5 — 4 — 3 — 2 — 1.</span>`,
+    reminder: `You cannot focus your way into starting. You start your way into focus. The clarity comes after you begin — never before.`
+  }
+};
+
+const routineCards = {
+  exercise: {
+    icon: '💪',
+    name: 'Exercise — 15 Minutes',
+    tone: 'harsh',
+    toneName: 'NO MERCY',
+    headline: 'Your body is the engine. Don\'t let it rot.',
+    body: `You are building an agency while working a full-time sales job. That requires <strong>mental sharpness, emotional resilience, and physical energy</strong> — none of which you have when your body is untrained and underslept. The 15 minutes you skip today costs you 2 hours of foggy thinking tomorrow. Exercise is not a luxury for when you "have the energy." <em>It is what creates the energy.</em>`,
+    action: `You don't need a gym. You don't need equipment. You need your body and 15 minutes. Right now: stand up, drop for 10 push-ups, 20 squats, 10 lunges each leg, repeat. That's it. Your heart rate will thank you. Your brain will follow. <span class="countdown">Stand up. 5 — 4 — 3 — 2 — 1 — FIRST REP.</span>`
+  },
+  skin: {
+    icon: '🪞',
+    name: 'Skin Routine — 10 Minutes',
+    tone: 'tough',
+    toneName: 'SELF-RESPECT',
+    headline: 'How you show up for yourself is how you show up for everything.',
+    body: `This is not vanity. This is <strong>discipline in its simplest form.</strong> A person who can't keep a 10-minute morning commitment to themselves cannot be trusted to keep commitments to clients, to VAs, to a business. The skin routine isn't about skincare. It's about proving to yourself — every single day — that <em>you are worth the 10 minutes.</em> That you take yourself seriously enough to follow through on small promises before the big ones.`,
+    action: `Wash your face. Apply what you need to apply. Look yourself in the mirror for 5 seconds when you're done and say out loud: <strong>"I am building something real."</strong> It sounds strange. Do it anyway. <span class="countdown">Bathroom. Now. 5 — 4 — 3 — 2 — 1.</span>`
+  },
+  meditate: {
+    icon: '🧘',
+    name: 'Meditation & Journaling — 10 Minutes',
+    tone: 'raw',
+    toneName: 'INNER WORK',
+    headline: 'The chaos outside starts with the chaos inside.',
+    body: `You have a lot going on. Citizenship application. IRS installment agreement. Sales job. Agency prep. VA training. <strong>That is a heavy load.</strong> The meditation and journaling isn't optional fluff — it is the 10 minutes that prevents the other 23 hours and 50 minutes from unraveling. Without it, the overwhelm compounds. The anxiety leaks into your work. <em>The 10 minutes you spend getting still saves hours of distracted spinning.</em> This is maintenance for the machine that runs everything.`,
+    action: `Sit down. Set a timer for 5 minutes. Close your eyes. Focus only on breathing. When thoughts come — and they will — just notice them and return to the breath. After 5 minutes, open your journal. Write 3 lines: <strong>one thing you're grateful for, one thing you're committing to today, one fear you're choosing to act despite.</strong> <span class="countdown">Sit. Close your eyes. 5 — 4 — 3 — 2 — 1 — BREATHE.</span>`
+  },
+  emails: {
+    icon: '📬',
+    name: 'Review Emails & Messages — 10 Minutes',
+    tone: 'tough',
+    toneName: 'EXECUTION MODE',
+    headline: 'Your inbox is a to-do list written by other people. Triage it fast.',
+    body: `Ten minutes means ten minutes. <strong>You are not here to deep-dive, reply to everything, or get sucked into threads.</strong> You are here to triage. What requires action today? What can wait? What needs a one-line reply? The goal is zero surprises — knowing what's on your plate so it doesn't ambush you mid-focus block. <em>An unchecked inbox creates background anxiety that kills productivity all day.</em>`,
+    action: `Open your email. Scan subject lines only. Mark anything action-required with a star or flag. Reply only to anything that takes under 60 seconds. Close the tab. <strong>You are done.</strong> The inbox will survive without you for the rest of the morning. <span class="countdown">Open email. Clock starts. 5 — 4 — 3 — 2 — 1 — TRIAGE.</span>`
+  },
+  tasks: {
+    icon: '🎯',
+    name: 'Agency Tasks — Your Priority Block',
+    tone: 'harsh',
+    toneName: 'THIS IS THE WORK',
+    headline: 'This block is why everything else exists. Don\'t waste it.',
+    body: `The exercise, the skin routine, the meditation, the email check — <strong>all of it was prep for this moment.</strong> This is the agency block. This is where the business gets built. Every minute of this block spent distracted, scrolling, or planning instead of executing is a direct delay to your freedom, your family's security, and the life you're working toward. <em>Nobody is coming to do this for you.</em> It is you, the plan, and this block of time. That's the whole equation.`,
+    action: `Open your Notion plan. Find the next unchecked task. Read the subtasks. Start the first subtask. Do not open a new tab. Do not check your phone. Do not "just quickly check" anything. <strong>You work until the timer ends or the task is done — whichever comes first.</strong> <span class="countdown">Notion open. First subtask. 5 — 4 — 3 — 2 — 1 — BUILD.</span>`
+  }
+};
+
+const cardKeys = Object.keys(cards);
+let currentCardKey = 'tired';
+
+function buildExcuseCard(key) {
+  const c = cards[key];
+  if (!c) return '';
+  const toneClass = c.tone === 'harsh' ? 'tone-harsh' : c.tone === 'tough' ? 'tone-tough' : 'tone-raw';
+  return `
+    <div class="card">
+      <div class="card-tone-badge ${toneClass}">${c.toneName}</div>
+      <div class="card-excuse">${c.excuse}</div>
+      <h2 class="card-headline">${c.headline}</h2>
+
+      <div class="card-section">
+        <div class="card-section-label label-consequence">⚠ The Consequence</div>
+        <p class="card-text">${c.consequence}</p>
+      </div>
+
+      <div class="card-section">
+        <div class="card-section-label label-vision">◈ The Vision</div>
+        <p class="card-text">${c.vision}</p>
+      </div>
+
+      <div class="card-section">
+        <div class="card-section-label label-action">▶ The Action — Right Now</div>
+        <div class="card-action-box">
+          <div class="card-action-text">${c.action}</div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <p class="card-reminder"><em>"${c.reminder}"</em></p>
+        <button class="next-btn" onclick="showRandom()">Next card →</button>
+      </div>
+    </div>`;
+}
+
+function buildRoutineCard(key) {
+  const r = routineCards[key];
+  if (!r) return '';
+  const toneClass = r.tone === 'harsh' ? 'tone-harsh' : r.tone === 'tough' ? 'tone-tough' : 'tone-raw';
+  return `
+    <div class="card">
+      <div style="font-size:40px;margin-bottom:16px;">${r.icon}</div>
+      <div class="card-tone-badge ${toneClass}">${r.toneName}</div>
+      <div class="card-excuse">${r.name}</div>
+      <h2 class="card-headline">You're skipping this.<br>Here's what it costs you.</h2>
+
+      <div class="card-section">
+        <div class="card-section-label label-consequence">⚠ Why This Matters</div>
+        <p class="card-text">${r.body}</p>
+      </div>
+
+      <div class="card-section">
+        <div class="card-section-label label-action">▶ Do It Now</div>
+        <div class="card-action-box">
+          <div class="card-action-text">${r.action}</div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <p class="card-reminder"><em>Routine is the architecture of results. Skip the routine, skip the results.</em></p>
+      </div>
+    </div>`;
+}
+
+function showCard(key) {
+  currentCardKey = key;
+  document.querySelectorAll('.excuse-btn').forEach(b => b.classList.remove('active'));
+  const btns = document.querySelectorAll('.excuse-btn');
+  const keys = Object.keys(cards);
+  const idx = keys.indexOf(key);
+  if (btns[idx]) btns[idx].classList.add('active');
+
+  showExcuseMode();
+  document.getElementById('card-display').innerHTML = buildExcuseCard(key);
+  document.getElementById('card-display').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showRoutine(key) {
+  document.querySelectorAll('.routine-item').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+
+  if (key === 'all') {
+    showExcuseMode();
+    return;
+  }
+
+  document.getElementById('card-area').classList.add('hidden');
+  const ra = document.getElementById('routine-card-area');
+  ra.classList.add('visible');
+  document.getElementById('routine-display').innerHTML = buildRoutineCard(key);
+}
+
+function showExcuseMode() {
+  document.getElementById('card-area').classList.remove('hidden');
+  document.getElementById('routine-card-area').classList.remove('visible');
+  document.querySelectorAll('.routine-item').forEach((el, i) => {
+    el.classList.toggle('active', i === 0);
+  });
+}
+
+function showRandom() {
+  const keys = Object.keys(cards);
+  let newKey;
+  do { newKey = keys[Math.floor(Math.random() * keys.length)]; }
+  while (newKey === currentCardKey && keys.length > 1);
+  showCard(newKey);
+}
+
+// Init
+document.getElementById('card-display').innerHTML = buildExcuseCard('tired');
+</script>
+</body>
+</html>
