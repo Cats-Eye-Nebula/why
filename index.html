@@ -7,19 +7,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink:      #0c0b09;
-  --ink2:     #161410;
-  --ink3:     #1f1c17;
-  --ink4:     #2a271f;
-  --ink5:     #38342a;
-  --gold:     #c49a3c;
-  --gold2:    #dbb96a;
-  --gold3:    #f0d898;
-  --cream:    #f5eedf;
-  --cream2:   #ede4cf;
-  --cream3:   #e0d5be;
-  --warm:     #7a7060;
-  --warm2:    #9a8e7a;
+  --ink:      #0d0b14;
+  --ink2:     #14101f;
+  --ink3:     #1e1630;
+  --ink4:     #2d2047;
+  --ink5:     #3e2d5e;
+  --gold:     #e91e8c;
+  --gold2:    #f472b6;
+  --gold3:    #fce7f3;
+  --cream:    #f5eeff;
+  --cream2:   #e8d8f8;
+  --cream3:   #d4beeb;
+  --warm:     #8e7aaa;
+  --warm2:    #b0a0c8;
   --red-soft: #c0392b;
   --green-soft:#2e7d4f;
 }
@@ -50,7 +50,7 @@ nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(12,11,9,0.92);
+  background: rgba(13,11,20,0.92);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--ink4);
   padding: 0 32px;
@@ -106,7 +106,7 @@ nav::-webkit-scrollbar{display:none;}
   transform:translate(-50%,-50%);
   width:600px;height:600px;
   border-radius:50%;
-  background:radial-gradient(circle, rgba(196,154,60,0.07) 0%, transparent 65%);
+  background:radial-gradient(circle, rgba(233,30,140,0.09) 0%, rgba(157,78,221,0.05) 50%, transparent 70%);
   pointer-events:none;
 }
 .hero-date {
@@ -437,11 +437,27 @@ nav::-webkit-scrollbar{display:none;}
 .client-text { font-size:13.5px; color:var(--cream2); line-height:1.65; font-weight:400; }
 
 /* ── VISION BOARD ── */
+#vboard {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+#vboard > .section-tag,
+#vboard > .body-text {
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 32px;
+  padding-right: 32px;
+}
 .vboard-wrap {
   margin-top:28px;
-  border-radius:10px;
+  border-radius:0;
   overflow:hidden;
-  border:1px solid var(--ink5);
+  border-left:none;
+  border-right:none;
+  border-top:1px solid var(--ink5);
+  border-bottom:1px solid var(--ink5);
   background:var(--ink2);
   position:relative;
 }
@@ -458,7 +474,7 @@ nav::-webkit-scrollbar{display:none;}
 .vboard-dot { width:8px;height:8px;border-radius:50%;background:var(--gold); }
 .vboard-frame {
   width:100%;
-  height:520px;
+  height:calc(100vh - 80px);
   border:none;
   display:block;
   background:var(--ink2);
