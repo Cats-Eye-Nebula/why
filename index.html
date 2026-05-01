@@ -7,19 +7,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink:      #0c0b09;
-  --ink2:     #161410;
-  --ink3:     #1f1c17;
-  --ink4:     #2a271f;
-  --ink5:     #38342a;
-  --gold:     #c49a3c;
-  --gold2:    #dbb96a;
-  --gold3:    #f0d898;
-  --cream:    #f5eedf;
-  --cream2:   #ede4cf;
-  --cream3:   #e0d5be;
-  --warm:     #7a7060;
-  --warm2:    #9a8e7a;
+  --ink:      #fdf8fc;
+  --ink2:     #f5eaf4;
+  --ink3:     #ede0ec;
+  --ink4:     #d8c0d7;
+  --ink5:     #c0a0bf;
+  --gold:     #5c0ea0;
+  --gold2:    #d63384;
+  --gold3:    #f090ba;
+  --cream:    #1a0a2e;
+  --cream2:   #2d1b4e;
+  --cream3:   #4a3060;
+  --warm:     #7a5a90;
+  --warm2:    #5c3a7a;
   --red-soft: #c0392b;
   --green-soft:#2e7d4f;
 }
@@ -50,7 +50,7 @@ nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(12,11,9,0.92);
+  background: rgba(253,248,252,0.95);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--ink4);
   padding: 0 32px;
@@ -106,7 +106,7 @@ nav::-webkit-scrollbar{display:none;}
   transform:translate(-50%,-50%);
   width:600px;height:600px;
   border-radius:50%;
-  background:radial-gradient(circle, rgba(196,154,60,0.07) 0%, transparent 65%);
+  background:radial-gradient(circle, rgba(92,14,160,0.07) 0%, transparent 65%);
   pointer-events:none;
 }
 .hero-date {
@@ -439,9 +439,11 @@ nav::-webkit-scrollbar{display:none;}
 /* ── VISION BOARD ── */
 .vboard-wrap {
   margin-top:28px;
-  border-radius:10px;
+  border-radius:0;
   overflow:hidden;
-  border:1px solid var(--ink5);
+  border:none;
+  border-top:1px solid var(--ink5);
+  border-bottom:1px solid var(--ink5);
   background:var(--ink2);
   position:relative;
 }
@@ -458,7 +460,7 @@ nav::-webkit-scrollbar{display:none;}
 .vboard-dot { width:8px;height:8px;border-radius:50%;background:var(--gold); }
 .vboard-frame {
   width:100%;
-  height:520px;
+  height:100vh;
   border:none;
   display:block;
   background:var(--ink2);
@@ -486,6 +488,20 @@ nav::-webkit-scrollbar{display:none;}
   transition:all 0.2s;
 }
 .vboard-fallback-link:hover { background:var(--gold); color:var(--ink); }
+
+#vboard {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+#vboard .section-tag {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+#vboard > .body-text {
+  padding-left: 32px;
+  padding-right: 32px;
+}
 
 /* ── OATH ── */
 .oath-wrap {
@@ -819,7 +835,7 @@ footer {
     <span class="section-num">VI</span>
     <h2 class="section-title">Vision <em>Board</em></h2>
   </div>
-  <p class="body-text" style="margin-bottom:4px;">Look at this. Remember what you're building toward.</p>
+  <p class="body-text" style="margin-bottom:4px;padding-left:32px;padding-right:32px;">Look at this. Remember what you're building toward.</p>
   <div class="vboard-wrap">
     <div class="vboard-notice">
       <div class="vboard-dot"></div>
