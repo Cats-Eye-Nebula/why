@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joena — Why I Do This</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #0c0b09;
+  --ink2:     #161410;
+  --ink3:     #1f1c17;
+  --ink4:     #2a271f;
+  --ink5:     #38342a;
+  --gold:     #c49a3c;
+  --gold2:    #dbb96a;
+  --gold3:    #f0d898;
+  --cream:    #f5eedf;
+  --cream2:   #ede4cf;
+  --cream3:   #e0d5be;
+  --warm:     #7a7060;
+  --warm2:    #9a8e7a;
+  --red-soft: #c0392b;
+  --green-soft:#2e7d4f;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── GRAIN ── */
+body::after {
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12,11,9,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--ink4);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+nav::-webkit-scrollbar{display:none;}
+.nav-brand {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 13px;
+  color: var(--gold);
+  white-space: nowrap;
+  padding: 16px 24px 16px 0;
+  border-right: 1px solid var(--ink4);
+  margin-right: 8px;
+  letter-spacing: 0.04em;
+}
+.nav-link {
+  padding: 16px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--warm);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.nav-link:hover { color: var(--gold2); }
+.nav-link.active { color: var(--gold); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content:'';
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:600px;height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(196,154,60,0.07) 0%, transparent 65%);
+  pointer-events:none;
+}
+.hero-date {
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.35em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:28px;
+  opacity:0;
+  animation: fadeUp 0.8s 0.1s forwards;
+}
+.hero-name {
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(13px,2vw,16px);
+  font-weight:400;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:var(--warm2);
+  margin-bottom:16px;
+  opacity:0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero-title {
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(52px,10vw,108px);
+  font-weight:700;
+  line-height:0.9;
+  letter-spacing:-0.03em;
+  color:var(--cream);
+  margin-bottom:8px;
+  opacity:0;
+  animation: fadeUp 0.9s 0.3s forwards;
+}
+.hero-title em {
+  font-style:italic;
+  color:var(--gold2);
+  display:block;
+}
+.hero-why-line {
+  font-size:clamp(14px,2.5vw,18px);
+  color:var(--warm);
+  max-width:520px;
+  line-height:1.8;
+  margin:28px auto 0;
+  font-weight:300;
+  opacity:0;
+  animation: fadeUp 0.9s 0.5s forwards;
+}
+.hero-why-line strong { color:var(--cream2); font-weight:500; }
+.scroll-cue {
+  position:absolute;
+  bottom:36px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  opacity:0;
+  animation: fadeUp 1s 1.2s forwards;
+}
+.scroll-cue span {
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:var(--warm);
+}
+.scroll-arrow {
+  width:1px;
+  height:40px;
+  background:linear-gradient(to bottom, var(--gold), transparent);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+@keyframes fadeUp {
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ── SECTIONS ── */
+.section {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 80px 32px;
+  border-bottom: 1px solid var(--ink4);
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.section.visible { opacity:1; transform:translateY(0); }
+.section:last-of-type { border-bottom: none; }
+
+.section-tag {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:32px;
+}
+.section-num {
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  color:var(--gold);
+  letter-spacing:0.2em;
+  background:var(--ink3);
+  border:1px solid var(--ink5);
+  border-radius:3px;
+  padding:4px 10px;
+}
+.section-title {
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(22px,4vw,34px);
+  font-weight:700;
+  color:var(--cream);
+  line-height:1.15;
+}
+.section-title em { font-style:italic; color:var(--gold2); }
+
+/* Body text */
+.body-text {
+  font-size:15px;
+  line-height:1.95;
+  color:var(--warm2);
+  font-weight:300;
+}
+.body-text strong { color:var(--cream2); font-weight:500; }
+.body-text em { color:var(--gold2); font-style:italic; }
+
+/* ── TARGET CARDS ── */
+.target-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:28px;
+}
+.target-card {
+  background:var(--ink2);
+  border:1px solid var(--ink4);
+  border-radius:8px;
+  padding:22px 20px;
+  position:relative;
+  overflow:hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.target-card:hover { border-color:var(--gold); transform:translateY(-2px); }
+.target-card::before {
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg, var(--gold), transparent);
+}
+.target-letter {
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  color:var(--gold);
+  letter-spacing:0.2em;
+  margin-bottom:10px;
+}
+.target-value {
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(18px,3vw,24px);
+  font-weight:700;
+  color:var(--cream);
+  line-height:1.2;
+  margin-bottom:6px;
+}
+.target-label {
+  font-size:12px;
+  color:var(--warm);
+  line-height:1.5;
+  font-weight:300;
+}
+
+/* ── VISION LIST ── */
+.vision-list {
+  margin-top:24px;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+.vision-item {
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  padding:16px 0;
+  border-bottom:1px solid var(--ink3);
+}
+.vision-item:last-child { border-bottom:none; }
+.vision-letter {
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  color:var(--gold);
+  min-width:24px;
+  margin-top:2px;
+  letter-spacing:0.1em;
+}
+.vision-text {
+  font-size:15px;
+  color:var(--cream2);
+  line-height:1.7;
+  font-weight:400;
+}
+
+/* ── RULES LIST ── */
+.rules-list {
+  margin-top:24px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.rule-item {
+  background:var(--ink2);
+  border:1px solid var(--ink4);
+  border-left:3px solid var(--gold);
+  border-radius:0 6px 6px 0;
+  padding:18px 22px;
+  transition: background 0.2s;
+}
+.rule-item:hover { background:var(--ink3); }
+.rule-letter {
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  color:var(--gold);
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+.rule-text {
+  font-size:14px;
+  color:var(--cream2);
+  line-height:1.75;
+  font-weight:400;
+}
+.rule-text strong { color:var(--gold3); }
+
+/* ── ROUTINE PILLS ── */
+.routine-grid {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:20px;
+}
+.routine-pill {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:var(--ink3);
+  border:1px solid var(--ink5);
+  border-radius:40px;
+  padding:10px 18px;
+}
+.routine-icon { font-size:18px; }
+.routine-label { font-size:13px; color:var(--cream2); font-weight:400; }
+.routine-time {
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  color:var(--gold);
+  letter-spacing:0.1em;
+}
+
+/* ── PRINCIPLES ── */
+.principles-list {
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  margin-top:12px;
+}
+.principle {
+  padding:24px 0;
+  border-bottom:1px solid var(--ink3);
+  cursor:pointer;
+}
+.principle:last-child { border-bottom:none; }
+.principle:hover .p-title { color:var(--gold2); }
+.p-header {
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  margin-bottom:0;
+}
+.p-num {
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  color:var(--ink5);
+  min-width:28px;
+}
+.principle:hover .p-num { color:var(--gold); }
+.p-title {
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(15px,2.5vw,18px);
+  font-weight:700;
+  color:var(--cream);
+  line-height:1.3;
+  transition:color 0.2s;
+  flex:1;
+}
+.p-body {
+  font-size:14px;
+  color:var(--warm2);
+  line-height:1.85;
+  font-weight:300;
+  margin-top:12px;
+  padding-left:42px;
+  display:none;
+}
+.p-body.open { display:block; }
+.p-body strong { color:var(--cream2); font-weight:500; }
+
+/* ── CLIENTS ── */
+.client-criteria {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:24px;
+}
+.client-card {
+  background:var(--ink2);
+  border:1px solid var(--ink4);
+  border-radius:8px;
+  padding:20px;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+}
+.client-icon { font-size:22px; }
+.client-text { font-size:13.5px; color:var(--cream2); line-height:1.65; font-weight:400; }
+
+/* ── VISION BOARD ── */
+.vboard-wrap {
+  margin-top:28px;
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid var(--ink5);
+  background:var(--ink2);
+  position:relative;
+}
+.vboard-notice {
+  padding:14px 20px;
+  background:var(--ink3);
+  border-bottom:1px solid var(--ink5);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:12px;
+  color:var(--warm2);
+}
+.vboard-dot { width:8px;height:8px;border-radius:50%;background:var(--gold); }
+.vboard-frame {
+  width:100%;
+  height:520px;
+  border:none;
+  display:block;
+  background:var(--ink2);
+}
+.vboard-fallback {
+  display:none;
+  padding:48px 32px;
+  text-align:center;
+}
+.vboard-fallback-link {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 28px;
+  background:transparent;
+  border:1px solid var(--gold);
+  border-radius:6px;
+  color:var(--gold);
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  text-decoration:none;
+  margin-top:16px;
+  transition:all 0.2s;
+}
+.vboard-fallback-link:hover { background:var(--gold); color:var(--ink); }
+
+/* ── OATH ── */
+.oath-wrap {
+  background: var(--ink2);
+  border: 1px solid var(--ink4);
+  border-radius: 10px;
+  padding: 48px 44px;
+  margin-top: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.oath-wrap::before {
+  content:'"';
+  position:absolute;
+  top:-24px;left:20px;
+  font-family:'Libre Baskerville',serif;
+  font-size:200px;
+  color:var(--gold);
+  opacity:0.04;
+  line-height:1;
+  pointer-events:none;
+  user-select:none;
+}
+.oath-body {
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(16px,2.5vw,20px);
+  font-style:italic;
+  line-height:2.1;
+  color:var(--warm2);
+}
+.oath-body strong { color:var(--cream2); font-style:normal; font-weight:700; }
+.oath-body em { color:var(--gold2); font-style:italic; }
+.oath-sig {
+  margin-top:32px;
+  padding-top:24px;
+  border-top:1px solid var(--ink4);
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:var(--ink5);
+}
+
+/* ── PROGRESS CHECK ── */
+.progress-wrap {
+  margin-top:28px;
+  background:var(--ink2);
+  border:1px solid var(--ink4);
+  border-radius:10px;
+  overflow:hidden;
+}
+.progress-day {
+  padding:20px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--ink3);
+  gap:16px;
+  flex-wrap:wrap;
+}
+.progress-day:last-child { border-bottom:none; }
+.progress-label { font-size:14px; color:var(--cream2); font-weight:400; flex:1; min-width:200px; }
+.progress-check {
+  width:28px;height:28px;
+  border:2px solid var(--ink5);
+  border-radius:6px;
+  cursor:pointer;
+  transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.progress-check:hover { border-color:var(--gold); }
+.progress-check.done { background:var(--gold); border-color:var(--gold); }
+.progress-check.done::after {
+  content:'';
+  display:block;
+  width:6px;height:10px;
+  border:2.5px solid var(--ink);
+  border-top:none;border-left:none;
+  transform:rotate(45deg) translate(0,-1px);
+}
+.progress-bar-wrap {
+  padding:16px 24px;
+  background:var(--ink3);
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.p-bar {
+  flex:1;height:3px;
+  background:var(--ink5);
+  border-radius:2px;
+  overflow:hidden;
+}
+.p-bar-fill {
+  height:100%;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  border-radius:2px;
+  transition:width 0.4s ease;
+}
+.p-bar-label {
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  color:var(--gold);
+  white-space:nowrap;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align:center;
+  padding:48px 24px;
+  border-top:1px solid var(--ink3);
+}
+.footer-text {
+  font-family:'Libre Baskerville',serif;
+  font-size:clamp(18px,3vw,26px);
+  font-style:italic;
+  color:var(--warm);
+  line-height:1.6;
+}
+.footer-text strong { color:var(--gold2); font-style:normal; }
+.footer-sub {
+  margin-top:16px;
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:var(--ink5);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .target-grid { grid-template-columns:1fr; }
+  .client-criteria { grid-template-columns:1fr; }
+  nav { padding:0 16px; }
+  .section { padding:60px 20px; }
+  .oath-wrap { padding:32px 24px; }
+  .hero-title { line-height:1; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Joena — Why</div>
+  <button class="nav-link active" onclick="scrollTo('why')">Why</button>
+  <button class="nav-link" onclick="scrollTo('targets')">Targets</button>
+  <button class="nav-link" onclick="scrollTo('vision')">Future Self</button>
+  <button class="nav-link" onclick="scrollTo('nonneg')">Non-Negotiables</button>
+  <button class="nav-link" onclick="scrollTo('clients')">Clients</button>
+  <button class="nav-link" onclick="scrollTo('principles')">Principles</button>
+  <button class="nav-link" onclick="scrollTo('vboard')">Vision Board</button>
+  <button class="nav-link" onclick="scrollTo('daily')">Daily Check</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-date" id="hero-date">Loading...</div>
+  <div class="hero-name">This is for Joena</div>
+  <h1 class="hero-title">Why.<em>Remember.</em></h1>
+  <p class="hero-why-line">
+    You are building this agency to <strong>elevate your value</strong>, maximize everything God gave you, overcome fear, push beyond your limits — and help small businesses <strong>while earning your freedom.</strong>
+  </p>
+  <div class="scroll-cue">
+    <span>Begin reading</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- I: WHY -->
+<section class="section" id="why">
+  <div class="section-tag">
+    <span class="section-num">I</span>
+    <h2 class="section-title">Why You're <em>Building This</em></h2>
+  </div>
+  <p class="body-text">
+    You are building this agency to <strong>elevate your value</strong> and maximize everything that God gave you with this life. To expand your experience. To <strong>overcome your fear of public speaking.</strong> To maximize your confidence, push beyond your limits, help small businesses — while having fun doing it and earning money at the same time.
+    <br><br>
+    Read that again. Every single word of it was written by <em>you</em>, on a day you were being honest. This is not motivation from a stranger. This is your own voice telling you who you already decided to become.
+  </p>
+</section>
+
+<!-- II: TARGETS -->
+<section class="section" id="targets">
+  <div class="section-tag">
+    <span class="section-num">II</span>
+    <h2 class="section-title">12-Month <em>Income Targets</em></h2>
+  </div>
+  <p class="body-text">You will achieve at least one of the following within 12 months of today — April 30, 2026. These are not wishes. These are <strong>commitments you made to yourself.</strong></p>
+  <div class="target-grid">
+    <div class="target-card">
+      <div class="target-letter">TARGET A</div>
+      <div class="target-value">$5,000</div>
+      <div class="target-label">Net profit per month from the agency</div>
+    </div>
+    <div class="target-card">
+      <div class="target-letter">TARGET B</div>
+      <div class="target-value">5 Clients</div>
+      <div class="target-label">Paying clients on retainer</div>
+    </div>
+    <div class="target-card">
+      <div class="target-letter">TARGET C</div>
+      <div class="target-value">$3,000</div>
+      <div class="target-label">Monthly income from a sales agency job</div>
+    </div>
+  </div>
+  <p class="body-text" style="margin-top:24px;">
+    When you hit any of these: <strong>fix the house. Start retirement investments. Begin the path to real financial freedom.</strong> That life is built in the hours you're using right now.
+  </p>
+</section>
+
+<!-- III: VISION OF FUTURE SELF -->
+<section class="section" id="vision">
+  <div class="section-tag">
+    <span class="section-num">III — V</span>
+    <h2 class="section-title">Who Is <em>Joena</em> In The Future?</h2>
+  </div>
+  <p class="body-text">You described her. She's not a fantasy — she's a direction. Every decision today either moves you closer to her or further away.</p>
+  <div class="vision-list">
+    <div class="vision-item">
+      <span class="vision-letter">A</span>
+      <span class="vision-text">Joena is <strong>confident with public speaking</strong> and great at being a CEO. She no longer shrinks. She leads.</span>
+    </div>
+    <div class="vision-item">
+      <span class="vision-letter">B</span>
+      <span class="vision-text"><strong>Strictly self-disciplined.</strong> She follows her schedule every day without negotiation — not because she has to, because she chose to.</span>
+    </div>
+    <div class="vision-item">
+      <span class="vision-letter">C</span>
+      <span class="vision-text">She is <strong>at least 115 lbs.</strong> She exercises daily and eats healthy. Her body reflects her discipline.</span>
+    </div>
+    <div class="vision-item">
+      <span class="vision-letter">D</span>
+      <span class="vision-text">She does her <strong>skincare every single day.</strong> No exceptions. She takes care of herself first.</span>
+    </div>
+    <div class="vision-item">
+      <span class="vision-letter">E</span>
+      <span class="vision-text">She <strong>does not procrastinate.</strong> When she has downtime she reads, learns, or builds — never wastes.</span>
+    </div>
+    <div class="vision-item">
+      <span class="vision-letter">F</span>
+      <span class="vision-text"><strong>15 minutes of scrolling maximum per day.</strong> The phone does not own her time anymore.</span>
+    </div>
+    <div class="vision-item">
+      <span class="vision-letter">G</span>
+      <span class="vision-text"><strong>No more than 2 hours of TV per day.</strong> Intentional rest, not passive numbing.</span>
+    </div>
+  </div>
+</section>
+
+<!-- VII: NON-NEGOTIABLES -->
+<section class="section" id="nonneg">
+  <div class="section-tag">
+    <span class="section-num">VII</span>
+    <h2 class="section-title">Rules — <em>Daily Non-Negotiables</em></h2>
+  </div>
+  <p class="body-text" style="margin-bottom:24px;">These are not suggestions. You wrote these yourself. They are the operating system of the person you're becoming.</p>
+  <div class="rules-list">
+    <div class="rule-item">
+      <div class="rule-letter">Rule A</div>
+      <div class="rule-text">I follow my daily schedule <strong>strictly and stay consistent.</strong> No negotiation with myself.</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-letter">Rule B</div>
+      <div class="rule-text"><strong>Strictly no work unless required on Holidays.</strong> Rest is earned and scheduled — not collapsed into.</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-letter">Rule C</div>
+      <div class="rule-text">I show up <strong>at least 5 minutes early</strong> to every scheduled event. 5 minutes late is on time. On time is late. <strong>Late is confirmation that something doesn't matter to me.</strong></div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-letter">Rule D</div>
+      <div class="rule-text">I start every day with my full morning routine — no skipping, no shortcutting, no excuses.
+        <div class="routine-grid" style="margin-top:14px;">
+          <div class="routine-pill"><span class="routine-icon">💪</span><span class="routine-label">Exercise</span><span class="routine-time">15 min</span></div>
+          <div class="routine-pill"><span class="routine-icon">🪞</span><span class="routine-label">Skin Routine</span><span class="routine-time">10 min</span></div>
+          <div class="routine-pill"><span class="routine-icon">🧘</span><span class="routine-label">Meditate / Journal</span><span class="routine-time">10 min</span></div>
+          <div class="routine-pill"><span class="routine-icon">📬</span><span class="routine-label">Review Emails</span><span class="routine-time">10 min</span></div>
+          <div class="routine-pill"><span class="routine-icon">🎯</span><span class="routine-label">Review Objectives & Tasks</span><span class="routine-time">Daily</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-letter">Rule E</div>
+      <div class="rule-text">Every month I journal: <strong>What did I accomplish? What do I need to change? What struggles do I need to reflect on?</strong> Growth requires honest review.</div>
+    </div>
+  </div>
+</section>
+
+<!-- IV: CLIENTS -->
+<section class="section" id="clients">
+  <div class="section-tag">
+    <span class="section-num">IV</span>
+    <h2 class="section-title">The Clients <em>I Choose</em></h2>
+  </div>
+  <p class="body-text" style="margin-bottom:4px;">You don't take every client. You take <strong>the right ones.</strong> Here's your filter — and it protects your energy, your reputation, and your growth.</p>
+  <div class="client-criteria">
+    <div class="client-card">
+      <span class="client-icon">💰</span>
+      <span class="client-text"><strong>Ready to invest.</strong> Not a cheapskate. Not looking for free. They value results and pay for them.</span>
+    </div>
+    <div class="client-card">
+      <span class="client-icon">🤝</span>
+      <span class="client-text"><strong>Relationship-first.</strong> Not purely transactional. They value the partnership, not just the deliverable.</span>
+    </div>
+    <div class="client-card">
+      <span class="client-icon">♻️</span>
+      <span class="client-text"><strong>Long-term mindset.</strong> Not fly-by-night. They have good after-sale support and want to grow with you.</span>
+    </div>
+    <div class="client-card">
+      <span class="client-icon">🌱</span>
+      <span class="client-text"><strong>Values every client.</strong> How they treat their own customers tells you everything about how they'll treat you.</span>
+    </div>
+  </div>
+</section>
+
+<!-- VIII: PRINCIPLES -->
+<section class="section" id="principles">
+  <div class="section-tag">
+    <span class="section-num">VIII</span>
+    <h2 class="section-title">Principles — <em>Your Code</em></h2>
+  </div>
+  <p class="body-text" style="margin-bottom:8px;">Tap any principle to expand it. These were written for you, about you.</p>
+  <div class="principles-list" id="principles-list"></div>
+</section>
+
+<!-- VI: VISION BOARD -->
+<section class="section" id="vboard">
+  <div class="section-tag">
+    <span class="section-num">VI</span>
+    <h2 class="section-title">Vision <em>Board</em></h2>
+  </div>
+  <p class="body-text" style="margin-bottom:4px;">Look at this. Remember what you're building toward.</p>
+  <div class="vboard-wrap">
+    <div class="vboard-notice">
+      <div class="vboard-dot"></div>
+      Your vision board — hosted on Google Drive
+    </div>
+    <iframe
+      class="vboard-frame"
+      id="vboard-frame"
+      src="https://drive.google.com/file/d/1VdgQA8nqX_FvghZ0XinisqtNTB624CDY/preview"
+      allow="autoplay"
+      title="Joena's Vision Board">
+    </iframe>
+    <div class="vboard-fallback" id="vboard-fallback">
+      <p class="body-text">If the embed isn't loading, view it directly:</p>
+      <a class="vboard-fallback-link"
+         href="https://drive.google.com/file/d/1VdgQA8nqX_FvghZ0XinisqtNTB624CDY/view?usp=sharing"
+         target="_blank" rel="noopener">
+        ↗ Open Vision Board
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DAILY CHECK -->
+<section class="section" id="daily">
+  <div class="section-tag">
+    <span class="section-num">TODAY</span>
+    <h2 class="section-title">Morning <em>Check-In</em></h2>
+  </div>
+  <p class="body-text" style="margin-bottom:4px;">Check off each item as you complete it. Resets every day automatically.</p>
+  <div class="progress-wrap">
+    <div class="progress-bar-wrap">
+      <div class="p-bar"><div class="p-bar-fill" id="p-fill" style="width:0%"></div></div>
+      <span class="p-bar-label" id="p-label">0 / 5 done</span>
+    </div>
+    <div class="progress-day" data-key="exercise">
+      <span class="progress-label">💪 15-Minute Exercise</span>
+      <div class="progress-check" onclick="toggleCheck(this,'exercise')"></div>
+    </div>
+    <div class="progress-day" data-key="skin">
+      <span class="progress-label">🪞 10-Minute Skin Routine</span>
+      <div class="progress-check" onclick="toggleCheck(this,'skin')"></div>
+    </div>
+    <div class="progress-day" data-key="meditate">
+      <span class="progress-label">🧘 10-Minute Meditation & Journaling</span>
+      <div class="progress-check" onclick="toggleCheck(this,'meditate')"></div>
+    </div>
+    <div class="progress-day" data-key="emails">
+      <span class="progress-label">📬 10-Minute Email & Message Review</span>
+      <div class="progress-check" onclick="toggleCheck(this,'emails')"></div>
+    </div>
+    <div class="progress-day" data-key="tasks">
+      <span class="progress-label">🎯 Review Objectives & Tackle All Tasks</span>
+      <div class="progress-check" onclick="toggleCheck(this,'tasks')"></div>
+    </div>
+  </div>
+</section>
+
+<!-- OATH -->
+<section class="section" style="border-bottom:none;">
+  <div class="section-tag">
+    <span class="section-num">OATH</span>
+    <h2 class="section-title">Read This <em>Out Loud</em></h2>
+  </div>
+  <div class="oath-wrap">
+    <p class="oath-body">
+      I am <strong>Joena.</strong><br><br>
+      I am building this agency not because it is easy — but because <em>I am capable of hard things</em> and I have spent too long pretending I am not.<br><br>
+      I have survived bankruptcy. I have navigated the IRS. I am pursuing citizenship while working a full-time job and building a business from scratch. <strong>I have already done harder things than this.</strong><br><br>
+      I know why I'm here. I wrote it down. I want to <em>elevate my value</em>, maximize what God gave me, overcome my fear, build my confidence, and help small businesses while earning my freedom.<br><br>
+      Today I will exercise. I will do my skincare. I will meditate. I will work on the agency — even if it's just one subtask, even if I don't feel like it, <strong>especially</strong> when I don't feel like it.<br><br>
+      I don't need to feel ready. <em>I just need to begin.</em><br><br>
+      Fortune favors the consistent. I am consistent. <strong>Today is Day One — again.</strong>
+    </p>
+    <div class="oath-sig">— Written by Joena, April 30, 2026 · Updated daily by her actions</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-text">"Your new life is going to cost you your old one.<br><strong>Pay it. It's worth it.</strong>"</p>
+  <div class="footer-sub">Joena · Agency Launch 2026 · Day One</div>
+</footer>
+
+<script>
+// ── DATE ──
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('hero-date').textContent =
+  `${days[now.getDay()]} · ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+
+// ── NAV SCROLL ──
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+// ── ACTIVE NAV ──
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = ['why','targets','vision','nonneg','clients','principles','vboard','daily'];
+const sectionEls = sections.map(id => document.getElementById(id)).filter(Boolean);
+window.addEventListener('scroll', () => {
+  let current = 0;
+  sectionEls.forEach((el, i) => {
+    if (window.scrollY >= el.offsetTop - 120) current = i;
+  });
+  navLinks.forEach((l,i) => l.classList.toggle('active', i === current));
+}, { passive: true });
+
+// ── PRINCIPLES ──
+const principles = [
+  { title: "Day One > One Day.", body: "You live in \"one day\" mode. One day you'll launch. One day you'll start. One day you'll be ready. There is no one day. There is only today. This is Day One — again. Make it count." },
+  { title: "You don't look like your goals. You look like your habits.", body: "Your goals are ambitious. Your daily habits will either confirm or contradict them. Right now, which one are they doing? Be honest." },
+  { title: "Fortune favors the consistent.", body: "Not the most talented. Not the best planner. The most consistent. You have the talent. Consistency is the only missing piece." },
+  { title: "If you're not changing it, you're choosing it.", body: "Every habit you haven't fixed, every task you keep skipping, every meal you're not planning — you are actively choosing those outcomes. Stop calling them problems. Start calling them choices. Then decide differently." },
+  { title: "Most people stay poor to look wealthy instead of living poor to be wealthy.", body: "You are in the saving phase. $7,000 feels like a lot right now. Sacrifice the small things now — the eating out, the impulse buys, the comfort spending — so you can buy the agency that buys your freedom later. Wait to buy the small thing now so you can buy the store later." },
+  { title: "Out-sacrificing will outweigh out-working. Combine both and you become unstoppable.", body: "You already work hard. But are you sacrificing? The extra hour of sleep you choose over a morning task. The scroll session instead of a study block. The brushed-off workout. Sacrifice is the multiplier. Start using it." },
+  { title: "The micro action always looks smaller in the present but looks HUGE in the macro.", body: "Opening Notion and doing one subtask tonight feels insignificant. Doing it every night for six months builds an agency. The action is never as small as it feels in the moment. Do it anyway." },
+  { title: "Failure means you failed at something. It doesn't mean you're a failure.", body: "You've had a bankruptcy. An IRS situation. Setbacks that would have stopped most people. None of that makes you a failure. It makes you someone who has survived failure — which is a completely different and far more powerful thing." },
+  { title: "Nobody is going to rescue you. Find a way out. Winners find a way.", body: "No one is coming. Not for the agency, not for the weight, not for the savings, not for the citizenship. It is entirely you. That is terrifying and also the most freeing thing you will ever accept." },
+  { title: "Your success will never exceed your level of personal development.", body: "The agency can only grow as fast as you grow. The sales skills, the discipline, the emotional resilience, the habits — these are not soft extras. They are the ceiling of everything you build. Invest in yourself first." },
+  { title: "Big mountains are always small when you turn them into single steps.", body: "The agency feels like a mountain. Citizenship feels like a mountain. Losing weight feels like a mountain. None of them are. They are all just the next single step, repeated. Overwhelm is fear in disguise. Name the next step. Take it." },
+  { title: "If your habits don't change, you will not have a new year. You'll just have another year.", body: "This applies to every week, every month, every Monday morning reset. A fresh start without a changed habit is just a delay with better intentions. Change the habit. Then reset." },
+  { title: "Some seasons are for building capital. Other seasons are for building character.", body: "Right now you are in both simultaneously — saving money AND developing discipline, skills, and resilience. This season is hard by design. It is supposed to be. What you build in this season determines everything that comes after it." },
+  { title: "Prosperity hides genius. Adversity reveals it.", body: "Everything you have been through — the bankruptcy, the IRS, the immigration journey, the setbacks — has been revealing what you are actually made of. Most people never find out. You are finding out. Don't waste the revelation." },
+  { title: "Your new life is going to cost you your old one.", body: "The comfort, the scrolling, the brushing things off, the \"I'll start tomorrow\" — that is the old life. It has to go. Not some of it. All of it. The new life — the agency, the body, the freedom, the proof — costs exactly the old one. Pay it. It's worth it." },
+];
+
+const pl = document.getElementById('principles-list');
+principles.forEach((p, i) => {
+  const div = document.createElement('div');
+  div.className = 'principle';
+  div.innerHTML = `
+    <div class="p-header">
+      <span class="p-num">${String(i+1).padStart(2,'0')}</span>
+      <span class="p-title">${p.title}</span>
+    </div>
+    <div class="p-body">${p.body}</div>`;
+  div.addEventListener('click', () => {
+    const body = div.querySelector('.p-body');
+    body.classList.toggle('open');
+  });
+  pl.appendChild(div);
+});
+
+// ── DAILY CHECK (resets daily) ──
+const todayKey = `joena_daily_${now.getFullYear()}_${now.getMonth()}_${now.getDate()}`;
+let dailyState = JSON.parse(localStorage.getItem(todayKey) || '{}');
+
+function updateProgress() {
+  const keys = ['exercise','skin','meditate','emails','tasks'];
+  const done = keys.filter(k => dailyState[k]).length;
+  document.getElementById('p-fill').style.width = (done/keys.length*100)+'%';
+  document.getElementById('p-label').textContent = `${done} / ${keys.length} done`;
+}
+
+function toggleCheck(el, key) {
+  dailyState[key] = !dailyState[key];
+  el.classList.toggle('done', dailyState[key]);
+  localStorage.setItem(todayKey, JSON.stringify(dailyState));
+  updateProgress();
+}
+
+// Restore state
+document.querySelectorAll('.progress-day').forEach(day => {
+  const key = day.dataset.key;
+  const check = day.querySelector('.progress-check');
+  if (dailyState[key]) check.classList.add('done');
+  check.onclick = () => toggleCheck(check, key);
+});
+updateProgress();
+
+// ── VISION BOARD FALLBACK ──
+const frame = document.getElementById('vboard-frame');
+const fallback = document.getElementById('vboard-fallback');
+frame.addEventListener('error', () => {
+  frame.style.display = 'none';
+  fallback.style.display = 'block';
+});
+setTimeout(() => {
+  try {
+    if (!frame.contentDocument && frame.style.display !== 'none') {
+      fallback.style.display = 'block';
+    }
+  } catch(e) { /* cross-origin — frame loaded fine */ }
+}, 5000);
+</script>
+</body>
+</html>
