@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agency Master Launch Plan v2</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0e0c;--bg2:#161614;--bg3:#1e1e1b;--bg4:#252522;--border:#2e2e2a;--border2:#3a3a35;--text:#e8e6df;--text2:#9a9890;--text3:#5e5d58;--gold:#c8a96e;--blue:#6eb5c8;--green:#8bc87a;--red:#c87a8b;--purple:#a07ac8;--orange:#c8956e;--you-bg:#1a2030;--you-text:#6eb5c8;--va-bg:#162018;--va-text:#8bc87a;--both-bg:#2a1e10;--both-text:#c8a96e;--free-bg:#1e1620;--free-text:#a07ac8;--radius:10px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Instrument Sans',sans-serif;min-height:100vh;}
+/* HEADER */
+.header{padding:48px 32px 32px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(200,169,110,0.06) 0%,transparent 70%);pointer-events:none;}
+.header-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.header-title{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,48px);line-height:1.05;color:var(--text);}
+.header-title em{font-style:italic;color:var(--gold);}
+.header-sub{font-size:13px;color:var(--text2);margin-top:10px;max-width:580px;line-height:1.6;}
+.header-stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;}
+.stat-pill{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px 16px;}
+.stat-val{font-family:'DM Mono',monospace;font-size:22px;color:var(--gold);}
+.stat-lbl{font-size:11px;color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:0.06em;}
+/* PROGRESS */
+.global-progress{padding:16px 32px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;}
+.gp-bar-wrap{flex:1;height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;}
+.gp-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--blue));border-radius:2px;transition:width 0.4s;}
+.gp-label{font-family:'DM Mono',monospace;font-size:12px;color:var(--text2);white-space:nowrap;}
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:14px 24px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s;}
+.tab:hover{color:var(--text2);}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+/* LAYOUT */
+.layout{display:flex;min-height:calc(100vh - 260px);}
+.sidebar{width:220px;min-width:220px;border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sidebar-track{padding:8px 16px 4px;font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;}
+.sidebar-item{padding:8px 16px;cursor:pointer;font-size:12px;color:var(--text2);border-left:2px solid transparent;transition:all 0.15s;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.sidebar-item:hover{color:var(--text);background:var(--bg3);}
+.sidebar-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(200,169,110,0.05);}
+.sidebar-pct{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);}
+.main{flex:1;padding:24px 32px;overflow-x:hidden;}
+/* FILTERS */
+.filter-bar{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;align-items:center;}
+.filter-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-right:4px;}
+.fbtn{font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all 0.15s;}
+.fbtn:hover{border-color:var(--text2);color:var(--text);}
+.fbtn.active{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600;}
+/* MONTH DIVIDER */
+.month-divider{display:flex;align-items:center;gap:12px;margin:28px 0 16px;}
+.month-line{flex:1;height:1px;background:var(--border);}
+.month-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);white-space:nowrap;letter-spacing:0.06em;}
+/* PHASE */
+.phase-section{margin-bottom:32px;scroll-margin-top:20px;}
+.phase-header{display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius) var(--radius) 0 0;cursor:pointer;user-select:none;}
+.phase-header:hover{background:var(--bg3);}
+.phase-chevron{font-size:10px;color:var(--text3);transition:transform 0.2s;}
+.phase-collapsed .phase-chevron{transform:rotate(-90deg);}
+.phase-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);background:var(--bg4);border:1px solid var(--border);border-radius:4px;padding:2px 7px;}
+.phase-title{font-family:'DM Serif Display',serif;font-size:17px;color:var(--text);flex:1;}
+.phase-track-badge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600;letter-spacing:0.04em;white-space:nowrap;}
+.track-a{background:rgba(110,181,200,0.15);color:var(--blue);}
+.track-b{background:rgba(160,122,200,0.15);color:var(--purple);}
+.track-ab{background:rgba(139,200,122,0.15);color:var(--green);}
+.phase-timing{font-size:11px;color:var(--text3);white-space:nowrap;}
+.phase-prog{display:flex;align-items:center;gap:8px;}
+.phase-prog-bar{width:60px;height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;}
+.phase-prog-fill{height:100%;border-radius:2px;background:var(--green);transition:width 0.3s;}
+.phase-prog-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);}
+/* TASK GROUP */
+.phase-body{border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;}
+.phase-collapsed .phase-body{display:none;}
+.task-group{border-bottom:1px solid var(--border);}
+.task-group:last-child{border-bottom:none;}
+.tg-header{padding:10px 20px;background:var(--bg3);font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;font-weight:600;border-bottom:1px solid var(--border);}
+/* TASK ROW */
+.task-main{display:flex;align-items:flex-start;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;}
+.task-main:hover{background:rgba(255,255,255,0.02);}
+.task-check{width:17px;height:17px;min-width:17px;border:1.5px solid var(--border2);border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all 0.15s;}
+.task-check.done{background:var(--green);border-color:var(--green);}
+.task-check.done::after{content:'';display:block;width:5px;height:8px;border:2px solid var(--bg);border-top:none;border-left:none;transform:rotate(45deg) translate(0,-1px);}
+.task-content{flex:1;min-width:0;}
+.task-name{font-size:13px;color:var(--text);line-height:1.5;}
+.task-name.done{text-decoration:line-through;color:var(--text3);}
+.task-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;align-items:center;}
+.owner-tag{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.ot-you{background:var(--you-bg);color:var(--you-text);}
+.ot-va{background:var(--va-bg);color:var(--va-text);}
+.ot-both{background:var(--both-bg);color:var(--both-text);}
+.time-tag{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;}
+.cost-tag{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;}
+.tool-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:rgba(200,169,110,0.1);color:var(--gold);border:1px solid rgba(200,169,110,0.2);font-family:'DM Mono',monospace;white-space:nowrap;}
+.expand-btn{font-size:11px;color:var(--text3);padding:2px 6px;border-radius:4px;border:1px solid var(--border);background:transparent;cursor:pointer;white-space:nowrap;margin-left:auto;font-family:'Instrument Sans',sans-serif;}
+.expand-btn:hover{color:var(--text);border-color:var(--text3);}
+/* SUBTASKS */
+.subtask-wrap{display:none;padding:0 20px 12px 48px;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.15);}
+.subtask-wrap.open{display:block;}
+.subtask-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;padding:8px 0 6px;}
+.subtask-row{display:flex;align-items:flex-start;gap:10px;padding:5px 0;}
+.sub-check{width:13px;height:13px;min-width:13px;border:1px solid var(--border2);border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:2px;transition:all 0.15s;}
+.sub-check.done{background:var(--green);border-color:var(--green);}
+.sub-check.done::after{content:'';display:block;width:3px;height:6px;border:1.5px solid var(--bg);border-top:none;border-left:none;transform:rotate(45deg) translate(0,-1px);}
+.sub-text{font-size:12px;color:var(--text2);line-height:1.5;}
+.sub-text.done{text-decoration:line-through;color:var(--text3);}
+.done-when{margin-top:10px;padding:8px 12px;background:var(--bg4);border-radius:6px;border-left:2px solid var(--gold);}
+.done-when-label{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--gold);margin-bottom:3px;font-weight:600;}
+.done-when-text{font-size:12px;color:var(--text2);line-height:1.5;}
+.notion-block{margin-top:8px;padding:7px 10px;background:var(--bg3);border-radius:6px;border:1px solid var(--border);}
+.notion-label{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--purple);margin-bottom:3px;font-weight:600;}
+.notion-text{font-size:11px;color:var(--text2);font-family:'DM Mono',monospace;}
+.tools-block{margin-top:8px;padding:7px 10px;background:rgba(200,169,110,0.05);border-radius:6px;border:1px solid rgba(200,169,110,0.15);}
+.tools-label{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--gold);margin-bottom:6px;font-weight:600;}
+.tools-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.tool-chip{font-size:10px;padding:3px 9px;border-radius:20px;background:rgba(200,169,110,0.1);color:var(--gold);border:1px solid rgba(200,169,110,0.2);font-family:'DM Mono',monospace;}
+/* TOOL STACK TAB */
+.toolstack-wrap{padding:24px 0;}
+.ts-category{margin-bottom:28px;}
+.ts-cat-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.ts-cat-icon{font-size:18px;}
+.ts-cat-title{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text);}
+.ts-cat-count{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);background:var(--bg4);border:1px solid var(--border);border-radius:4px;padding:2px 7px;}
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+.ts-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;transition:border-color 0.15s;}
+.ts-card:hover{border-color:var(--border2);}
+.ts-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;}
+.ts-tool-name{font-size:13px;font-weight:600;color:var(--text);}
+.ts-phase-badge{font-size:9px;padding:2px 8px;border-radius:20px;font-family:'DM Mono',monospace;white-space:nowrap;}
+.phase-now{background:rgba(139,200,122,0.15);color:var(--green);}
+.phase-m2{background:rgba(110,181,200,0.15);color:var(--blue);}
+.phase-m3{background:rgba(200,149,110,0.15);color:var(--orange);}
+.phase-m4{background:rgba(160,122,200,0.15);color:var(--purple);}
+.phase-m5{background:rgba(200,122,139,0.15);color:var(--red);}
+.phase-launch{background:rgba(200,169,110,0.15);color:var(--gold);}
+.ts-role{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:8px;}
+.ts-replaces{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;}
+.ts-replaces span{color:var(--red);}
+.ts-saves{font-size:10px;color:var(--green);font-family:'DM Mono',monospace;}
+/* EMPTY STATE */
+.empty-state{padding:48px 20px;text-align:center;color:var(--text3);font-size:13px;}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+@media(max-width:768px){.sidebar{display:none;}.main{padding:16px;}.tabs{padding:0 16px;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">Agency Launch Master Plan — v2.0 Updated</div>
+  <h1 class="header-title">Joena's Agency <em>Launch Plan</em></h1>
+  <p class="header-sub">Updated with 31 AppSumo lifetime tools mapped to each phase. Two completed phases removed. ReachInbox + SalesBlink replace Instantly.ai. Phases 1 & 2 complete — starting from Phase 3.</p>
+  <div class="header-stats">
+    <div class="stat-pill"><div class="stat-val" id="s-total">0</div><div class="stat-lbl">Total tasks</div></div>
+    <div class="stat-pill"><div class="stat-val" id="s-subtasks">0</div><div class="stat-lbl">Subtasks</div></div>
+    <div class="stat-pill"><div class="stat-val" id="s-done">0</div><div class="stat-lbl">Completed</div></div>
+    <div class="stat-pill"><div class="stat-val" id="s-tools">31</div><div class="stat-lbl">Tools mapped</div></div>
+  </div>
+</div>
+
+<div class="global-progress">
+  <div class="gp-label">Overall progress</div>
+  <div class="gp-bar-wrap"><div class="gp-bar" id="gp-bar" style="width:0%"></div></div>
+  <div class="gp-label" id="gp-pct">0%</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('plan',this)">📋 Project Plan</div>
+  <div class="tab" onclick="switchTab('tools',this)">🛠 Tool Stack (31 tools)</div>
+</div>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <main class="main">
+    <div id="plan-view">
+      <div class="filter-bar">
+        <span class="filter-label">Filter:</span>
+        <button class="fbtn active" onclick="setFilter('all',this)">All</button>
+        <button class="fbtn" onclick="setFilter('track-a',this)">Track A (Agency)</button>
+        <button class="fbtn" onclick="setFilter('track-b',this)">Track B (Sales)</button>
+        <button class="fbtn" onclick="setFilter('free',this)">Free tasks</button>
+        <button class="fbtn" onclick="setFilter('done',this)">Completed</button>
+        <button class="fbtn" onclick="setFilter('pending',this)">Pending</button>
+      </div>
+      <div id="content"></div>
+    </div>
+    <div id="tools-view" style="display:none;">
+      <div class="toolstack-wrap" id="toolstack-content"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// TOOL STACK DATA
+// ═══════════════════════════════════════════════════════
+const toolStack = [
+  {
+    category:'🎯 Lead Generation & Prospecting',
+    tools:[
+      {name:'LeadsGorilla',phase:'phase-now',phaseLabel:'Use Now',role:'Find home service business leads with contact info, GMB data, and SEO gaps. Your primary prospecting weapon — replaces manual Google Maps scraping.',replaces:'Manual lead research',saves:'~3 hrs/week of manual prospecting'},
+      {name:'SalesBlink',phase:'phase-now',phaseLabel:'Use Now',role:'AI writes personalized cold email sequences with automatic follow-ups. Use to WRITE your sequences — pair with ReachInbox for sending.',replaces:'Manual email writing',saves:'Sequence writing time'},
+      {name:'ReachInbox',phase:'phase-now',phaseLabel:'Use Now',role:'Primary cold email SENDING platform with inbox management, warmup, and white-label. Replaces Instantly.ai. All prospect conversations in one inbox.',replaces:'Instantly.ai ($37/mo saved)',saves:'$37/month ongoing'},
+      {name:'Reoon Email Verifier',phase:'phase-now',phaseLabel:'Use Now',role:'Verify all prospect email lists before sending cold outreach. Protects deliverability and domain health. Run every list through this before uploading to ReachInbox.',replaces:'Bounced emails / blacklists',saves:'Deliverability protection'},
+      {name:'SheetMagic',phase:'phase-now',phaseLabel:'Use Now',role:'Run AI prompts and scrape live websites using spreadsheet formulas. Use to enrich your LeadsGorilla prospect lists with additional data.',replaces:'Manual data enrichment',saves:'Hours of research'},
+      {name:'RTILA',phase:'phase-m2',phaseLabel:'Month 2+',role:'Scrape competitor data, audience habits, and market pricing intelligence. Use for competitive research when building client proposals.',replaces:'Manual competitor research',saves:'Research time'},
+      {name:'TubeTarget',phase:'phase-m4',phaseLabel:'Month 4+',role:'Find targeted YouTube channels and videos for YouTube ad placements when you add Google/YouTube ads to your service offering.',replaces:'Manual YouTube ad research',saves:'Ad targeting research'},
+    ]
+  },
+  {
+    category:'📧 Cold Email & Outreach Infrastructure',
+    tools:[
+      {name:'DMARC Report',phase:'phase-now',phaseLabel:'Use Now',role:'Set up DMARC monitoring for your outreach domains immediately. Prevents phishing and spoofing, improves deliverability. White-label for clients — bill as a service add-on.',replaces:'Manual email security monitoring',saves:'Domain reputation protection'},
+      {name:'Foxly',phase:'phase-now',phaseLabel:'Use Now',role:'URL shortener for all links in cold emails, social posts, and client reports. Track clicks and engagement on every link you send.',replaces:'Bit.ly or raw links',saves:'Click tracking across all campaigns'},
+      {name:'OneClip',phase:'phase-m3',phaseLabel:'Month 3+',role:'Record one video and send thousands of personalized video messages to prospects. Use for warm follow-up sequences after initial cold email contact.',replaces:'Generic follow-up emails',saves:'Dramatically increases reply rates'},
+    ]
+  },
+  {
+    category:'🔍 SEO & Website Audit Services',
+    tools:[
+      {name:'WebSite Auditor',phase:'phase-now',phaseLabel:'Use Now',role:'Full on-page SEO audit tool. Use to audit prospect websites during sales calls (show them their problems) and to fulfill SEO deliverables for clients.',replaces:'Buying Agency Elevation SEO audits',saves:'Audit cost per client'},
+      {name:'SiteGuru',phase:'phase-now',phaseLabel:'Use Now',role:'SEO audit connected to Google Search Console and Analytics. Use for ongoing client SEO monitoring and monthly reporting.',replaces:'Manual GSC/GA reporting',saves:'Monthly reporting time per client'},
+      {name:'KWHero',phase:'phase-m2',phaseLabel:'Month 2+',role:'Keyword research, content outlines, and NLP optimization in 80 languages. Use for client SEO content strategy and blog post outlines.',replaces:'Ahrefs or Semrush keyword tools',saves:'$100+/month in SEO tool costs'},
+      {name:'The Link Chest (SEO Buddy)',phase:'phase-m2',phaseLabel:'Month 2+',role:'Pre-built high-quality backlink opportunities. Use for client local SEO link building — instant access to hundreds of backlink sources.',replaces:'Manual backlink prospecting',saves:'Hours of link building research'},
+      {name:'Branalyzer',phase:'phase-m2',phaseLabel:'Month 2+',role:'Analyze client brands and competitors in-depth. Use during onboarding to show clients exactly where they stand vs. competitors.',replaces:'Manual brand auditing',saves:'Competitor research time'},
+      {name:'Screpy',phase:'phase-m3',phaseLabel:'Month 3+',role:'Monitor all pages of client websites from one dashboard with your team. Use for ongoing technical SEO monitoring across multiple clients.',replaces:'Manual site monitoring',saves:'Technical monitoring per client'},
+    ]
+  },
+  {
+    category:'📣 Social Media & Content',
+    tools:[
+      {name:'Sociamonials',phase:'phase-now',phaseLabel:'Use Now',role:'Schedule and auto-repost social media content optimized for revenue. Runs contests and sweepstakes. Use for your agency social AND as a deliverable for clients.',replaces:'Hootsuite ($49+/mo saved)',saves:'$49+/month'},
+      {name:'ContentPresso',phase:'phase-now',phaseLabel:'Use Now',role:'AI-generated social media image templates in Canva. Use to create branded social content for clients at scale — especially for the 8 and 16 posts/month tiers.',replaces:'Custom Canva design time',saves:'2-3 hrs per client per month'},
+      {name:'BIGVU',phase:'phase-now',phaseLabel:'Use Now',role:'Teleprompter + video creation with captions and auto-sharing. Use to record your agency intro video, client case study videos, and prospect video messages.',replaces:'Professional video recording setup',saves:'Video production costs'},
+      {name:'Jupitrr AI',phase:'phase-m2',phaseLabel:'Month 2+',role:'Auto-generate stock footage and images at the right moments in your videos. Use to enhance client promotional videos and your own agency content.',replaces:'Stock footage subscriptions',saves:'Stock footage costs'},
+      {name:'WhisperTranscribe',phase:'phase-m2',phaseLabel:'Month 2+',role:'Transcribe audio/video in 55+ languages. Generate blog posts, social posts, and summaries from audio. Use to repurpose client video content into written deliverables.',replaces:'Rev.com or manual transcription',saves:'Transcription costs per client'},
+      {name:'Layerpath',phase:'phase-m3',phaseLabel:'Month 3+',role:'Create interactive product demos and onboarding videos. Use to build client onboarding walkthroughs and demonstrate your services to prospects.',replaces:'Loom + manual demo recording',saves:'Demo creation time'},
+    ]
+  },
+  {
+    category:'🤖 AI & Automation',
+    tools:[
+      {name:'Insighto.ai',phase:'phase-m3',phaseLabel:'Month 3+',role:'AI chatbot and voice agents for GHL/Growtheon, WhatsApp, SMS. Deploy on client websites to book appointments automatically. Premium add-on service for Growth and Premium tiers.',replaces:'Manual appointment booking follow-up',saves:'Becomes a billable add-on service'},
+      {name:'ChatNode AI',phase:'phase-now',phaseLabel:'Use Now',role:'Train a ChatGPT on your agency SOPs, scripts, and data. Use internally for VA training and to answer common client questions automatically.',replaces:'Repetitive VA Q&A',saves:'VA training and support time'},
+      {name:'Messenger Bot',phase:'phase-m3',phaseLabel:'Month 3+',role:'Smart chatbots for websites and social media 24/7. Offer as an add-on to clients — especially home service businesses needing 24/7 lead capture.',replaces:'Manual social media response',saves:'Becomes a billable service'},
+      {name:'Robomotion',phase:'phase-m4',phaseLabel:'Month 4+',role:'Automate web and desktop tasks that have no API. Use for repetitive agency admin tasks — report generation, data entry, client portal updates.',replaces:'Manual repetitive tasks',saves:'Admin hours per week'},
+    ]
+  },
+  {
+    category:'📊 Analytics & Conversion',
+    tools:[
+      {name:'TruConversion',phase:'phase-m3',phaseLabel:'Month 3+',role:'Heatmaps, session recordings, funnel tracking, and surveys. Use on your own landing pages and offer as a premium add-on for clients who run ads.',replaces:'Hotjar ($99+/mo saved)',saves:'$99+/month'},
+      {name:'QwikBanners',phase:'phase-m3',phaseLabel:'Month 3+',role:'Generate 10 banner sizes at once for display campaigns. Use when you add Google Display Ads to your service offering.',replaces:'Manual banner design',saves:'Banner design time per campaign'},
+      {name:'Tuberank Jeet',phase:'phase-m4',phaseLabel:'Month 4+',role:'Optimize and rank YouTube videos for clients in the home services space. Add as a YouTube SEO add-on to your Premium tier.',replaces:'Manual YouTube optimization',saves:'YouTube SEO time per client'},
+    ]
+  },
+  {
+    category:'🏗 Development & Internal Tools',
+    tools:[
+      {name:'Flatlogic Generator',phase:'phase-m4',phaseLabel:'Month 4+',role:'Generate custom web app code with AI. Use to build client-specific tools, portals, or reporting dashboards without hiring a developer.',replaces:'Developer costs',saves:'Custom dev costs per project'},
+      {name:'Frontly',phase:'phase-m4',phaseLabel:'Month 4+',role:'Build functional web apps with AI in minutes. Use for internal agency tools and as a value-add for clients needing simple customer portals.',replaces:'No-code app builders',saves:'Dev time'},
+    ]
+  },
+  {
+    category:'🎯 Core Platform',
+    tools:[
+      {name:'Growtheon (GHL)',phase:'phase-launch',phaseLabel:'Month 6 Launch',role:'Your core CRM, funnel builder, automation engine, white-label client platform, phone, email, calendars, and pipelines. Everything runs through Growtheon.',replaces:'10+ separate tools',saves:'$500+/month in tool costs'},
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════════
+// PHASE DATA
+// ═══════════════════════════════════════════════════════
+const data = [
+  // ── MONTH 2 ──────────────────────────────────────────
+  {
+    month:2,phase:'P3',phaseTitle:'Brand Identity — Name, Logo, Visual Language',track:'a',timing:'Month 2 · Week 1–3',
+    groups:[
+      {group:'Naming & Legal',tasks:[
+        {id:'p3t1',name:'Run structured agency naming session and lock your name',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Brand/Name-Session',tools:[],
+         doneWhen:'Final name chosen, .com domain purchased, Florida LLC registered on Sunbiz.org, all social handles claimed.',
+         subs:['Brainstorm 20 name candidates across 4 styles: authority, outcome, abstract, name-based','Filter to top 5 — must be easy to spell, say, and remember','Check .com on Namecheap — avoid hyphens','Check Sunbiz.org for LLC availability','Check Instagram, Facebook, LinkedIn handles','Register Florida LLC ($125) and get your EIN free at IRS.gov','Claim all social handles immediately after deciding']},
+        {id:'p3t2',name:'Open dedicated business bank account',owner:'you',time:'1 hr',cost:'$0',free:true,notion:'Page: /Agency/Foundation/Banking',tools:[],
+         doneWhen:'Business checking open at Relay.fi or Mercury — linked to your EIN. Never mix personal and business money.',
+         subs:['Recommended: Relay (relay.fi) — free, no minimums, built for small businesses','Bring: EIN confirmation, LLC Articles of Organization, your ID','Set up a tax reserve savings account within Relay — move 25% of every client payment here automatically']},
+      ]},
+      {group:'Visual Identity',tasks:[
+        {id:'p3t3',name:'Create logo, brand colors, and font system',owner:'you',time:'3 hrs',cost:'$0–$20',free:true,notion:'Page: /Agency/Brand/Visual-Identity',tools:['ContentPresso','BIGVU'],
+         doneWhen:'Logo in PNG (white bg), PNG (transparent), SVG. Two brand colors with hex codes. One font pair. All saved in Google Drive /Brand/Assets.',
+         subs:['Use Looka ($20) or Canva free logo maker','Choose 2 primary brand colors + 1 accent — research competitors to differentiate','Choose font pair: 1 display + 1 body font','Export all logo variants','Use ContentPresso to create a branded social media template set from day one — you will use these immediately','Create 1-page brand kit in Canva: logo + colors + fonts + tagline on one slide']},
+        {id:'p3t4',name:'Write agency positioning statement and tagline',owner:'you',time:'1 hr',cost:'$0',free:true,notion:'Page: /Agency/Brand/Positioning',tools:['Branalyzer'],
+         doneWhen:'One-line tagline + one-paragraph positioning statement locked. Used consistently everywhere.',
+         subs:['Use Branalyzer to analyze 3–5 competitor agencies in the home services space — see how they position','Tagline formula: "[Outcome] for [audience] without [pain]" — e.g. "More booked jobs for home service businesses, guaranteed"','Write 5 versions, pick the best','Test: read aloud — does it land in 5 seconds?']},
+      ]},
+    ]
+  },
+  {
+    month:2,phase:'P4',phaseTitle:'Sales Career — Active Training & First Role',track:'b',timing:'Month 2 · Ongoing',
+    groups:[
+      {group:'Active Training',tasks:[
+        {id:'p4t1',name:'Complete sales training program and build your personal playbook',owner:'you',time:'8–10 hrs total',cost:'$0',free:true,notion:'Page: /Agency/Learning/Sales-Training-Log',tools:['ChatNode AI'],
+         doneWhen:'Training complete. All scripts and frameworks written in your own words in Notion.',
+         subs:['Schedule training in Thursday afternoon blocks (2 hrs per session × 4 weeks)','Watch actively — pause and take notes, don\'t just consume','Write every script and objection response in your own words','Use ChatNode AI to train a private chatbot on your sales scripts — practice objection handling with it anytime','Practice each script out loud 3× before moving on','Weekly: summarize 3 things learned and 1 thing to apply immediately']},
+        {id:'p4t2',name:'Daily appointment setting roleplay practice (15 min/day)',owner:'you',time:'15 min/day',cost:'$0',free:true,notion:'Page: /Agency/Learning/Roleplay-Log',tools:['ChatNode AI'],
+         doneWhen:'20+ sessions logged. Can deliver opener, handle 3 objections, book appointment without reading script.',
+         subs:['Use ChatNode AI trained on your scripts as a roleplay partner — ask it to play a skeptical HVAC owner','Practice opener: "Hey [Name], reason I\'m calling is..." — under 20 seconds','Practice objection 1: "Not interested" — pattern interrupt response','Practice objection 2: "I\'m busy" — reframe and reschedule','Practice objection 3: "We already have someone" — curiosity response','Record yourself on your phone — watch it back weekly']},
+      ]},
+      {group:'First Role Activation',tasks:[
+        {id:'p4t3',name:'Land first appointment setter or closer position',owner:'you',time:'Ongoing',cost:'$0',free:true,notion:'Update: Agency-Job-Tracker Google Sheet',tools:['ReachInbox','SalesBlink'],
+         doneWhen:'Offer accepted. Start date confirmed. Role details documented in Notion.',
+         subs:['Continue 5 applications per week','After any interview: thank-you message within 2 hours','When you get an offer: negotiate remote-first, performance-based pay','Document everything about how the agency operates — their scripts, CRM, follow-up process','Use SalesBlink to write personalized outreach to agency owners you want to work for']},
+        {id:'p4t4',name:'Daily "What I\'m Learning" log from setter/closer job',owner:'you',time:'15 min/day',cost:'$0',free:true,notion:'Page: /Agency/Learning/Job-Insights-Log',tools:[],
+         doneWhen:'Daily log entries every workday. After 30 days you have a real sales playbook.',
+         subs:['Every day after your role: write 3 bullet points of what you observed','Note: what objections came up? What response worked?','Note: how is the pipeline structured? What does their CRM look like?','Note: what\'s the conversion rate from call to close?','This log becomes the foundation of your own agency\'s sales playbook']},
+      ]},
+    ]
+  },
+
+  // ── MONTH 3 ──────────────────────────────────────────
+  {
+    month:3,phase:'P5',phaseTitle:'Service Architecture & Pricing Strategy',track:'a',timing:'Month 3 · Week 1–2',
+    groups:[
+      {group:'Service Design',tasks:[
+        {id:'p5t1',name:'Finalize 3-tier service menu with exact inclusions and hero outcomes',owner:'you',time:'3 hrs',cost:'$0',free:true,notion:'Page: /Agency/Services/Service-Menu',tools:['WebSite Auditor','SiteGuru','Branalyzer'],
+         doneWhen:'Written doc: every deliverable per tier, what is NOT included, and the "hero outcome" promise for each tier.',
+         subs:['Tier 1 Starter ($697/mo): Local SEO 2 keywords, GBP optimization, reputation management, CRM setup, DMARC monitoring, monthly report','Tier 2 Growth ($1,497/mo): Everything in Starter + Facebook Ads, Google Ads, 8 social posts/mo, bi-weekly call, heatmap tracking (TruConversion)','Tier 3 Premium ($2,497/mo): Everything in Growth + Full SEO 5 keywords, 16 posts/mo, email/SMS campaigns, AI chatbot (Insighto.ai), competitor tracking (Branalyzer), quarterly strategy call','Use WebSite Auditor to demonstrate website problems during sales calls','Use SiteGuru for ongoing monthly client reporting — connects directly to their GSC']},
+        {id:'p5t2',name:'Build outsourcing cost sheet with AppSumo tools factored in',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Link to Google Sheet: /Agency/Finance → Outsourcing-Costs tab',tools:['WebSite Auditor','ContentPresso','Sociamonials','SiteGuru'],
+         doneWhen:'Google Sheet with your cost (now much lower thanks to lifetime tools) vs. client price — margin % per tier.',
+         subs:['Re-calculate delivery costs: many AppSumo tools eliminate Agency Elevation costs for some services','Social content: ContentPresso + Sociamonials — near zero cost per client','SEO auditing: WebSite Auditor + SiteGuru — no per-client cost','Lead generation: LeadsGorilla replaces manual research','Recalculate: Starter cost likely now under $200, Growth under $380, Premium under $550 — margins significantly improved','Update your Finance Google Sheet Outsourcing-Costs tab with new numbers']},
+      ]},
+      {group:'Client-Facing Materials',tasks:[
+        {id:'p5t3',name:'Create client-facing service catalog PDF',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Services/Service-Catalog-PDF',tools:['ContentPresso','BIGVU'],
+         doneWhen:'Branded 2-page PDF from Canva. Three tier columns, outcomes, features, CTA. No internal costs visible.',
+         subs:['Use ContentPresso templates for professional design base','Page 1: agency name, tagline, the problem you solve, "why us" section','Page 2: three tier columns — name, price, bullet features, CTA','Record a 60-second video walkthrough of the catalog using BIGVU teleprompter — attach to email when sending','This gets emailed to every prospect after a discovery call']},
+      ]},
+    ]
+  },
+  {
+    month:3,phase:'P6',phaseTitle:'Legal & Financial Infrastructure',track:'a',timing:'Month 3 · Week 2–4',
+    groups:[
+      {group:'Business Legal Setup',tasks:[
+        {id:'p6t1',name:'Register Florida LLC and get EIN',owner:'you',time:'1 hr',cost:'$125',free:false,notion:'Page: /Agency/Foundation/Legal',tools:[],
+         doneWhen:'LLC confirmed on Sunbiz.org. EIN received from IRS.gov (free, takes 10 min).',
+         subs:['Go to sunbiz.org → File Articles of Organization — $125 filing fee','Online processing: 1–3 business days','After approval: apply for EIN free at IRS.gov — 10 minutes online','If you already have a Florida LLC for Luminify: consult a CPA on whether to run the agency separately']},
+        {id:'p6t2',name:'Create client contract template',owner:'you',time:'1.5 hrs',cost:'$0',free:true,notion:'Page: /Agency/Operations/Contract-Template',tools:[],
+         doneWhen:'1-page contract covering all key terms. Set up in PandaDoc free tier for e-signatures.',
+         subs:['Section 1: Parties — your LLC + client business name','Section 2: Services — reference to signed service tier, start date, deliverable timeline','Section 3: Payment — monthly amount, due date, $50 late fee after 5 days','Section 4: 30-day cancellation notice, no refund after delivery starts','Section 5: Closer clawback — if client cancels within 30 days, closer commission not owed','Section 6: Liability cap at 1 month of fees']},
+        {id:'p6t3',name:'Set up Stripe for client payments',owner:'you',time:'1 hr',cost:'$0',free:true,notion:'Page: /Agency/Finance/Stripe-Setup',tools:[],
+         doneWhen:'Stripe active. Bank connected. 3 recurring products created ($697, $1,497, $2,497). Test payment processed.',
+         subs:['Create account at stripe.com with your business email','Connect your Relay business bank account','Create 3 recurring payment products — one per tier','Test: send yourself a $1 invoice, pay it, confirm it hits the bank','Stripe fee: 2.9% + 30¢ per transaction — already factored into your pricing']},
+      ]},
+      {group:'Email Security',tasks:[
+        {id:'p6t4',name:'Set up DMARC monitoring for all agency domains',owner:'you',time:'1 hr',cost:'$0',free:true,notion:'Page: /Agency/Operations/Email-Security',tools:['DMARC Report'],
+         doneWhen:'DMARC Report monitoring active on all 3 domains (primary + 2 outreach). Receiving weekly deliverability reports.',
+         subs:['Log into DMARC Report with your agency account','Add all 3 domains: primary brand domain + 2 cold outreach domains','Configure DNS records (DMARC Report gives you exact records to add in Namecheap)','Set up real-time alerts for spoofing or forgery attempts','This is now also a service you can sell to clients — bill as $49/mo add-on with white-label dashboard']},
+      ]},
+    ]
+  },
+
+  // ── MONTH 4 ──────────────────────────────────────────
+  {
+    month:4,phase:'P7',phaseTitle:'Tech Stack Setup & Tool Activation',track:'a',timing:'Month 4 · Week 1–3',
+    groups:[
+      {group:'Prospecting System',tasks:[
+        {id:'p7t1',name:'Set up LeadsGorilla for home service prospect research',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Operations/LeadsGorilla-Setup',tools:['LeadsGorilla','SheetMagic','Reoon Email Verifier'],
+         doneWhen:'LeadsGorilla configured for home services. First 500-contact prospect list exported, verified, and loaded into ReachInbox.',
+         subs:['Log into LeadsGorilla — set up searches for each home service vertical (HVAC, Plumbing, Roofing, Landscaping, Pest Control, Cleaning, Electrical)','Search by city — start with 10 major US cities for each vertical','Export contact data including GMB scores, website grades, and SEO gaps','Use SheetMagic to enrich the list with additional data points using spreadsheet formulas','Run the entire list through Reoon Email Verifier before uploading to ReachInbox','Verified list goes into ReachInbox as your first campaign audience']},
+        {id:'p7t2',name:'Set up ReachInbox as primary cold email platform',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Operations/ReachInbox-Setup',tools:['ReachInbox','DMARC Report'],
+         doneWhen:'Both outreach domains connected and warming in ReachInbox. White-label configured. First campaign drafted but NOT sent yet (wait for full 21-day warm-up).',
+         subs:['Connect both cold outreach domains to ReachInbox','Enable email warmup on both — minimum 21 days before sending live campaigns','Configure white-label settings with your agency branding','Set up unified inbox view for all prospect conversations','Connect DMARC Report monitoring to confirm deliverability health','Note: ReachInbox replaces Instantly.ai entirely — you save $37/month ongoing']},
+        {id:'p7t3',name:'Set up SalesBlink for AI email sequence writing',owner:'you',time:'1 hr',cost:'$0',free:true,notion:'Page: /Agency/Operations/SalesBlink-Setup',tools:['SalesBlink'],
+         doneWhen:'SalesBlink connected. 3 cold email sequences written using AI for A/B/C variants. All sequences under 100 words per email.',
+         subs:['Log into SalesBlink — connect your agency email for sequence creation','Use SalesBlink AI to generate 3 email sequence variants for home service businesses','Sequence structure: Email 1 (day 1): pattern interrupt hook. Email 2 (day 3): one insight. Email 3 (day 7): breakup email','Each email under 100 words — conversational, not formal','Export sequences and upload to ReachInbox for actual sending','Use SalesBlink\'s personalization tokens: {{first_name}}, {{business_name}}, {{city}}']},
+      ]},
+      {group:'Social Media & Content Setup',tasks:[
+        {id:'p7t4',name:'Set up Sociamonials for agency and client social management',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Operations/Sociamonials-Setup',tools:['Sociamonials','ContentPresso'],
+         doneWhen:'Agency social accounts connected to Sociamonials. First 2 weeks of agency content scheduled. Client workspace template created.',
+         subs:['Connect: Facebook Business Page, Instagram Business, LinkedIn Company Page to Sociamonials','Set up auto-repost schedule — content posted at optimal revenue-driving times','Create a template workspace for client accounts — this is how you deliver social content for Growth and Premium tiers','Use ContentPresso to generate branded image posts — export and upload to Sociamonials','Schedule your agency\'s first 14 days of content: 3 posts per week minimum','Test client workspace with a dummy account before first real client']},
+        {id:'p7t5',name:'Record agency intro video using BIGVU',owner:'you',time:'1.5 hrs',cost:'$0',free:true,notion:'Page: /Agency/Marketing/Intro-Video',tools:['BIGVU','Foxly'],
+         doneWhen:'90-second video recorded with BIGVU teleprompter, captions added, uploaded to YouTube (unlisted), embedded on website.',
+         subs:['Write script in BIGVU: "Hey, I\'m [Name] from [Agency]. We help home service businesses get more booked jobs through local SEO, paid ads, and reputation management. If you\'re [pain point], book a free audit at [link]"','Use BIGVU teleprompter — read naturally, don\'t rush','BIGVU auto-adds captions — review and correct any errors','Export and upload to YouTube as Unlisted','Create a short tracking link using Foxly for the video URL — track how many prospects click','Embed on website homepage and include in cold email sequences']},
+      ]},
+      {group:'Growtheon Preparation',tasks:[
+        {id:'p7t6',name:'Master Growtheon/GHL through intensive self-study',owner:'you',time:'6–8 hrs',cost:'$0',free:true,notion:'Page: /Agency/Learning/GHL-Training',tools:['ChatNode AI'],
+         doneWhen:'Can explain without looking: how to build a pipeline, set up an automation, create a form, run a calendar, and build a funnel in GHL.',
+         subs:['Search "GoHighLevel full tutorial 2024/2025" — pick playlist with 30k+ views and recent upload date','Focus on 6 modules: Dashboard & CRM / Pipelines / Automations / Forms / Calendars / Email marketing','Train ChatNode AI on your GHL notes — use it to quiz yourself on features','Watch at least 2 hrs per Thursday afternoon block','Take notes in Notion under /Agency/Tech/GHL-Training','Goal: Day 1 of Growtheon access is productive, not exploratory']},
+      ]},
+    ]
+  },
+  {
+    month:4,phase:'P8',phaseTitle:'Content, Lead Magnets & Funnel Design',track:'a',timing:'Month 4 · Week 2–4',
+    groups:[
+      {group:'Lead Magnet Creation',tasks:[
+        {id:'p8t1',name:'Write Lead Magnet 1: Home Service Business Audit Checklist',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Marketing/Lead-Magnets/Checklist',tools:['WebSite Auditor','ContentPresso'],
+         doneWhen:'Branded PDF — 1–2 pages, 15 checkpoints, clear and valuable. Exported and ready to deliver.',
+         subs:['10 audit categories: GBP, Website, Reviews, Facebook, Instagram, Ads, Lead follow-up, CRM/booking, Reporting, Competitor awareness','Use WebSite Auditor on 3 real home service websites while writing this — make the checkpoints reflect real problems you see','Each item is a yes/no checkbox — most owners will check mostly no','Design in Canva using ContentPresso templates — brand colors and logo','CTA at bottom: "Score under 8? Book a free 15-minute audit call"','File name: Home-Service-Business-Audit-Checklist.pdf']},
+        {id:'p8t2',name:'Write Lead Magnet 2: 5 Reasons Home Service Companies Lose Jobs Online',owner:'you',time:'3 hrs',cost:'$0',free:true,notion:'Page: /Agency/Marketing/Lead-Magnets/Ebook',tools:['KWHero','ContentPresso'],
+         doneWhen:'5–8 page branded PDF with each reason explained, real example, and solution hint.',
+         subs:['Use KWHero to find the exact language home service owners search — write in their language, not agency language','Reason 1: Incomplete GBP (competitors outrank them)','Reason 2: Reviews with no responses — Google and customers notice','Reason 3: Slow mobile website — 60%+ of searches are mobile','Reason 4: No ads while competitors run ads 24/7','Reason 5: No follow-up system — leads go cold after 5 minutes','Each reason: problem + impact + fix hint (tease your service, don\'t give it all away)','Last page: CTA to book free audit — short Foxly tracking link']},
+        {id:'p8t3',name:'Write Lead Magnet 3: Digital Presence Scorecard',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Marketing/Lead-Magnets/Scorecard',tools:['ContentPresso','TruConversion'],
+         doneWhen:'PDF scorecard where prospect rates themselves 1–10 in 10 categories — total score creates urgency.',
+         subs:['Categories: Website / GBP / Reviews / Review responses / Facebook / Instagram / Paid ads / CRM / Email follow-up / Monthly analytics','Each rated 1–10 — max score 100','Score guide: 0–40 Critical, 41–65 Needs work, 66–80 Good, 81–100 Excellent','Most home service owners score 20–45 — that\'s your sales moment','Bottom CTA: "Score under 70? Book a free call — we\'ll tell you exactly what to fix first"','Later: use TruConversion to track which lead magnet converts best on your landing page']},
+      ]},
+      {group:'Funnel Build',tasks:[
+        {id:'p8t4',name:'Map complete lead funnel architecture',owner:'you',time:'1.5 hrs',cost:'$0',free:true,notion:'Page: /Agency/Marketing/Funnel-Map',tools:['TruConversion','Foxly'],
+         doneWhen:'Complete funnel map from traffic source to signed client. Every step documented.',
+         subs:['Step 1: Traffic — Paid Facebook/Google ad OR cold email (ReachInbox) OR LinkedIn DM','Step 2: Landing page → opt-in form → lead magnet delivered via email','Step 3: 5-email nurture sequence (Days 1, 2, 4, 6, 8)','Step 4: CTA to book free 15-min audit call (Calendly or Growtheon calendar)','Step 5: Audit call → qualify → hand off to closer','Step 6: Closer call → present catalog → contract (PandaDoc) → payment (Stripe)','Step 7: Admin onboarding → first deliverable → client portal','Track every link with Foxly. Install TruConversion when landing page goes live.']},
+        {id:'p8t5',name:'Write 5-email nurture sequence',owner:'you',time:'4 hrs',cost:'$0',free:true,notion:'Page: /Agency/Marketing/Email-Sequences/Nurture',tools:['SalesBlink','ReachInbox','WhisperTranscribe'],
+         doneWhen:'5 emails written, each under 250 words, subject lines and CTAs included. Loaded into ReachInbox automation.',
+         subs:['Use SalesBlink AI to generate first drafts of each email — then rewrite in your own voice','Email 1 (Immediate): Deliver PDF, one insight, set expectations for next email','Email 2 (Day 2): "The #1 mistake [HVAC/plumbing/etc] businesses make online" — one teaching, no pitch','Email 3 (Day 4): Story — "How a [Business Type] in [City] got 47 more calls in 60 days"','Email 4 (Day 6): Address cost objection by reframing ROI','Email 5 (Day 8): Direct CTA — urgency, booking link, what they get on the call','If you recorded any voice notes while writing: use WhisperTranscribe to convert audio to text instantly','Load all 5 emails into ReachInbox as an automation sequence']},
+        {id:'p8t6',name:'Write 15-minute audit call script',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Operations/Audit-Call-Script',tools:['ChatNode AI','BIGVU'],
+         doneWhen:'Full word-for-word script. 5 parts, timed, with objection responses. Practiced 5× using ChatNode AI.',
+         subs:['Part 1 Rapport (0:00–2:00): "Thanks for jumping on — before I dive in, what\'s the main challenge getting more jobs right now?"','Part 2 Discovery (2:00–7:00): "Walk me through your current marketing. What\'s working? What\'s not?"','Part 3 Gap reveal (7:00–10:00): "Based on what you told me, here\'s what I\'m seeing..." [use WebSite Auditor data]','Part 4 Soft pitch (10:00–13:00): "What we do is [service] and typically clients see [result] in [timeframe]"','Part 5 Next step (13:00–15:00): "I\'d like to get you on a 30-min strategy call — does [day/time] work?"','Train ChatNode AI on this script and roleplay the full call 5× before your first real call','Use BIGVU to record yourself reading the script — review your delivery and body language']},
+      ]},
+    ]
+  },
+
+  // ── MONTH 5 ──────────────────────────────────────────
+  {
+    month:5,phase:'P9',phaseTitle:'VA Hiring System & Onboarding Infrastructure',track:'a',timing:'Month 5 · Week 1–3',
+    groups:[
+      {group:'Job Posts',tasks:[
+        {id:'p9t1',name:'Write and post VA Admin job listing on OnlineJobs.ph',owner:'you',time:'1 hr',cost:'$69',free:false,notion:'Page: /Agency/Hiring/Admin-Job-Post',tools:['ChatNode AI'],
+         doneWhen:'Post live. Subject line test included. Receives 20+ applications within 3 days.',
+         subs:['Title: "Virtual Admin Assistant — Digital Marketing Agency (Work From Home)"','Rate: $3.50/hour, 28 hrs/week','Duties: Client onboarding, CRM management, document organization, reporting, customer service','Application filter: "In subject line write: ADMIN READY [today\'s date]" — filters mass applicants','Train ChatNode AI on the admin SOP to help onboard the hire faster','Platform: OnlineJobs.ph ($69/mo — cancel after hiring)']},
+        {id:'p9t2',name:'Write and post VA Marketer job listing',owner:'you',time:'45 min',cost:'$0',free:true,notion:'Page: /Agency/Hiring/Marketer-Job-Post',tools:['ReachInbox','SalesBlink'],
+         doneWhen:'Post live with commission structure clearly defined. Application filter in place.',
+         subs:['Title: "Virtual Appointment Setter — Digital Marketing Agency (Commission + Base)"','Pay: $1/hr base + $3 per confirmed appointment + $20 per closed sale','Tools they\'ll use: ReachInbox (cold email), SalesBlink (sequence writing), LeadsGorilla (prospecting)','Application filter: "In subject line write: SETTER READY [today\'s date]"','Note: "We provide all tools and training — drive and coachability matter most"']},
+        {id:'p9t3',name:'Write and post VA Closer job listing',owner:'you',time:'45 min',cost:'$0',free:true,notion:'Page: /Agency/Hiring/Closer-Job-Post',tools:[],
+         doneWhen:'Post live. Commission structure and clawback clause clearly stated.',
+         subs:['Title: "Remote Sales Closer — Digital Marketing Agency (High Commission)"','Pay: 20% of first month\'s retainer per deal (Starter=$139, Growth=$299, Premium=$499)','Commission triggers when: contract signed AND payment processed','Clawback: if client cancels within 30 days, commission not owed','Application filter: "In subject line write: CLOSER READY [today\'s date]"']},
+      ]},
+      {group:'SOP Writing',tasks:[
+        {id:'p9t4',name:'Write VA Admin master SOP document',owner:'you',time:'3 hrs',cost:'$0',free:true,notion:'Page: /Agency/Operations/SOPs/Admin-SOP',tools:['ChatNode AI','WhisperTranscribe'],
+         doneWhen:'Full SOP covering every admin duty. Step-by-step. Escalation rules included.',
+         subs:['Section 1: Daily task checklist in order','Section 2: Client onboarding process step by step','Section 3: CRM management in Growtheon (pipeline stages, logging, notes)','Section 4: Document management (Google Drive naming conventions)','Section 5: Customer service scripts for common situations','Section 6: Reporting (what, how often, where it goes)','Section 7: Escalation — what admin handles alone vs. what escalates to you','Tip: Record yourself walking through each section using voice memo — use WhisperTranscribe to convert to text, then edit','Upload the final SOP to ChatNode AI as a training document']},
+        {id:'p9t5',name:'Write VA Marketer SOP + full outreach playbook',owner:'you',time:'3 hrs',cost:'$0',free:true,notion:'Page: /Agency/Operations/SOPs/Marketer-SOP',tools:['LeadsGorilla','ReachInbox','SalesBlink','Reoon Email Verifier'],
+         doneWhen:'Complete playbook: daily routine, all scripts, objection responses, CRM logging, qualification criteria.',
+         subs:['Section 1: Daily routine step by step (9am–1pm)','Section 2: Lead sourcing using LeadsGorilla — how to search, filter, and export','Section 3: Email verification using Reoon — run every list before uploading','Section 4: Loading lists into ReachInbox and launching sequences from SalesBlink','Section 5: Objection handling scripts (top 5 with exact responses)','Section 6: Qualification criteria — what makes a lead appointment-ready','Section 7: CRM logging in Growtheon — exactly how and where','Section 8: Daily reporting in Google Sheet']},
+        {id:'p9t6',name:'Write VA Closer SOP + full sales playbook',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Operations/SOPs/Closer-SOP',tools:['ChatNode AI','BIGVU'],
+         doneWhen:'Closer has a complete playbook — call framework, pricing presentation, objection responses, contract process.',
+         subs:['Section 1: Pre-call prep (review CRM notes, confirm audit call summary)','Section 2: 30-min closer call framework (rapport / pain confirm / solution / price / close / contract)','Section 3: Service catalog walkthrough — when to recommend which tier','Section 4: Objection responses (price, think about it, already have someone, not right time)','Section 5: Contract process via PandaDoc + payment via Stripe','Section 6: Handoff to admin after close','Record a practice closer call using BIGVU and include the video link in the SOP as an example','Train ChatNode AI on this playbook so closer can ask it questions during calls']},
+      ]},
+    ]
+  },
+  {
+    month:5,phase:'P10',phaseTitle:'Website & Online Presence',track:'a',timing:'Month 5 · Week 2–4',
+    groups:[
+      {group:'Agency Website',tasks:[
+        {id:'p10t1',name:'Plan website structure and write all copy first',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Marketing/Website-Plan',tools:['KWHero','Branalyzer'],
+         doneWhen:'Complete sitemap and copy for every page. Written before touching any design tool.',
+         subs:['Use Branalyzer on 3 competitor agencies to see their messaging and positioning gaps','Use KWHero to find keywords home service owners search when looking for marketing help','Pages: Home / Services / About / Case Studies (placeholder) / Contact / Book a Call','Home: Hero (headline + CTA) / Social proof / Services overview / How it works / Who we serve / Testimonials / CTA','Write all copy first — copy drives the design, not the other way around','Your headline options: test 5 variations, ask 3 people which they understand fastest']},
+        {id:'p10t2',name:'Build agency website on Carrd.co',owner:'you',time:'3 hrs',cost:'$19/yr',free:false,notion:'Page: /Agency/Marketing/Website-Build',tools:['Sociamonials','TruConversion','Foxly','BIGVU','Screpy'],
+         doneWhen:'Website live at your domain. All pages working. Booking link active. Mobile confirmed. Screpy monitoring activated.',
+         subs:['Carrd.co Pro: $19/yr for custom domain — clean and professional enough to start','Must-have on every page: Calendly booking link (free tier)','Must-have on home: lead magnet opt-in form (use Mailchimp free or Convertkit free temporarily)','Embed your BIGVU agency intro video on the homepage','Install TruConversion tracking script for heatmaps and session recordings from day 1','Create short tracking URLs with Foxly for every CTA button','Add to Screpy for ongoing technical monitoring','Before publishing: test all buttons and forms on mobile — 70% of prospects view on phone']},
+      ]},
+    ]
+  },
+
+  // ── MONTH 6 ──────────────────────────────────────────
+  {
+    month:6,phase:'P11',phaseTitle:'Growtheon Setup & Full CRM Configuration',track:'a',timing:'Month 6 · Week 1–2',
+    groups:[
+      {group:'Platform Activation',tasks:[
+        {id:'p11t1',name:'Purchase Growtheon lifetime deal and activate',owner:'you',time:'30 min',cost:'$1,995',free:false,notion:'Page: /Agency/Tech/Growtheon-Setup',tools:['Growtheon'],
+         doneWhen:'Account active. Admin login confirmed. White-label domain DNS pointed and propagated.',
+         subs:['Purchase the lifetime deal — confirm includes unlimited sub-accounts','Save admin credentials in Bitwarden (free password manager)','Point agency domain to Growtheon: add CNAME record in Namecheap','Wait for DNS propagation (15 min to 48 hrs) — verify at dnschecker.org','Confirm white-label: visit your custom domain and it shows your branding, not Growtheon']},
+        {id:'p11t2',name:'Configure Growtheon white-label branding completely',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Tech/Growtheon-Setup',tools:['Growtheon','ContentPresso'],
+         doneWhen:'Every client-facing screen shows your agency branding. No Growtheon logo visible anywhere.',
+         subs:['Upload agency logo (PNG transparent) to Settings → Company','Set brand colors (your hex codes) in appearance settings','Configure client login page with your logo and tagline — use ContentPresso for additional branded graphics','Set email sender name and address to your branded email','Customize dashboard welcome message clients see when they log in','Test: create a test sub-account, log in as a client — document anything that shows Growtheon branding and fix it']},
+        {id:'p11t3',name:'Build all CRM pipelines in Growtheon',owner:'you',time:'3 hrs',cost:'$0',free:true,notion:'Page: /Agency/Tech/CRM-Pipeline-Map',tools:['Growtheon'],
+         doneWhen:'3 pipelines built and tested: Prospecting, Sales, Client Delivery.',
+         subs:['Pipeline 1 Prospecting: New Lead → Contacted → Responded → Qualified → Audit Call Booked → Audit Done → Passed to Closer','Pipeline 2 Sales: Closer Call Scheduled → Done → Proposal Sent → Contract Sent → Won → Lost','Pipeline 3 Client Delivery: Onboarding → Active → Reporting Month 1 → Reporting Month 2 → At Risk → Churned → Retained','For each stage: add at least 1 automation trigger','Color-code: red for At Risk and Lost, green for Won and Active','Migrate prospect list from Google Sheet into Growtheon CRM as new contacts']},
+        {id:'p11t4',name:'Connect all AppSumo tools to Growtheon where possible',owner:'you',time:'3 hrs',cost:'$0',free:true,notion:'Page: /Agency/Tech/Tool-Integrations',tools:['Insighto.ai','Messenger Bot','Sociamonials','TruConversion','Growtheon'],
+         doneWhen:'All integration-capable tools connected to Growtheon via native integration or Zapier/webhook.',
+         subs:['Insighto.ai: native GHL integration — connect AI chatbot to Growtheon for appointment booking automation','Messenger Bot: connect to Growtheon pipeline for lead capture from Facebook/Instagram','Sociamonials: connect social accounts — route social leads into Growtheon pipeline','TruConversion: connect funnel tracking to Growtheon contact activity','For tools without native integration: use Growtheon\'s webhook feature to push data','Document every integration in Notion: what connects where, what data flows, what triggers what']},
+      ]},
+      {group:'Automation Builds',tasks:[
+        {id:'p11t5',name:'Build all Growtheon automation workflows',owner:'you',time:'4 hrs',cost:'$0',free:true,notion:'Page: /Agency/Tech/Automation-Map',tools:['Growtheon','Insighto.ai','DMARC Report'],
+         doneWhen:'All critical automations built and tested with a dummy contact. Zero manual steps in the lead → client flow.',
+         subs:['Automation 1: Lead magnet opt-in → tag contact → deliver magnet → start nurture sequence','Automation 2: Audit call booked → confirmation email + SMS + 24hr reminder','Automation 3: Audit call complete → move pipeline stage → notify you','Automation 4: Contract signed → move to Client Delivery pipeline → trigger admin onboarding task','Automation 5: Client monthly report due → remind VA Admin 3 days before','Automation 6: Insighto.ai chatbot captures lead from client website → push to Growtheon pipeline → assign to setter','Test every automation with your real email address — go through as a fake prospect']},
+      ]},
+    ]
+  },
+  {
+    month:6,phase:'P12',phaseTitle:'Pre-Launch QC, Soft Launch & Final Prep',track:'ab',timing:'Month 6 · Week 3–4',
+    groups:[
+      {group:'Quality Control',tasks:[
+        {id:'p12t1',name:'Full end-to-end funnel test as a fake prospect',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Operations/QC-Checklist',tools:['TruConversion','Foxly','Reoon Email Verifier'],
+         doneWhen:'You completed every funnel step with zero errors. TruConversion shows your session recording with no broken flows.',
+         subs:['Use a personal email to opt in to your own lead magnet','Confirm: download link arrives immediately from branded email','Confirm: all 5 nurture emails arrive on schedule','Click every Foxly link — none broken, all tracked','Book a test appointment — confirmation and reminder arrive','Move yourself through each CRM pipeline stage — automations fire correctly','Check TruConversion session recording of your own test visit — does the page behave as expected?','Document every bug — fix all before going live']},
+        {id:'p12t2',name:'Mock client onboarding run-through with VA Admin',owner:'both',time:'1.5 hrs',cost:'$0',free:true,notion:'Page: /Agency/Operations/Onboarding-Test',tools:['Growtheon','ChatNode AI'],
+         doneWhen:'VA Admin completes full onboarding checklist for a mock client with no help from you.',
+         subs:['You play the new client — send signed contract and payment confirmation to VA Admin','VA Admin runs onboarding SOP step by step without asking you for help','If they get stuck: note the exact step and improve the SOP','Admin should complete: collect all accesses, set up client sub-account in Growtheon, schedule kickoff call, submit first deliverable','If admin gets confused: they should ask ChatNode AI (trained on your SOPs) before asking you','Time the process — target: full onboarding under 4 hours of admin time']},
+        {id:'p12t3',name:'Verify Agency Elevation OR self-fulfill first deliverable test',owner:'you',time:'1 hr',cost:'$50–$100',free:false,notion:'Page: /Agency/Operations/Delivery-Test',tools:['WebSite Auditor','SiteGuru','ContentPresso'],
+         doneWhen:'At least one deliverable produced and reviewed for quality. You know the delivery process before a real client is on the hook.',
+         subs:['Option A: Order from Agency Elevation — review quality, turnaround, and process','Option B: Self-fulfill using your AppSumo tools — run WebSite Auditor SEO audit + SiteGuru report + 8 social posts via ContentPresso','Compare: AppSumo self-fulfill may now be cheaper and faster than Agency Elevation for some service lines','Decision: which deliverables will you self-fulfill vs. outsource? Document the answer for each service in your catalog','Margin impact: self-fulfilling with lifetime tools dramatically increases your profit per client']},
+      ]},
+      {group:'Launch Assets',tasks:[
+        {id:'p12t4',name:'Publish 5 pre-launch social posts across all platforms',owner:'you',time:'2 hrs',cost:'$0',free:true,notion:'Page: /Agency/Marketing/Pre-Launch-Posts',tools:['Sociamonials','ContentPresso','BIGVU','Foxly'],
+         doneWhen:'5 posts live across Facebook, Instagram, LinkedIn — all scheduled and tracked via Sociamonials.',
+         subs:['Use ContentPresso for branded image posts','Post 1: Agency announcement — "After months of building, [Agency Name] is officially open"','Post 2: Lead magnet promo — "Free: [Magnet Name] for any home service business owner"','Post 3: Educational — "3 signs your home service business is losing jobs to competitors online..."','Post 4: Personal — "Why I started [Agency Name]" — your real story, 3–4 sentences','Post 5: Offer — "Booking 3 free 15-minute digital audits this week"','Schedule all 5 through Sociamonials with optimal posting times','Track all links with Foxly — see which posts drive the most booking page visits']},
+        {id:'p12t5',name:'Send soft launch email to personal network',owner:'you',time:'45 min',cost:'$0',free:true,notion:'Page: /Agency/Marketing/Soft-Launch-Email',tools:['ReachInbox'],
+         doneWhen:'Personalized emails sent to 20–30 people you know. At least 3 referral conversations started.',
+         subs:['Write one email template — personalize first line for each person','Subject: "Quick favor — just launched something"','Body: "Hey [Name], I just launched my agency helping home service businesses. Know any plumbers, HVAC, roofers? I\'d love an intro. Here\'s what we do: [one sentence + website link]"','Send individually from your personal email — not a bulk campaign','Target: people who know business owners — salespeople, local community members, other business owners']},
+      ]},
+    ]
+  },
+
+  // ── LAUNCH ───────────────────────────────────────────
+  {
+    month:7,phase:'P13',phaseTitle:'Official Launch — First Client Acquisition',track:'ab',timing:'Month 7 · Week 1 onwards',
+    groups:[
+      {group:'Launch Day Execution',tasks:[
+        {id:'p13t1',name:'Activate cold email campaigns at full volume',owner:'you',time:'30 min',cost:'$0',free:true,notion:'Page: /Agency/Operations/Campaign-Tracker',tools:['ReachInbox','SalesBlink','Reoon Email Verifier','LeadsGorilla','Foxly'],
+         doneWhen:'Campaigns running at 30 emails/day per domain. Open rate >40%, reply rate >5% tracked in ReachInbox.',
+         subs:['Unpause ReachInbox campaigns — confirm both domains are sending','Set daily limit: 30/day per domain to start (60/day total)','All prospect links use Foxly tracking — know which emails drive clicks','For every positive reply: respond within 2 hours — qualify in 2 emails, book audit call','Run weekly new prospect batches through LeadsGorilla → Reoon → ReachInbox','Use SalesBlink to refresh sequences every 30 days with new AI-written variants','Monitor deliverability weekly in DMARC Report']},
+        {id:'p13t2',name:'Launch Facebook ad campaign for lead magnet',owner:'you',time:'2 hrs',cost:'$300/mo',free:false,notion:'Page: /Agency/Marketing/Paid-Ads/FB-Campaigns',tools:['ContentPresso','TruConversion','Foxly','BIGVU'],
+         doneWhen:'2 ad variants live. $10/day budget. Pixel firing on thank-you page. TruConversion tracking all landing page behavior.',
+         subs:['Audience: US nationwide, home improvement/services interest, business owners, ages 30–60','Ad 1: Image ad using ContentPresso template — show lead magnet cover + headline','Ad 2: 60-second video recorded with BIGVU — you offering the free resource + why they need it','Budget: $10/day to start, scale to $20/day when CPL drops below $10','All ad links use Foxly tracking before going into Facebook Ad Manager','Install TruConversion on landing page — watch session recordings of people who don\'t convert','Kill any ad with CPL above $15. Scale what\'s below $8']},
+        {id:'p13t3',name:'Owner handles all discovery calls personally for first 30 days',owner:'you',time:'As booked',cost:'$0',free:true,notion:'Update: CRM Pipeline in Growtheon',tools:['WebSite Auditor','ChatNode AI','OneClip'],
+         doneWhen:'10+ audit calls in first 30 days. 3+ passed to closer. 1 client signed.',
+         subs:['Pull up WebSite Auditor on prospect\'s website before every call — have their specific problems ready','Use audit call script for every call — do not wing it','Use OneClip to send personalized video follow-ups after calls — drastically increases show rate and close rate','After every call: log 3 notes in Growtheon CRM (what they said, main pain, next step)','Calls that qualify: move to Sales pipeline → pass to closer within 24 hours','Track: calls completed / qualified / passed to closer / closed — review weekly in ChatNode AI']},
+        {id:'p13t4',name:'First client signed — run full onboarding',owner:'both',time:'Per client',cost:'$0',free:true,notion:'Page: /Agency/Clients/[Client-Name]/Onboarding',tools:['Growtheon','Insighto.ai','ContentPresso','WebSite Auditor','SiteGuru','Sociamonials','DMARC Report'],
+         doneWhen:'Contract signed, payment received, onboarding complete, first deliverable submitted within 48 hours.',
+         subs:['VA Admin runs onboarding SOP — you review, do not do it for them','Collect all accesses within 24 hours: website login, GBP, FB Business Manager, Google Ads','Set up client sub-account in Growtheon — branded with their business info','Deploy DMARC Report monitoring on client\'s domain immediately — bill as add-on','Run WebSite Auditor full audit on client site — this becomes Month 1 deliverable report','Connect client social accounts to Sociamonials workspace','For Growth/Premium: deploy Insighto.ai chatbot on client website for 24/7 lead capture','Send welcome email — professional, sets expectations, tone of partnership']},
+      ]},
+      {group:'Post-Launch Systems',tasks:[
+        {id:'p13t5',name:'Set up weekly owner review routine',owner:'you',time:'1 hr/week',cost:'$0',free:true,notion:'Page: /Agency/Operations/Weekly-Review-Template',tools:['Sociamonials','TruConversion','SiteGuru','Screpy','Branalyzer'],
+         doneWhen:'Weekly review template complete in Notion. Filled every Saturday. Tracks all key metrics.',
+         subs:['Every Saturday: fill in Weekly Review Notion template','Review: Active clients (count + tier) / MRR / New leads / Calls booked / Calls completed / Deals closed / VA stats / Issues','Check TruConversion for landing page conversion rate trends — optimize monthly','Check SiteGuru for client SEO progress — prepare for monthly reporting','Check Sociamonials analytics — which posts drove the most engagement and clicks','Check Screpy for any client website technical issues that appeared this week','Check Branalyzer on 2–3 competitor agencies — are they doing anything you should be?','Set 3 priorities for next week — no more than 3']},
+      ]},
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════════
+// APP STATE
+// ═══════════════════════════════════════════════════════
+let checked = JSON.parse(localStorage.getItem('aplan_v3') || '{}');
+let currentFilter = 'all';
+let currentTab = 'plan';
+
+function save(){ localStorage.setItem('aplan_v3', JSON.stringify(checked)); }
+
+function toggleTask(id){
+  checked[id] = !checked[id];
+  save(); updateStats(); renderAll();
+}
+function toggleSub(id){
+  checked['sub_'+id] = !checked['sub_'+id];
+  save(); updateStats();
+  const el = document.getElementById('subck_'+id);
+  if(el){ el.className='sub-check'+(checked['sub_'+id]?' done':'');
+    const txt=el.nextElementSibling;
+    if(txt) txt.className='sub-text'+(checked['sub_'+id]?' done':''); }
+}
+function toggleExpand(id){
+  const sw=document.getElementById('sw_'+id);
+  const btn=document.getElementById('eb_'+id);
+  if(!sw) return;
+  const open=sw.classList.toggle('open');
+  if(btn) btn.textContent=open?'▲ hide':'▼ details';
+}
+function togglePhase(id){
+  document.getElementById('ph_'+id)?.classList.toggle('phase-collapsed');
+}
+
+function switchTab(tab, el){
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('plan-view').style.display = tab==='plan'?'block':'none';
+  document.getElementById('tools-view').style.display = tab==='tools'?'block':'none';
+  document.getElementById('sidebar').style.display = tab==='plan'?'block':'none';
+  if(tab==='tools') renderToolStack();
+}
+
+function setFilter(f, btn){
+  currentFilter = f;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function allTasks(){
+  const tasks=[];
+  data.forEach(phase=>phase.groups.forEach(g=>g.tasks.forEach(t=>tasks.push(t))));
+  return tasks;
+}
+
+function updateStats(){
+  const tasks=allTasks();
+  const total=tasks.length;
+  const subs=tasks.reduce((a,t)=>a+(t.subs?t.subs.length:0),0);
+  const done=tasks.filter(t=>checked[t.id]).length;
+  document.getElementById('s-total').textContent=total;
+  document.getElementById('s-subtasks').textContent=subs;
+  document.getElementById('s-done').textContent=done;
+  const pct=total?Math.round((done/total)*100):0;
+  document.getElementById('gp-bar').style.width=pct+'%';
+  document.getElementById('gp-pct').textContent=pct+'%';
+}
+
+function trackBadge(track){
+  if(track==='a') return '<span class="phase-track-badge track-a">Track A — Agency</span>';
+  if(track==='b') return '<span class="phase-track-badge track-b">Track B — Sales Career</span>';
+  return '<span class="phase-track-badge track-ab">Both Tracks</span>';
+}
+function ownerTag(o){
+  if(o==='va') return '<span class="owner-tag ot-va">VA</span>';
+  if(o==='both') return '<span class="owner-tag ot-both">Both</span>';
+  return '<span class="owner-tag ot-you">You</span>';
+}
+function taskVisible(task, track){
+  if(currentFilter==='all') return true;
+  if(currentFilter==='track-a') return track==='a'||track==='ab';
+  if(currentFilter==='track-b') return track==='b'||track==='ab';
+  if(currentFilter==='free') return task.free;
+  if(currentFilter==='done') return !!checked[task.id];
+  if(currentFilter==='pending') return !checked[task.id];
+  return true;
+}
+
+function renderAll(){
+  let prevMonth=null;
+  let html='';
+  const sidebar=document.getElementById('sidebar');
+  let sideHtml='';
+  let currentTrack=null;
+
+  data.forEach(phase=>{
+    const phaseTasks=phase.groups.flatMap(g=>g.tasks);
+    const visibleTasks=phaseTasks.filter(t=>taskVisible(t,phase.track));
+    if(!visibleTasks.length) return;
+
+    if(phase.month!==prevMonth){
+      const label=phase.month===7?'MONTH 7 — LAUNCH':'MONTH '+phase.month;
+      html+=`<div class="month-divider"><div class="month-line"></div><div class="month-label">${label}</div><div class="month-line"></div></div>`;
+      prevMonth=phase.month;
+    }
+
+    const done=phaseTasks.filter(t=>checked[t.id]).length;
+    const pct=phaseTasks.length?Math.round((done/phaseTasks.length)*100):0;
+
+    if(phase.track!==currentTrack){
+      const tl=phase.track==='a'?'▸ Track A — Agency Build':phase.track==='b'?'▸ Track B — Sales Career':'▸ Both Tracks';
+      sideHtml+=`<div class="sidebar-track">${tl}</div>`;
+      currentTrack=phase.track;
+    }
+    sideHtml+=`<div class="sidebar-item" onclick="document.getElementById('sec_${phase.phase}').scrollIntoView({behavior:'smooth'})">${phase.phase}: ${phase.phaseTitle.split(' — ')[0]} <span class="sidebar-pct">${pct}%</span></div>`;
+
+    let groupsHtml='';
+    phase.groups.forEach(g=>{
+      const gTasks=g.tasks.filter(t=>taskVisible(t,phase.track));
+      if(!gTasks.length) return;
+      let tasksHtml='';
+      gTasks.forEach(task=>{
+        const isDone=!!checked[task.id];
+        const toolsSection=task.tools&&task.tools.length?`<div class="tools-block"><div class="tools-label">🛠 Tools used in this task</div><div class="tools-chips">${task.tools.map(t=>`<span class="tool-chip">${t}</span>`).join('')}</div></div>`:'';
+        const subsHtml=task.subs?task.subs.map((s,si)=>{
+          const sid=task.id+'_'+si;
+          const sDone=!!checked['sub_'+sid];
+          return `<div class="subtask-row"><div class="sub-check ${sDone?'done':''}" id="subck_${sid}" onclick="toggleSub('${sid}')"></div><span class="sub-text ${sDone?'done':''}">${s}</span></div>`;
+        }).join(''):'';
+        const toolTagsHtml=task.tools&&task.tools.length?task.tools.slice(0,2).map(t=>`<span class="tool-tag">${t}</span>`).join(''):'';
+        tasksHtml+=`
+        <div class="task-main" onclick="toggleExpand('${task.id}')">
+          <div class="task-check ${isDone?'done':''}" onclick="event.stopPropagation();toggleTask('${task.id}')"></div>
+          <div class="task-content">
+            <div class="task-name ${isDone?'done':''}">${task.name}</div>
+            <div class="task-meta">
+              ${ownerTag(task.owner)}
+              <span class="time-tag">⏱ ${task.time}</span>
+              ${task.cost!=='$0'?`<span class="cost-tag">💰 ${task.cost}</span>`:'<span class="time-tag" style="color:var(--green)">✓ Free</span>'}
+              ${toolTagsHtml}
+            </div>
+          </div>
+          <button class="expand-btn" id="eb_${task.id}" onclick="event.stopPropagation();toggleExpand('${task.id}')">▼ details</button>
+        </div>
+        <div class="subtask-wrap" id="sw_${task.id}">
+          <div class="subtask-label">Subtasks</div>
+          ${subsHtml}
+          <div class="done-when"><div class="done-when-label">✓ Done when...</div><div class="done-when-text">${task.doneWhen}</div></div>
+          ${toolsSection}
+          ${task.notion?`<div class="notion-block"><div class="notion-label">📋 Notion location</div><div class="notion-text">${task.notion}</div></div>`:''}
+        </div>`;
+      });
+      groupsHtml+=`<div class="task-group"><div class="tg-header">${g.group}</div>${tasksHtml}</div>`;
+    });
+
+    if(!groupsHtml) return;
+    html+=`
+    <div class="phase-section" id="sec_${phase.phase}">
+      <div class="phase-header" onclick="togglePhase('${phase.phase}')">
+        <span class="phase-chevron">▾</span>
+        <span class="phase-num">${phase.phase}</span>
+        <span class="phase-title">${phase.phaseTitle}</span>
+        ${trackBadge(phase.track)}
+        <span class="phase-timing">${phase.timing}</span>
+        <div class="phase-prog">
+          <div class="phase-prog-bar"><div class="phase-prog-fill" style="width:${pct}%"></div></div>
+          <span class="phase-prog-num">${done}/${phaseTasks.length}</span>
+        </div>
+      </div>
+      <div class="phase-body" id="ph_${phase.phase}">${groupsHtml}</div>
+    </div>`;
+  });
+
+  document.getElementById('content').innerHTML=html||'<div class="empty-state">No tasks match this filter.</div>';
+  sidebar.innerHTML=sideHtml;
+  updateStats();
+}
+
+function renderToolStack(){
+  const container=document.getElementById('toolstack-content');
+  let html='';
+  toolStack.forEach(cat=>{
+    html+=`<div class="ts-category">
+      <div class="ts-cat-header">
+        <span class="ts-cat-icon">${cat.category.split(' ')[0]}</span>
+        <span class="ts-cat-title">${cat.category.slice(cat.category.indexOf(' ')+1)}</span>
+        <span class="ts-cat-count">${cat.tools.length} tools</span>
+      </div>
+      <div class="ts-grid">`;
+    cat.tools.forEach(tool=>{
+      html+=`<div class="ts-card">
+        <div class="ts-card-top">
+          <span class="ts-tool-name">${tool.name}</span>
+          <span class="ts-phase-badge ${tool.phase}">${tool.phaseLabel}</span>
+        </div>
+        <div class="ts-role">${tool.role}</div>
+        ${tool.replaces?`<div class="ts-replaces">Replaces: <span>${tool.replaces}</span></div>`:''}
+        ${tool.saves?`<div class="ts-saves">✓ ${tool.saves}</div>`:''}
+      </div>`;
+    });
+    html+='</div></div>';
+  });
+  container.innerHTML=html;
+}
+
+renderAll();
+</script>
+</body>
+</html>
