@@ -472,9 +472,34 @@ body::after {
   .body-wrap { grid-template-columns: 1fr; }
   .sb { border-right: none; border-bottom: 1px solid var(--ink4); }
   .card-wrap, .rcard-wrap { padding: 28px 20px; }
-  .hdr { padding: 36px 20px 28px; }
-  .profile-strip { grid-template-columns: repeat(2,1fr); }
+  .hdr { padding: 28px 20px 24px; }
+  .hdr-name { font-size: clamp(32px, 8vw, 60px); }
+  .hdr-sub { font-size: 14px; }
+  .hdr-back {
+    width: 100%;
+    text-align: center;
+    padding: 12px 20px;
+    margin-top: 16px;
+  }
+  .profile-strip { 
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .profile-item {
+    padding: 16px 20px;
+  }
   .oath { padding: 28px 24px; }
+}
+
+@media (max-width: 480px) {
+  .hdr { padding: 20px 16px; }
+  .hdr-tag { font-size: 9px; }
+  .hdr-name { font-size: 28px; }
+  .hdr-sub { font-size: 13px; }
+  .hdr-back {
+    font-size: 10px;
+    padding: 10px 16px;
+  }
 }
 </style>
 </head>
@@ -487,6 +512,7 @@ body::after {
   <p class="hdr-sub">
     You have <strong>genuine talent.</strong> You know it. That's exactly why the self-sabotage hurts so much — because some part of you knows what you're capable of and keeps choosing comfort anyway. That ends here.
   </p>
+  <a href="dashboard.html" class="hdr-back">← Back to Dashboard</a>
 </header>
 
 <!-- PROFILE -->

@@ -86,6 +86,27 @@ body {
 }
 .meta-pill.hot { background: rgba(200,65,10,0.2); border-color: rgba(200,65,10,0.4); color: #e8896a; }
 
+.header-back {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 8px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(245,242,236,0.05);
+  border: 1px solid rgba(200,65,10,0.3);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.header-back:hover {
+  background: var(--accent);
+  color: #f5f2ec;
+  border-color: var(--accent);
+}
+
 .progress-wrap {
   margin-top: 14px;
   display: flex;
@@ -452,6 +473,64 @@ body {
   border-radius: 10px;
   flex-shrink: 0;
 }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .header {
+    padding: 20px 16px 18px;
+  }
+  .header-title {
+    font-size: clamp(24px, 6vw, 32px);
+  }
+  .header-eyebrow {
+    font-size: 8px;
+  }
+  .header-meta {
+    gap: 4px;
+    margin-top: 10px;
+  }
+  .meta-pill {
+    font-size: 8px;
+    padding: 2px 7px;
+  }
+  .header-back {
+    width: 100%;
+    text-align: center;
+    padding: 10px 16px;
+    margin-top: 14px;
+  }
+  .phase-nav {
+    padding: 12px;
+    gap: 6px;
+  }
+  .phase-nav-btn {
+    font-size: 9px;
+    padding: 8px 12px;
+  }
+  .stat-box {
+    padding: 12px;
+  }
+  .phase-card {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 16px 12px;
+  }
+  .header-title {
+    font-size: 22px;
+  }
+  .header-back {
+    font-size: 9px;
+    padding: 8px 12px;
+  }
+  .phase-nav-btn {
+    font-size: 8px;
+    padding: 6px 10px;
+  }
+}
 </style>
 </head>
 <body>
@@ -471,6 +550,7 @@ body {
     <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     <div class="progress-label" id="progressLabel">0 / 0</div>
   </div>
+  <a href="dashboard.html" class="header-back">← Dashboard</a>
 </div>
 
 <!-- PHASE NAV -->
