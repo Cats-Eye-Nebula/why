@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AGM — Agency SOP Master Guide v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0b0d12;--surface:#111318;--surface2:#161922;--surface3:#1c202e;
+  --border:#232840;--border2:#2e3450;--ink:#e6eaf5;--ink2:#8a90b0;--ink3:#4a5070;
+  --accent:#f97316;--accent2:#3b82f6;--accent3:#10b981;--gold:#f59e0b;
+  --rose:#f43f5e;--violet:#8b5cf6;--cyan:#06b6d4;--teal:#14b8a6;--lime:#84cc16;
+  --hl-orange:rgba(249,115,22,.07);--hl-blue:rgba(59,130,246,.07);--hl-green:rgba(16,185,129,.07);
+  --hl-gold:rgba(245,158,11,.07);--hl-rose:rgba(244,63,94,.07);--hl-violet:rgba(139,92,246,.07);
+  --hl-cyan:rgba(6,182,212,.07);--hl-teal:rgba(20,184,166,.07);
+  --font-display:'Bebas Neue',sans-serif;--font-body:'Figtree',sans-serif;--font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:14px;line-height:1.6;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.35;}
+.header{position:sticky;top:0;z-index:200;background:rgba(11,13,18,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;}
+.header-inner{max-width:1200px;margin:0 auto;padding:14px 0;}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
+.brand-name{font-family:var(--font-display);font-size:clamp(20px,3.5vw,34px);letter-spacing:2px;color:var(--accent);line-height:1;}
+.brand-sub{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-top:3px;}
+.brand-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px;}
+.badge{font-family:var(--font-mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:3px;border:1px solid;}
+.b-pre{border-color:rgba(249,115,22,.4);color:var(--accent);background:rgba(249,115,22,.07);}
+.b-launch{border-color:rgba(59,130,246,.4);color:var(--accent2);background:rgba(59,130,246,.07);}
+.b-post{border-color:rgba(16,185,129,.4);color:var(--accent3);background:rgba(16,185,129,.07);}
+.b-v2{border-color:rgba(245,158,11,.4);color:var(--gold);background:rgba(245,158,11,.07);}
+.stats-mini{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+.stat-m{text-align:center;}
+.stat-m-n{font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;}
+.stat-m-l{font-family:var(--font-mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);}
+.progress-row{display:flex;align-items:center;gap:12px;}
+.prog-track{flex:1;height:3px;background:var(--border);border-radius:99px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold),var(--accent3));border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+.prog-label{font-family:var(--font-mono);font-size:10px;color:var(--ink3);white-space:nowrap;}
+.source-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;}
+.source-bar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none;}
+.source-bar-inner::-webkit-scrollbar{display:none;}
+.src-btn{font-family:var(--font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:11px 14px;border:none;border-bottom:2px solid transparent;background:transparent;color:var(--ink3);cursor:pointer;white-space:nowrap;transition:all .15s;}
+.src-btn:hover{color:var(--ink);}
+.src-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+.src-divider{width:1px;height:20px;background:var(--border);margin:0 6px;flex-shrink:0;align-self:center;}
+.filter-bar{background:var(--surface2);border-bottom:1px solid var(--border);padding:8px 20px;}
+.filter-bar-inner{max-width:1200px;margin:0 auto;display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
+.filter-label{font-family:var(--font-mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-right:4px;}
+.ftag{font-family:var(--font-mono);font-size:9px;letter-spacing:.5px;text-transform:uppercase;padding:3px 9px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--ink3);cursor:pointer;transition:all .15s;}
+.ftag:hover{border-color:var(--accent);color:var(--accent);}
+.ftag.active{background:var(--accent);border-color:var(--accent);color:#000;font-weight:700;}
+.main{max-width:1200px;margin:0 auto;padding:24px 20px 100px;}
+.section-banner{display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:10px;margin-bottom:18px;margin-top:30px;border:1px solid;}
+.section-banner.pre{background:rgba(249,115,22,.05);border-color:rgba(249,115,22,.2);}
+.section-banner.launch{background:rgba(59,130,246,.05);border-color:rgba(59,130,246,.2);}
+.section-banner.post{background:rgba(16,185,129,.05);border-color:rgba(16,185,129,.2);}
+.sb-num{font-family:var(--font-display);font-size:48px;line-height:1;opacity:.14;}
+.pre .sb-num{color:var(--accent);}
+.launch .sb-num{color:var(--accent2);}
+.post .sb-num{color:var(--accent3);}
+.sb-info{flex:1;}
+.sb-tag{font-family:var(--font-mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.pre .sb-tag{color:var(--accent);}
+.launch .sb-tag{color:var(--accent2);}
+.post .sb-tag{color:var(--accent3);}
+.sb-title{font-family:var(--font-display);font-size:24px;letter-spacing:1px;color:var(--ink);}
+.sb-desc{font-size:11.5px;color:var(--ink3);margin-top:3px;line-height:1.5;}
+.sb-right{text-align:right;flex-shrink:0;}
+.sb-count{font-family:var(--font-display);font-size:26px;line-height:1;}
+.pre .sb-count{color:var(--accent);}
+.launch .sb-count{color:var(--accent2);}
+.post .sb-count{color:var(--accent3);}
+.sb-clabel{font-family:var(--font-mono);font-size:8px;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;}
+.sb-prog-wrap{height:2px;background:var(--border);border-radius:99px;overflow:hidden;width:80px;margin-left:auto;margin-top:6px;}
+.sb-prog-fill{height:100%;border-radius:99px;width:0%;transition:width .5s;}
+.pre .sb-prog-fill{background:var(--accent);}
+.launch .sb-prog-fill{background:var(--accent2);}
+.post .sb-prog-fill{background:var(--accent3);}
+.phase{margin-bottom:12px;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.phase.hidden{display:none;}
+.phase-head{display:flex;align-items:center;gap:12px;padding:12px 18px;cursor:pointer;user-select:none;background:linear-gradient(135deg,var(--surface2),var(--surface3));border-bottom:1px solid var(--border);transition:background .15s;}
+.phase-head:hover{background:var(--surface3);}
+.ph-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.ph-dot.pre{background:var(--accent);}
+.ph-dot.launch{background:var(--accent2);}
+.ph-dot.post{background:var(--accent3);}
+.ph-num{font-family:var(--font-display);font-size:22px;color:var(--border2);line-height:1;min-width:32px;}
+.ph-info{flex:1;}
+.ph-title{font-family:var(--font-display);font-size:16px;letter-spacing:.8px;color:var(--ink);}
+.ph-sub{font-size:11px;color:var(--ink3);margin-top:1px;}
+.ph-badge{font-family:var(--font-mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:3px;border:1px solid;white-space:nowrap;}
+.ph-prog{font-family:var(--font-mono);font-size:9px;color:var(--ink3);white-space:nowrap;}
+.ph-toggle{font-size:10px;color:var(--ink3);transition:transform .2s;}
+.phase.collapsed .ph-toggle{transform:rotate(-90deg);}
+.phase-body{display:block;}
+.phase.collapsed .phase-body{display:none;}
+/* phase accent per color */
+.pc-orange .ph-num{color:rgba(249,115,22,.28);}
+.pc-orange .ph-badge{border-color:var(--accent);color:var(--accent);background:var(--hl-orange);}
+.pc-blue .ph-num{color:rgba(59,130,246,.28);}
+.pc-blue .ph-badge{border-color:var(--accent2);color:var(--accent2);background:var(--hl-blue);}
+.pc-green .ph-num{color:rgba(16,185,129,.28);}
+.pc-green .ph-badge{border-color:var(--accent3);color:var(--accent3);background:var(--hl-green);}
+.pc-gold .ph-num{color:rgba(245,158,11,.28);}
+.pc-gold .ph-badge{border-color:var(--gold);color:var(--gold);background:var(--hl-gold);}
+.pc-rose .ph-num{color:rgba(244,63,94,.28);}
+.pc-rose .ph-badge{border-color:var(--rose);color:var(--rose);background:var(--hl-rose);}
+.pc-violet .ph-num{color:rgba(139,92,246,.28);}
+.pc-violet .ph-badge{border-color:var(--violet);color:var(--violet);background:var(--hl-violet);}
+.pc-cyan .ph-num{color:rgba(6,182,212,.28);}
+.pc-cyan .ph-badge{border-color:var(--cyan);color:var(--cyan);background:var(--hl-cyan);}
+.pc-teal .ph-num{color:rgba(20,184,166,.28);}
+.pc-teal .ph-badge{border-color:var(--teal);color:var(--teal);background:var(--hl-teal);}
+.pc-lime .ph-num{color:rgba(132,204,22,.28);}
+.pc-lime .ph-badge{border-color:var(--lime);color:var(--lime);background:rgba(132,204,22,.07);}
+.task-group{border-bottom:1px solid var(--border);}
+.task-group:last-child{border-bottom:none;}
+.task-group.filtered-out{display:none;}
+.task-row{display:flex;align-items:flex-start;gap:12px;padding:12px 18px;background:var(--surface);cursor:pointer;transition:background .12s;border-left:3px solid transparent;}
+.task-row:hover{background:var(--surface2);border-left-color:var(--accent);}
+.task-row.done{background:#0d110f;opacity:.55;}
+.task-check{width:18px;height:18px;flex-shrink:0;margin-top:2px;border:1.5px solid var(--border2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all .15s;}
+.task-row.done .task-check{background:var(--accent3);border-color:var(--accent3);color:#fff;}
+.task-content{flex:1;}
+.task-title{font-weight:600;font-size:13px;color:var(--ink);line-height:1.35;}
+.task-row.done .task-title{text-decoration:line-through;color:var(--ink3);}
+.task-desc{font-size:11.5px;color:var(--ink2);margin-top:3px;line-height:1.5;}
+.task-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;align-items:center;}
+.tag{font-family:var(--font-mono);font-size:8px;letter-spacing:.5px;text-transform:uppercase;padding:2px 6px;border-radius:3px;border:1px solid;}
+.tag-leadmagnet{background:var(--hl-orange);border-color:rgba(249,115,22,.3);color:var(--accent);}
+.tag-organic{background:var(--hl-green);border-color:rgba(16,185,129,.3);color:var(--accent3);}
+.tag-paid{background:var(--hl-blue);border-color:rgba(59,130,246,.3);color:var(--accent2);}
+.tag-seo{background:var(--hl-gold);border-color:rgba(245,158,11,.3);color:var(--gold);}
+.tag-email{background:var(--hl-violet);border-color:rgba(139,92,246,.3);color:var(--violet);}
+.tag-social{background:var(--hl-rose);border-color:rgba(244,63,94,.3);color:var(--rose);}
+.tag-content{background:var(--hl-teal);border-color:rgba(20,184,166,.3);color:var(--teal);}
+.tag-analytics{background:rgba(139,92,246,.07);border-color:rgba(139,92,246,.3);color:var(--violet);}
+.tag-partner{background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.3);color:#fbbf24;}
+.tag-va{background:rgba(99,102,241,.07);border-color:rgba(99,102,241,.3);color:#6366f1;}
+.tag-marketing{background:var(--hl-orange);border-color:rgba(249,115,22,.3);color:var(--accent);}
+.tag-sales{background:var(--hl-gold);border-color:rgba(245,158,11,.3);color:var(--gold);}
+.tag-ops{background:var(--hl-blue);border-color:rgba(59,130,246,.3);color:var(--accent2);}
+.tag-finance{background:var(--hl-green);border-color:rgba(16,185,129,.3);color:var(--accent3);}
+.tag-people{background:var(--hl-rose);border-color:rgba(244,63,94,.3);color:var(--rose);}
+.tag-cx{background:var(--hl-cyan);border-color:rgba(6,182,212,.3);color:var(--cyan);}
+.tag-legal{background:var(--hl-violet);border-color:rgba(139,92,246,.3);color:var(--violet);}
+.tag-tech{background:var(--hl-teal);border-color:rgba(20,184,166,.3);color:var(--teal);}
+.tag-sop{background:rgba(245,158,11,.07);border-color:rgba(245,158,11,.3);color:var(--gold);}
+.tag-outreach{background:rgba(244,63,94,.07);border-color:rgba(244,63,94,.3);color:var(--rose);}
+.tag-dm{background:rgba(139,92,246,.07);border-color:rgba(139,92,246,.3);color:var(--violet);}
+.priority{font-family:var(--font-mono);font-size:8px;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:.5px;}
+.p-critical{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.3);color:var(--rose);}
+.p-high{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:var(--accent);}
+.p-med{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--gold);}
+.p-low{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:var(--accent3);}
+.expand-btn{font-size:11px;color:var(--ink3);cursor:pointer;padding:2px 5px;flex-shrink:0;transition:transform .2s;user-select:none;}
+.task-group.sub-open .expand-btn{transform:rotate(90deg);}
+.sub-count{font-family:var(--font-mono);font-size:8px;background:var(--surface3);color:var(--ink3);padding:2px 6px;border-radius:10px;flex-shrink:0;}
+.subtask-list{display:none;background:#0e1018;border-top:1px solid var(--border);}
+.task-group.sub-open .subtask-list{display:block;}
+.subtask-row{display:flex;align-items:flex-start;gap:10px;padding:9px 18px 9px 44px;border-bottom:1px solid rgba(35,40,64,.5);cursor:pointer;transition:background .1s;}
+.subtask-row:last-child{border-bottom:none;}
+.subtask-row:hover{background:rgba(255,255,255,.02);}
+.subtask-row.done{background:#0a120e;}
+.sub-check{width:14px;height:14px;flex-shrink:0;margin-top:2px;border:1.5px solid var(--border2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;color:transparent;transition:all .15s;}
+.subtask-row.done .sub-check{background:var(--accent3);border-color:var(--accent3);color:#fff;}
+.sub-body{flex:1;}
+.sub-title{font-size:12px;font-weight:500;color:var(--ink);line-height:1.35;}
+.subtask-row.done .sub-title{text-decoration:line-through;color:var(--ink3);}
+.sub-detail{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.5;font-style:italic;}
+.sub-tool{font-family:var(--font-mono);font-size:8px;background:var(--surface3);border:1px solid var(--border);color:var(--ink3);padding:1px 6px;border-radius:3px;display:inline-block;margin-top:3px;}
+.congrats{display:none;text-align:center;padding:60px 20px;margin-top:20px;}
+.congrats.show{display:block;}
+.congrats-title{font-family:var(--font-display);font-size:60px;color:var(--accent3);letter-spacing:3px;}
+.congrats-sub{color:var(--ink2);margin-top:8px;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-top">
+      <div>
+        <div class="brand-name">AMPLIFY GROWTH MEDIA</div>
+        <div class="brand-sub">Agency SOP Master Guide v2 · Marketing + Operations + Meta Ads + Cold Outreach · 2025–2026</div>
+        <div class="brand-badges">
+          <span class="badge b-pre">Pre-Launch</span>
+          <span class="badge b-launch">Launch</span>
+          <span class="badge b-post">Post-Launch</span>
+          <span class="badge b-v2">Full-Time Friendly</span>
+        </div>
+      </div>
+      <div class="stats-mini">
+        <div class="stat-m"><div class="stat-m-n" id="sTotal">0</div><div class="stat-m-l">Tasks</div></div>
+        <div class="stat-m"><div class="stat-m-n" id="sDone" style="color:var(--accent3)">0</div><div class="stat-m-l">Done</div></div>
+        <div class="stat-m"><div class="stat-m-n" id="sLeft" style="color:var(--gold)">0</div><div class="stat-m-l">Left</div></div>
+        <div class="stat-m"><div class="stat-m-n" id="sPct" style="color:var(--accent2)">0%</div><div class="stat-m-l">Progress</div></div>
+      </div>
+    </div>
+    <div class="progress-row">
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      <div class="prog-label" id="progLabel">0 / 0 complete</div>
+    </div>
+  </div>
+</div>
+
+<div class="source-bar">
+  <div class="source-bar-inner">
+    <button class="src-btn active" onclick="filterSection('all',this)">All Sections</button>
+    <div class="src-divider"></div>
+    <button class="src-btn" onclick="filterSection('pre',this)">🟠 Pre-Launch</button>
+    <button class="src-btn" onclick="filterSection('launch',this)">🔵 Launch</button>
+    <button class="src-btn" onclick="filterSection('post',this)">🟢 Post-Launch</button>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+    <span class="filter-label">Filter:</span>
+    <button class="ftag active" onclick="filterTag('all',this)">All</button>
+    <button class="ftag" onclick="filterTag('outreach',this)">Outreach</button>
+    <button class="ftag" onclick="filterTag('dm',this)">DMs</button>
+    <button class="ftag" onclick="filterTag('email',this)">Email/SMS</button>
+    <button class="ftag" onclick="filterTag('paid',this)">Paid Ads</button>
+    <button class="ftag" onclick="filterTag('leadmagnet',this)">Lead Magnets</button>
+    <button class="ftag" onclick="filterTag('seo',this)">SEO</button>
+    <button class="ftag" onclick="filterTag('organic',this)">Organic</button>
+    <button class="ftag" onclick="filterTag('social',this)">Social</button>
+    <button class="ftag" onclick="filterTag('content',this)">Content</button>
+    <button class="ftag" onclick="filterTag('sales',this)">Sales</button>
+    <button class="ftag" onclick="filterTag('analytics',this)">Analytics</button>
+    <button class="ftag" onclick="filterTag('ops',this)">Ops</button>
+    <button class="ftag" onclick="filterTag('tech',this)">Tech</button>
+    <button class="ftag" onclick="filterTag('legal',this)">Legal</button>
+    <button class="ftag" onclick="filterTag('finance',this)">Finance</button>
+    <button class="ftag" onclick="filterTag('people',this)">People</button>
+    <button class="ftag" onclick="filterTag('va',this)">VA Tasks</button>
+    <button class="ftag" onclick="filterTag('cx',this)">CX</button>
+    <button class="ftag" onclick="filterTag('partner',this)">Partnerships</button>
+    <button class="ftag" onclick="filterTag('sop',this)">SOPs</button>
+  </div>
+</div>
+
+<div class="main" id="mainContent">
+  <div class="congrats" id="congrats">
+    <div class="congrats-title">AGENCY BUILT.</div>
+    <div class="congrats-sub">Every single task complete. Time to scale.</div>
+  </div>
+</div>
+
+<script>
+const PHASES = [
+
+// ══════════════════════════════════════════════════════════════════
+// PRE-LAUNCH
+// ══════════════════════════════════════════════════════════════════
+
+{ section:'pre', color:'orange', badge:'Week 1–2', title:'FOUNDATION & LEGAL SETUP', tasks:[
+  { title:'Choose and register your business entity', desc:'Structure determines liability, taxes, and credibility. LLC is strongly recommended for any agency.', tags:['legal','finance'], priority:'high', subs:[
+    {t:'Research LLC vs. Sole Proprietorship',d:'LLC protects personal assets; sole prop is simpler. For an agency collecting retainers and managing client ad spend, LLC is the right choice.',tool:'IRS.gov / SunBiz.org'},
+    {t:'Choose your agency name',d:'Check availability on Florida SunBiz, USPTO trademark search, and domain simultaneously. Avoid generic names — be memorable and niche-specific.'},
+    {t:'File Articles of Organization with Florida Division of Corporations',d:'File at SunBiz.org. Cost: $125. Turnaround: 3–5 business days online.',tool:'SunBiz.org'},
+    {t:'Create an Operating Agreement',d:'Even as a solo LLC you need this. Defines ownership, profit distribution, and decision-making. Use Rocket Lawyer or LegalZoom ($39).',tool:'Rocket Lawyer / LegalZoom'},
+    {t:'Register a Registered Agent',d:'Required in Florida. Can be yourself or use Northwest Registered Agent ($39/yr).',tool:'Northwest Registered Agent'},
+  ]},
+  { title:'Obtain your EIN (Employer Identification Number)', desc:'Free from IRS. Required for banking, hiring, and taxes. Takes 5 minutes online.', tags:['legal','finance'], priority:'high', subs:[
+    {t:'Apply for EIN online at IRS.gov',d:'Go to IRS.gov → Apply for EIN → Sole Member LLC → 10-question form. Receive EIN immediately.',tool:'IRS.gov/EIN'},
+    {t:'Save EIN confirmation letter (CP 575)',d:'Download and store in your business Google Drive. Banks will require this document.'},
+    {t:'Update all business documents with EIN',d:'Add to contracts, invoices, W-9 forms, and bank account application.'},
+  ]},
+  { title:'Open a dedicated business bank account', desc:'Never mix personal and business money. Non-negotiable for bookkeeping, taxes, and professionalism.', tags:['finance'], priority:'high', subs:[
+    {t:'Choose a business bank — Mercury or Relay recommended',d:'Mercury: no fees, great UX, virtual cards. Relay: team cards, multiple accounts. Both free and built for small businesses.',tool:'Mercury.com / Relay.fi'},
+    {t:'Apply online with EIN + LLC docs',d:'Have ready: EIN letter, Operating Agreement, and government ID. Mercury approves in 1–3 business days.'},
+    {t:'Set up two sub-accounts: Operating + Tax Reserve',d:'Operating account runs the business. Tax Reserve: immediately move 25–28% of every client payment here. This money does not exist for spending.'},
+    {t:'Order business debit card and set up ACH',d:'Enable ACH for client payments. Order 2 physical cards. Set up Zelle for quick transfers.'},
+  ]},
+  { title:'Get professional email and domain', desc:'You@YourAgency.com is mandatory. Personal Gmail addresses destroy credibility before the conversation starts.', tags:['ops','tech'], priority:'high', subs:[
+    {t:'Buy your agency domain on Namecheap',d:'Pick a .com. Cost: ~$12/yr. Also buy common misspellings and redirect them.',tool:'Namecheap.com'},
+    {t:'Set up Google Workspace',d:'$6/user/month. Create: you@, admin@, hello@, billing@ aliases.',tool:'workspace.google.com'},
+    {t:'Configure email signatures for all accounts',d:'Include: full name, title, agency name, phone, website, Calendly link, and social handles.'},
+    {t:'Set up email forwarding rules',d:'Route billing@ to invoicing tool, hello@ to CRM, admin@ to VA. Keep your primary inbox clean.'},
+  ]},
+  { title:'Draft core legal documents', desc:'Protect yourself before signing a single client. These documents save you from payment disputes, scope creep, and lawsuits.', tags:['legal'], priority:'high', subs:[
+    {t:'Client Service Agreement (Master Contract)',d:'Covers: scope of services, payment terms, IP ownership, termination clause, liability limitation, dispute resolution.',tool:'Bonsai / HelloSign'},
+    {t:'Scope of Work (SOW) Template',d:'Project-specific. Lists deliverables, timeline, revisions policy, and what is explicitly NOT included. Attach to every project.'},
+    {t:'Non-Disclosure Agreement (NDA)',d:'Mutual NDA for prospects sharing sensitive business info during sales calls.',tool:'Docracy.com'},
+    {t:'Payment Terms addendum',d:'Define: invoice due date (Net 0 or Net 7), late fees (1.5%/month), retainer auto-charge date, and refund policy.'},
+    {t:'Independent Contractor Agreement for VAs',d:'Covers: scope, hourly rate, commission structure, IP assignment, confidentiality, and termination.',tool:'Bonsai / PandaDoc'},
+    {t:'Set up e-signature workflow',d:'Use PandaDoc (free for 5 docs/mo) or HelloSign. Send, sign, and store contracts without printing.',tool:'PandaDoc / HelloSign'},
+  ]},
+  { title:'Set up your bookkeeping system from Day 1', desc:'Most agency owners ignore this until tax season. Do not. Clean books = clear decisions + accurate tax filing.', tags:['finance'], priority:'high', subs:[
+    {t:'Choose bookkeeping software',d:'Wave: free, solid for solo agencies. QuickBooks Simple Start: $17/mo, more robust.',tool:'Wave / QuickBooks'},
+    {t:'Create a chart of accounts for an agency',d:'Income: Retainer Revenue, Project Revenue, Performance Fees. Expenses: VA Wages, Software Tools, Ad Spend, Marketing, Legal/Professional.'},
+    {t:'Connect bank account to bookkeeping software',d:'Auto-import transactions. Reconcile weekly (10 min). This becomes the VA admin\'s job once hired.'},
+    {t:'Set up invoice templates',d:'Include: agency logo, EIN, payment methods (ACH, credit card, wire), due date, and late fee policy. Numbering starts at INV-001.'},
+    {t:'Set aside 25–28% of every client payment into tax reserve immediately',d:'Auto-transfer on receipt. Quarterly estimated tax payments due: April 15, June 15, Sept 15, Jan 15.',tool:'IRS Direct Pay'},
+  ]},
+]},
+
+{ section:'pre', color:'blue', badge:'Week 2–3', title:'BRAND, POSITIONING & MESSAGING', tasks:[
+  { title:'Define your marketing positioning and messaging framework', desc:'Your positioning is the engine behind every ad, post, and email. Get this wrong and nothing works. Get it right and everything clicks.', tags:['marketing','content'], priority:'critical', subs:[
+    {t:'Write your agency\'s one-line UVP for home services niche',d:'Formula: "We help [home service businesses] get [more calls/leads] in [X days] using [AI-powered marketing] without [wasting ad budget]." Test 3 versions.',tool:'Google Docs'},
+    {t:'Build a messaging matrix: pain points vs. your solutions',d:'Column 1: Client pain (no leads, invisible on Google, burning ad spend, no time). Column 2: Your solution. Column 3: Proof point. Use for all copy.',tool:'Google Docs / Notion'},
+    {t:'Define your brand voice guidelines',d:'Tone: direct, confident, results-focused, plain-spoken (contractors hate fluff). Avoid jargon. Use numbers. Sound like a trusted advisor, not a salesperson.',tool:'Notion'},
+    {t:'Write 5 core messaging hooks for home services',d:'Example hooks: "Why your phone stopped ringing," "The #1 reason contractors waste money on ads," "How plumbers get 40+ leads/month from Google." These drive all content.',tool:'Google Docs'},
+    {t:'Create a competitor analysis of top 5 agencies targeting home services',d:'Research: their positioning, pricing hints, lead magnets, social content, reviews on Clutch/Google. Find the gap you can own.',tool:'Google / Clutch.co'},
+    {t:'Define your unfair advantages',d:'List: AI-powered delivery (Luminify), GHL automation background, Filipino VA team (cost efficiency), and hybrid pricing model.'},
+    {t:'Create a messaging guide document',d:'Document: UVP, elevator pitch (30 sec), email pitch (3 lines), social bio copy, and talking points for discovery calls.'},
+  ]},
+  { title:'Design your agency brand identity', desc:'Clients judge your creative work by your own brand. Make it sharp.', tags:['marketing','ops'], priority:'high', subs:[
+    {t:'Decide on a brand aesthetic direction',d:'Modern & clean, bold & aggressive, or refined luxury? Look at agencies like HAWKE Media, Thinkmodo for inspiration. Pick your lane.'},
+    {t:'Create or commission logo design',d:'Canva Pro has solid logo templates if DIY. Fiverr: hire a designer for $50–100. Get logo in PNG, SVG, and white/dark versions.',tool:'Canva Pro / Fiverr'},
+    {t:'Define brand color palette (2–3 colors max)',d:'Primary, secondary, and neutral. Get HEX codes.',tool:'Coolors.co'},
+    {t:'Choose 2 brand fonts',d:'One display font (headlines) + one body font. Use Google Fonts for budget, Adobe Fonts if using Creative Cloud.'},
+    {t:'Build a brand kit in Canva Pro',d:'Upload logo, colors, and fonts. All social posts, proposals, and presentations pull from this kit.',tool:'Canva Pro'},
+    {t:'Create brand templates: Proposal, Report, Social Post, Invoice',d:'Build reusable templates for every deliverable. Your VA admin uses these daily. Saves hours every week.'},
+  ]},
+  { title:'Build and optimize all brand profiles and accounts', desc:'Plant your flag on every platform before you start posting. Consistency of handle, bio, and profile image across all platforms builds brand recognition and trust when cold prospects look you up.', tags:['organic','social','marketing'], priority:'critical', subs:[
+    {t:'Create/optimize Facebook Business Page (Amplify Growth Media)',d:'Profile photo: logo. Cover: branded graphic with UVP. About: keyword-rich description mentioning home services, contractors, HVAC, plumbing, roofing. Add CTA button linking to scorecard.',tool:'Facebook Business Suite'},
+    {t:'Create Instagram Business Account',d:'Handle: @AmplifyGrowthMedia. Bio: UVP in 2 lines + lead magnet link. Link in bio goes to Linktree with all 3 lead magnets.',tool:'Instagram'},
+    {t:'Optimize LinkedIn Personal Profile (your most important B2B asset)',d:'Headline: "Helping Home Service Businesses Get More Calls Through AI-Powered Marketing." About: your story, who you help, what results you get. Add media: your lead magnets, case studies. 500+ connections target.',tool:'LinkedIn'},
+    {t:'Create LinkedIn Company Page for Amplify Growth Media',d:'Complete all fields. Tagline: "AI-Powered Marketing for Home Service Businesses." Add services, website, and first 3 showcase posts.',tool:'LinkedIn'},
+    {t:'Create YouTube Channel',d:'Channel art, description with keywords, link to website and social profiles. Create 3 playlists: HVAC Marketing, Plumbing Marketing, Roofing Marketing.',tool:'YouTube Studio'},
+    {t:'Create TikTok Business Account',d:'Same handle. Bio links to lead magnet. Profile optimized. Do not post yet — content strategy first.',tool:'TikTok Business'},
+    {t:'Create Pinterest Business Account',d:'Create boards: "Contractor Marketing Tips," "Home Services SEO," "Lead Generation for Home Service Businesses." Pin 10 images on day 1.',tool:'Pinterest Business'},
+    {t:'Create and fully optimize Google Business Profile',d:'List as "Marketing Agency." Add all services, photos, hours, website. Write keyword-rich description mentioning home service, contractor, HVAC, plumbing, roofing marketing.',tool:'Google Business Profile'},
+    {t:'Claim Amplify Growth Media on Clutch.co',d:'Complete full profile. Add services: digital marketing, social media, SEO, paid advertising. Request reviews from any past clients. Clutch ranks in Google for agency searches.',tool:'Clutch.co'},
+    {t:'Create profile on Alignable (B2B local business network)',d:'Connect with contractors and home service business owners. Post weekly updates. Alignable is massively underutilized — low competition.',tool:'Alignable.com'},
+    {t:'Set up Nextdoor Business Account',d:'Create business profile. Select service area. Post introduction: "We help local home service businesses get more leads from Google." Link to lead magnet.',tool:'Nextdoor Business'},
+    {t:'Register on GoodFirms, DesignRush, and UpCity agency directories',d:'Free profiles rank in Google for "marketing agency for home services." Fill 100% of profile. These drive inbound leads passively.',tool:'GoodFirms.co / DesignRush.com / UpCity.com'},
+    {t:'Create Yelp Business Profile',d:'Category: Marketing Agency. Add photos, services, and response to common questions.',tool:'Yelp for Business'},
+  ]},
+  { title:'Design your agency service packages and pricing', desc:'Stop doing custom proposals for every prospect. Build 2–3 anchor packages that 80% of clients fit into. Custom equals unscalable.', tags:['sales','finance'], priority:'high', subs:[
+    {t:'Define 3 retainer tiers',d:'Starter: $750–1,000/mo (2 services, basic reporting). Growth: $1,500–2,000/mo (3–4 services, bi-weekly calls). Pro: $2,500–4,000/mo (full service, weekly calls, 15% ad spend fee).'},
+    {t:'List what is explicitly included in each tier',d:'Be specific: "8 Instagram posts/month" not "social media management." Ambiguity = scope creep = unhappy clients and margin erosion.'},
+    {t:'Define your project-based add-on menu',d:'Ad campaign setup ($500), website audit ($300), brand identity ($800), video ad production ($600), email sequence ($400). These are the upsell path.'},
+    {t:'Design your performance/commission structure',d:'Example: base retainer + 15% of ad spend managed above $2K/mo. Cap upside clearly in writing. Build into the contract.'},
+    {t:'Create a one-page pricing sheet PDF',d:'Clean, branded. Shows 3 tiers, key inclusions, and performance add-on. Send after every discovery call.',tool:'Canva Pro'},
+    {t:'Set your payment terms for each model',d:'Retainers: billed on the 1st, auto-charge via Stripe. Projects: 50% upfront, 50% on delivery. Never start work without payment cleared.'},
+  ]},
+  { title:'Set up your content creation tools and workflow systems', desc:'Before you create a single piece of content, get the tools in place so your VA can execute without bottlenecks from day one.', tags:['content','va','tech'], priority:'high', subs:[
+    {t:'Set up Canva Pro brand kit',d:'Upload logo (all versions), brand colors (HEX codes), fonts. Create templates: Instagram post, Instagram Story, Facebook post, LinkedIn post, YouTube thumbnail, Pinterest pin.',tool:'Canva Pro'},
+    {t:'Set up Metricool for social scheduling',d:'Connect: Facebook, Instagram, LinkedIn, Pinterest, TikTok, YouTube. Build content calendar view. Set up auto-scheduling queue. VA manages posting schedule here.',tool:'Metricool'},
+    {t:'Set up Loom for async video content',d:'For tutorial-style content, client result reveals, and educational videos. Create a shared team workspace so VA can record and upload.',tool:'Loom'},
+    {t:'Create a master content calendar in Google Sheets',d:'Columns: Date, Platform, Content Type, Topic, Caption, Visual, Status, Published URL. Share with VAs. Populate 30 days of content before going live.',tool:'Google Sheets'},
+    {t:'Create a swipe file of competitor content that performs',d:'Screenshot and save top-performing posts from home service marketing accounts. Note: hook used, visual style, engagement count. Use as inspiration not imitation.',tool:'Notion / Google Drive'},
+    {t:'Set up Linktree or Beacons.ai as bio link hub',d:'Links to: Marketing Scorecard (LM1), Google Domination Checklist (LM2), Free Audit (LM3), Website, Book a Call. Use UTM parameters on each link.',tool:'Linktree / Beacons.ai'},
+  ]},
+]},
+
+{ section:'pre', color:'green', badge:'Week 1–4', title:'LEAD MAGNETS — BUILD & LAUNCH', tasks:[
+  { title:'LEAD MAGNET 1: Home Services Marketing Scorecard (Interactive Quiz)', desc:'Fastest to convert. Business owners take a 10-question quiz and receive a personalized 0–100 score revealing their marketing weaknesses. Your #1 lead generation asset — converts cold DM prospects to warm leads.', tags:['leadmagnet','email','sales'], priority:'critical', subs:[
+    {t:'Write the 10 quiz questions with scoring logic',d:'Q1: Google Business Profile (0–10). Q2: Website speed & mobile (0–10). Q3: Online reviews (0–10). Q4: Social media activity (0–10). Q5: Lead follow-up speed (0–10). Q6: Paid advertising (0–10). Q7: SEO & local rankings (0–10). Q8: Referral system (0–10). Q9: Email/SMS marketing (0–5). Q10: Monthly marketing budget (0–5).',tool:'Google Docs'},
+    {t:'Write score tier messaging (F / D / C / B / A)',d:'F (0–40): "Your business is almost invisible online." D (41–55): "You\'re getting some traction but leaving serious leads on the table." C (56–70): "You\'re doing okay but competitors are pulling ahead." B (71–85): "Strong foundation — a few tweaks could 2x your leads." A (86–100): "Impressive! Let\'s talk about scaling what\'s working."',tool:'Google Docs'},
+    {t:'Write personalized results copy for each score tier',d:'Each tier gets: score display, grade, 3 biggest problems identified by their answers, 3 specific recommendations, and a CTA to book a free strategy call.',tool:'Google Docs'},
+    {t:'Build the quiz in Typeform or Scoreapp',d:'Logic jumps based on answers. Collect: first name, email, phone, business type (HVAC/plumbing/roofing/other), website URL. Completion redirects to thank-you page.',tool:'Typeform ($29/mo) or Scoreapp ($49/mo)'},
+    {t:'Design branded results pages for each score tier',d:'Use Canva or Framer. Each page shows score graphic, grade letter, top 3 issues, personalized recommendations, and a "Book Your Free Strategy Call" button.',tool:'Canva / Framer'},
+    {t:'Connect quiz to GHL via Zapier or native integration',d:'New submission → contact created in GHL → tagged with score tier → added to appropriate email nurture sequence → assigned to sales VA for follow-up within 2 hours.',tool:'GHL + Zapier'},
+    {t:'Write 5-email nurture sequence post-quiz',d:'Email 1 (instant): Full results + personalized breakdown. Email 2 (Day 2): Deep dive on their #1 problem. Email 3 (Day 4): Case study of contractor with same score we helped. Email 4 (Day 7): "Here\'s exactly what we\'d do for your business." Email 5 (Day 10): Final call booking push.',tool:'GHL Email Builder'},
+    {t:'Write SMS follow-up sequence (3 messages)',d:'SMS 1 (instant): Results notification + call to action. SMS 2 (Day 3): Value tip based on lowest-scoring area. SMS 3 (Day 7): Social proof result for their trade.',tool:'GHL SMS'},
+    {t:'Build dedicated landing page for the Scorecard',d:'Headline: "Find Out Why Your Phone Isn\'t Ringing (Free 2-Minute Scorecard)." Include: what they\'ll discover, 3 bullet benefits, quiz embed or CTA button, trust indicators.',tool:'GHL / Framer'},
+    {t:'Create UTM tracking links for each traffic source',d:'Create unique UTM URLs for: Facebook Ads, Instagram DMs, LinkedIn outreach, cold email, SMS. Track which source drives the most quiz completions in GA4 and GHL.',tool:'Google UTM Builder'},
+    {t:'Test full flow: opt-in → score → email delivery → SMS → GHL CRM',d:'Run 5 test completions at different score levels. Verify: correct score calculated, right email tier delivered, SMS sent, contact in GHL with correct tags, assigned to VA.',tool:'GHL + Typeform'},
+  ]},
+  { title:'LEAD MAGNET 2: Google Domination Checklist for Home Service Businesses', desc:'Downloadable PDF checklist. Fastest to create. Highest perceived value for DIY-minded contractors. 27 actionable items they can implement themselves — or hire you to implement.', tags:['leadmagnet','seo','content'], priority:'high', subs:[
+    {t:'Write the 27-point Google Domination Checklist',d:'Sections: Google Business Profile (8 items), Website SEO basics (7 items), Local citations and directories (5 items), Review generation system (4 items), Google Ads basics (3 items). Each item: specific, actionable, 1–2 sentences. Make it overwhelming enough that they want help.',tool:'Google Docs'},
+    {t:'Design checklist as a branded PDF',d:'2–3 page PDF. Professional design. Each item has a checkbox. Include your logo, website, and "Want us to implement this for you? Book a free call: [Calendly link]" on every page.',tool:'Canva Pro'},
+    {t:'Build landing page for checklist download',d:'Headline: "27 Things Every Contractor Must Do to Dominate Google in 2025 (Free Checklist)." Form: first name + email only (lower friction). Thank you page: download link + upsell to Scorecard.',tool:'GHL / Framer'},
+    {t:'Write 3-email nurture sequence post-download',d:'Email 1 (instant): Download link + how to get the most from this checklist. Email 2 (Day 3): How a plumber used this exact checklist to get 20 more calls/month. Email 3 (Day 7): We can implement your entire checklist in 30 days — here\'s how.',tool:'GHL Email Builder'},
+    {t:'Set up GHL workflow for checklist leads',d:'New submission → deliver PDF → tag "Checklist Lead" → add to email sequence → add to low-priority SMS sequence → assign to VA for follow-up at Day 3.',tool:'GHL Workflows'},
+  ]},
+  { title:'LEAD MAGNET 3: Free AI-Powered Marketing Audit (Done-For-You)', desc:'Highest converting to paid client. You (or VA) personally reviews their Google Business Profile, website, and ads setup and delivers a 5-minute Loom video. Offer this as the CTA in every cold DM — this is your door-opener.', tags:['leadmagnet','va','outreach'], priority:'high', subs:[
+    {t:'Build a 10-point audit review checklist (internal VA SOP)',d:'VA checks: Google Business Profile completeness (10 items), website speed (GTmetrix), mobile optimization, SEO title tags/meta descriptions, review count and rating, social media activity (last post date), paid ad presence (Facebook Ad Library check), local citation consistency, competitor comparison, website CTA quality.',tool:'Google Docs / Notion'},
+    {t:'Build audit delivery landing page',d:'Headline: "Get Your Free AI-Powered Marketing Audit — See Exactly Why Your Competitors Are Getting More Calls." Form: name, email, phone, website URL, business type. Expectation: "Your personalized audit video within 1 business day."',tool:'GHL / Framer'},
+    {t:'Create audit video script template (5-min Loom format)',d:'0:00–0:30: Intro — "Hey [Name], this is your audit for [Business Name]." 0:30–2:00: GBP review — what\'s missing or wrong. 2:00–3:30: Website review — speed, mobile, SEO. 3:30–4:30: Social and reviews — what competitors are doing better. 4:30–5:00: 3 specific recommendations + CTA.',tool:'Loom + Notion script'},
+    {t:'Write 3-email follow-up sequence post-audit delivery',d:'Email 1 (audit delivered): Your audit is ready + 3 things I found. Email 2 (Day 2): Any questions? Here\'s what [similar business] did after theirs. Email 3 (Day 5): I held a spot on my calendar for you — here\'s the link to book.',tool:'GHL Email Builder'},
+    {t:'Set up GHL workflow for audit requests',d:'New submission → VA notified immediately in Slack → VA completes audit within 24 hours → Loom link sent via email + SMS → contact tagged "Audit Lead" → added to follow-up sequence.',tool:'GHL + Slack + Loom'},
+    {t:'Train VA on how to complete a standard audit',d:'Create a Loom training video walking the VA through all 10 audit steps, how to use GTmetrix, how to check Facebook Ad Library, and how to record and deliver the audit video.',tool:'Loom + Notion SOP'},
+  ]},
+]},
+
+{ section:'pre', color:'gold', badge:'Month 1 Ongoing', title:'WEBSITE, SEO & CONTENT MARKETING', tasks:[
+  { title:'Launch and optimize the Amplify Growth Media website', desc:'Your website is your 24/7 salesperson. Every cold DM, ad, and email drives traffic here. It must convert — because every prospect will look you up after you reach out to them.', tags:['seo','content','tech'], priority:'critical', subs:[
+    {t:'Launch website on Framer or GHL',d:'Core pages required: Home (UVP + CTA + social proof). Services (3 packages + pricing hint). Lead Magnets (dedicated pages for each). About (your story). Blog (SEO hub). Book a Call (Calendly embed).',tool:'Framer / GHL'},
+    {t:'Write homepage copy',d:'Above fold: UVP headline + subheadline (specific niche + method) + CTA: "Get Your Free Marketing Scorecard." Below fold: How it works (3 steps) → Services overview → Proof (testimonials/results) → Lead magnets → Final CTA.',tool:'Google Docs → CMS'},
+    {t:'Add lead magnet CTAs throughout the site',d:'Every page should have a visible CTA linking to one of the 3 lead magnets. Sidebar widgets, footer CTA, exit-intent popup, sticky header CTA button. Minimum 3 conversion paths per page.',tool:'GHL / Framer'},
+    {t:'Set up Google Analytics 4 and Google Search Console',d:'GA4: configure conversion events (lead form submit, Calendly booking, phone click). Search Console: verify domain, submit XML sitemap, check indexation. Both free and required before any traffic arrives.',tool:'GA4 + Google Search Console'},
+    {t:'Add all tracking pixels via Google Tag Manager',d:'Install Meta Pixel, Google Ads tag, and GA4 tag via GTM (not hard-coded). Verify all fire correctly using GTM Preview Mode before driving any traffic.',tool:'Google Tag Manager + Meta Business Manager'},
+    {t:'Write and publish first 6 blog posts for SEO',d:'Post 1: "How HVAC Companies Get More Leads from Google Maps." Post 2: "The #1 Facebook Ad Strategy for Plumbers in 2025." Post 3: "27 Ways to Get More Google Reviews as a Contractor." Post 4: "How Roofing Companies Can Dominate Google in 2025." Post 5: "Why Your Contractor Website Isn\'t Getting Calls." Post 6: "The Complete Guide to Marketing Your Home Service Business."',tool:'Google Docs → CMS'},
+    {t:'Set up Google Business Profile to 100% completeness',d:'Business name, address (or service area), phone, website, hours, categories (Marketing Agency), description (keyword-rich), services listed with descriptions, Q&A pre-populated, appointment link added.',tool:'Google Business Profile'},
+    {t:'Generate first 10 GBP reviews',d:'Text or email every person you know: past clients, colleagues, partners. Send the direct GBP review link. 5-star reviews are the single highest-impact SEO action you can take.',tool:'Google Business Profile'},
+    {t:'Build 20 local citations (NAP consistency)',d:'Submit to: Bing Places, Apple Maps, Yelp, Yellow Pages, Superpages, Manta, BBB, Angi, HomeAdvisor, Houzz, Nextdoor, Foursquare, Clutch, G2, UpCity, GoodFirms, LinkedIn, Facebook, Instagram. Consistent Name/Address/Phone everywhere.',tool:'BrightLocal ($29/mo) or manual'},
+    {t:'Target 10 local SEO keywords',d:'Primary: "marketing agency for home service businesses," "HVAC marketing agency," "plumber marketing company," "roofing contractor marketing," "contractor marketing agency Florida." Include in page titles, H1 tags, meta descriptions, first paragraph of homepage.',tool:'Google Keyword Planner + Ubersuggest'},
+  ]},
+  { title:'LinkedIn content engine for home service business audience', desc:'LinkedIn is your primary organic B2B channel. Home service business owners and contractors go to LinkedIn to learn. You will be their go-to source for marketing insight — building an audience that turns into inbound leads AND warm DM targets.', tags:['organic','social','content','va'], priority:'high', subs:[
+    {t:'Define your 5 LinkedIn content pillars',d:'Pillar 1: Contractor marketing tips (educational — highest engagement). Pillar 2: Client results and case studies (social proof). Pillar 3: Agency behind-the-scenes (builds trust). Pillar 4: Industry insights (market trends, data, news for home services). Pillar 5: Personal founder journey (builds personal brand).',tool:'Notion content strategy doc'},
+    {t:'Write and schedule first 30 LinkedIn posts (batch creation)',d:'Mix: 40% tips/education, 30% results/proof, 20% behind-the-scenes, 10% CTA posts. Format variety: text posts (highest reach), carousels (most saves), short video (growing on LinkedIn), polls (engagement spikes). First batch covers 6 weeks at 5 posts/week.',tool:'Google Docs + Metricool'},
+    {t:'Implement daily LinkedIn engagement strategy (VA task)',d:'VA spends 20 min/day: Comment on 5 posts by home service business owners or industry accounts (genuine, value-adding comments — not "great post!"). React to 10 posts. Goal: grow connections by 50+ per week.',tool:'LinkedIn + Metricool'},
+    {t:'Run weekly LinkedIn newsletter: "The Home Service Growth Letter"',d:'Publish every Wednesday. Topic: one detailed marketing insight for home service business owners. Length: 400–600 words. CTA: link to lead magnet or call booking.',tool:'LinkedIn Newsletters'},
+    {t:'LinkedIn lead magnet promotion (once per week)',d:'Every Friday, publish a post offering the scorecard, checklist, or audit. CTA in the post body (no link — LinkedIn suppresses reach). First comment: link to landing page. Pin that comment. Reply to every comment. Generates 5–15 opt-ins per post.',tool:'LinkedIn + GHL'},
+  ]},
+  { title:'YouTube and short-form video content strategy', desc:'YouTube is the second largest search engine. Home service business owners search for marketing tutorials — be the answer they find.', tags:['organic','content','va'], priority:'med', subs:[
+    {t:'Plan first 12 YouTube video topics (3 months of content)',d:'Month 1: "How HVAC Companies Can Get More Google Reviews," "Facebook Ads for Plumbers — Complete Setup Guide," "Why Your Contractor Website Isn\'t Getting Calls." Month 2: "Google Business Profile Optimization for Roofers," "How We Generated 40 Leads for an HVAC Company," "Email Marketing for Contractors." Month 3: 3 more tutorials + 3 client case study videos.',tool:'Notion content plan'},
+    {t:'Set up YouTube channel art and optimization',d:'Channel banner with UVP. Description: keyword-rich, includes link to website and lead magnets. Playlists: HVAC Marketing, Plumbing Marketing, Roofing Marketing. Channel trailer: 60-second hook video.',tool:'YouTube Studio + Canva'},
+    {t:'Create short-form video repurposing workflow',d:'Every YouTube video gets cut into: 3 x 60-second Instagram Reels, 3 x TikTok clips, 3 x YouTube Shorts. VA uses CapCut to cut, caption, and format. Total: 12 short-form videos per YouTube video.',tool:'CapCut + Metricool'},
+    {t:'Optimize every video for YouTube search',d:'Title: include keyword + result. Description: 300 words with keywords + timestamps. Tags: niche-specific terms. Thumbnail: bold text + face or arrow. Chapter markers for videos over 5 minutes.',tool:'YouTube Studio + TubeBuddy'},
+  ]},
+  { title:'Facebook and Instagram organic content machine', desc:'Facebook is where home service business owners hang out in groups and consume content. Instagram is for showcasing results and building trust before a cold DM ever lands.', tags:['organic','social','va'], priority:'med', subs:[
+    {t:'Define Facebook + Instagram posting strategy',d:'Facebook: 5x/week — 2 educational posts, 1 client result, 1 lead magnet promo, 1 engagement post (poll, question). Instagram: 4x/week feed posts + 3x Stories. TikTok: 3x/week (repurposed Reels). All scheduled via Metricool.',tool:'Metricool + Canva'},
+    {t:'Join 10 target Facebook Groups (VA task)',d:'Groups: "HVAC Business Owners," "Plumbing & Mechanical Contractors," "Roofing Contractors Association," "Home Service Business Owners," "Contractor Profit Zone," "Service Business Mastery Community," "Trades Business Growth." VA spends 30 min/day answering questions with genuine value.',tool:'Facebook Groups + Google Sheet tracker'},
+    {t:'Create and post 20 Instagram Reels using templates',d:'Reel types: "Top 3 mistakes contractors make with [channel]" (listicle). "How a [trade] business got [result] in [timeframe]" (mini case study). "Watch me review a [trade] business\'s Google listing" (audit walkthrough). Each uses same Canva Reel template.',tool:'CapCut + Canva + Metricool'},
+    {t:'Instagram Stories strategy (daily, VA-managed)',d:'Daily Stories mix: 1 poll or question sticker (engagement). 1 behind-the-scenes clip. 1 educational swipe tip (text-based). 1 link sticker driving to lead magnet. VA posts 3 Stories per day minimum.',tool:'Metricool + Canva'},
+  ]},
+  { title:'Reddit, forums, and community marketing', desc:'Reddit and trade forums have millions of home service business owners asking marketing questions daily. Answering them well builds your reputation and drives inbound warm leads.', tags:['organic','content','va'], priority:'med', subs:[
+    {t:'VA monitors and responds in 8 target subreddits daily',d:'Subreddits: r/Entrepreneur, r/smallbusiness, r/marketing, r/HVAC, r/Plumbing, r/Roofing, r/ContractorTalk, r/localSEO. VA spends 30 min/day answering marketing questions with genuine value.',tool:'Reddit + Google Sheet (log all responses)'},
+    {t:'Post original educational content on r/smallbusiness and r/Entrepreneur',d:'Posts like: "I analyzed 50 contractor websites — here\'s what the top performers are doing (with data)." Text-based posts with real insights. VA posts 1 original post per week.',tool:'Reddit'},
+    {t:'Join and contribute to ContractorTalk.com forums',d:'Register, complete profile. Post in Business → Marketing section answering questions. Mention free audit in signature after 10 posts.',tool:'ContractorTalk.com'},
+    {t:'Quora strategy — answer home services marketing questions',d:'Search Quora for: "how do plumbers get more customers," "HVAC marketing strategy," "how to get more roofing leads." Write comprehensive answers. Include link to checklist or scorecard as a free resource. VA posts 3 Quora answers per week.',tool:'Quora'},
+  ]},
+  { title:'Pinterest and Nextdoor organic strategy', desc:'Pinterest drives consistent long-term traffic from searches. Nextdoor reaches hyperlocal contractors and business owners in your own backyard.', tags:['organic','social','va'], priority:'low', subs:[
+    {t:'Create 20 branded Pinterest infographic pins from existing content',d:'Convert blog posts and checklist items into vertical infographic pins (1000×1500px). Topics: "27 Google tips for contractors," "HVAC marketing checklist." Each pin links to corresponding lead magnet or blog post. VA creates 5 pins/week.',tool:'Canva Pro + Pinterest'},
+    {t:'Set up Pinterest board structure and SEO',d:'Boards: "Contractor Marketing Tips," "HVAC Business Growth," "Plumbing Marketing," "Roofing Company Marketing," "Local SEO for Home Services." Board descriptions and pin descriptions keyword-optimized.',tool:'Pinterest Business'},
+    {t:'Post weekly on Nextdoor Business',d:'Post in neighborhoods near Spring Hill and surrounding areas offering free marketing audit. Build 5-star reputation locally.',tool:'Nextdoor Business'},
+  ]},
+]},
+
+{ section:'pre', color:'rose', badge:'Week 2–4', title:'TECH STACK, CRM & SOP INFRASTRUCTURE', tasks:[
+  { title:'Set up GoHighLevel CRM as your central hub', desc:'GHL is the backbone of everything — outreach management, lead nurturing, client onboarding, reporting, and billing. Get this right before a single lead comes in.', tags:['tech','ops','sop'], priority:'critical', subs:[
+    {t:'Set up GHL account and configure your own agency sub-account',d:'Create your own agency sub-account first — use it as a sandbox and to run your own marketing. This is where you will learn the tool before onboarding clients.',tool:'GoHighLevel'},
+    {t:'Build pipeline stages in GHL',d:'Stages: Prospect Identified → Outreach Sent → Reply Received → Discovery Call Booked → Proposal Sent → Contract Signed → Onboarded → Active Client → Churned. Every prospect lives here.'},
+    {t:'Configure GHL calendar for discovery call booking',d:'Set availability, buffer times, confirmation emails, and reminder sequences (24hr + 1hr before call). Connect to Calendly as backup.',tool:'GHL + Calendly'},
+    {t:'Set up GHL phone + SMS (A2P 10DLC registration — do this first)',d:'Register your number for A2P 10DLC compliance. Takes 2–4 weeks for approval. Without this, bulk SMS will be filtered as spam. Start the process on Day 1.',tool:'GHL + Twilio'},
+    {t:'Set up missed call text-back automation',d:'If a prospect calls your business number and you don\'t answer within 20 seconds → GHL auto-sends a follow-up text. Captures the lead even when you\'re at your day job.',tool:'GHL Missed Call Text Back'},
+    {t:'Connect Meta Lead Forms to GHL',d:'New lead → contact created in GHL → tagged "Meta Lead" → added to nurture sequence → SMS within 2 minutes → VA notified to call within 1 hour.',tool:'GHL + Meta Integration'},
+  ]},
+  { title:'Set up Meta Business Manager (for your own ads and client ads)', desc:'Your primary acquisition channel and your core client deliverable. Must be completely configured before running any ads.', tags:['paid','tech'], priority:'critical', subs:[
+    {t:'Create Meta Business Manager account and verify your business',d:'Go to business.facebook.com. Add payment method. Verify business identity. This unlocks full ad account capabilities.',tool:'Meta Business Manager'},
+    {t:'Install Meta Pixel on your agency website',d:'Get Pixel code from Events Manager. Install in website header or via Google Tag Manager. Verify it fires on all pages.',tool:'Meta Business Manager + GTM'},
+    {t:'Set up Conversions API (CAPI) for server-side tracking',d:'CAPI sends data directly from your server — more reliable than pixel-only in privacy-first browsers. Use both pixel + CAPI together for redundancy.',tool:'Meta CAPI'},
+    {t:'Configure conversion events in Events Manager',d:'Set up: lead form submitted, Calendly booking confirmed, page view. Verify all fire correctly in Events Manager real-time view before running any spend.'},
+    {t:'Create your first 3 custom audiences',d:'Audience 1: All website visitors (30 days). Audience 2: Video viewers 75%+. Audience 3: Instagram/Facebook page engagers (60 days). These are needed before launching ads.'},
+    {t:'Pre-launch QA checklist for every client campaign',d:'Pixel firing ✓ | CAPI connected ✓ | Correct conversion event selected ✓ | Audience exclusions set ✓ | Budget allocated ✓ | Ad copy policy-reviewed ✓ | Placements set to FB + IG Feed only ✓'},
+  ]},
+  { title:'Build your SOP library — write every process before you need it', desc:'SOPs are what make agencies scalable and acquirable. Document everything as if a stranger has to do your job tomorrow with zero context from you.', tags:['ops','sop'], priority:'high', subs:[
+    {t:'Set up Notion as your SOP wiki',d:'Create folders: Client SOPs, Agency SOPs, Templates, Brand Assets, VA Training. Every SOP has: last updated date, owner, version number.',tool:'Notion'},
+    {t:'Write SOP: Meta Ads campaign setup (step-by-step, 20+ steps)',d:'Covers: Pixel check, audience building, campaign structure, ad creative upload, copy formula, budget setting, conversion tracking, naming convention, QA checklist.'},
+    {t:'Write SOP: Client onboarding process',d:'Contract signed → deposit → welcome email → intake form → access collection → kickoff call → 30-day roadmap delivery. Every step documented with email templates attached.'},
+    {t:'Write SOP: Cold DM outreach workflow',d:'Prospect identification → research → DM written → sent → follow-up Day 3 → follow-up Day 7 → audit offer → reply handling → call booking. Track in GHL pipeline.'},
+    {t:'Write SOP: Cold email outreach workflow',d:'Prospect list built → email written → scheduled in Instantly.ai → reply handling → warm lead tagged in GHL → VA calls within 1 hour of positive reply.'},
+    {t:'Write SOP: Weekly ad performance review',d:'What to check, what thresholds trigger action (2x target CPL = pause), how to document changes, and how to report findings to client. Includes the key metrics spreadsheet.'},
+    {t:'Write SOP: Monthly client reporting process',d:'Data collection from Meta/GA4/GBP, key metrics to include, report template population, Loom recording format, and delivery email template. Report delivered on 28th of every month.'},
+    {t:'Write SOP: Emergency response playbook',d:'Ad account flagged, campaign stops spending, client reports zero leads — step-by-step action for each scenario with escalation protocol.'},
+    {t:'Write SOP: VA daily task checklist (admin)',d:'AM: inbox scan, CRM updates, social scheduling check. Midday: client reporting, invoice follow-ups. PM: EOD report to you via Slack.'},
+  ]},
+  { title:'Lock in your core agency tech stack', desc:'Choose tools that are powerful, integrate well, and your team can actually use. Do not overbuy.', tags:['tech','ops'], priority:'high', subs:[
+    {t:'CRM & Automation: GoHighLevel ($97/mo)',d:'Your backbone. Handles CRM, email/SMS automation, pipeline, landing pages, booking, and reporting.',tool:'GoHighLevel'},
+    {t:'Project Management: ClickUp (free or $7/mo)',d:'Client project boards, team task assignment, recurring tasks, and time tracking.',tool:'ClickUp'},
+    {t:'Communication: Slack (free) + Google Meet',d:'Slack for async team comms. Google Meet (free with Workspace) for all calls.',tool:'Slack + Google Meet'},
+    {t:'Design: Canva Pro ($13/mo)',d:'Your team\'s daily design tool. Brand kit, templates, social graphics, proposals, and reports.',tool:'Canva Pro'},
+    {t:'Video: Loom (free up to 5 min)',d:'Async video for client reports, team training, and sales follow-ups.',tool:'Loom'},
+    {t:'Billing: Stripe + Wave',d:'Stripe: payment processing and auto-charge. Wave: invoicing, bookkeeping, and financial reporting.',tool:'Stripe + Wave'},
+    {t:'AI Tools: Luminify (your platform)',d:'Ad creatives, content generation, business audits, and AI copywriting. This is your unfair advantage — use it daily for client work.',tool:'Luminify'},
+    {t:'Social Scheduling: Metricool (free tier)',d:'Schedule posts for clients across Instagram, LinkedIn, Facebook, TikTok, and Google.',tool:'Metricool'},
+    {t:'Cold Email: Instantly.ai ($37/mo)',d:'Cold email sequencing, inbox warming, and reply management. Connect to secondary domain only — never your main domain.',tool:'Instantly.ai'},
+    {t:'Outreach Research: Apollo.io (free tier) + Hunter.io',d:'Find owner email addresses, LinkedIn URLs, and phone numbers for prospect lists.',tool:'Apollo.io / Hunter.io'},
+    {t:'Password Management: 1Password Teams or Bitwarden',d:'Share client account credentials securely with VAs. Never paste passwords in Slack or email.',tool:'1Password / Bitwarden'},
+  ]},
+  { title:'Set up team security and access management', desc:'Your VAs will have access to client accounts. Lock this down properly from Day 1.', tags:['tech','legal','ops'], priority:'high', subs:[
+    {t:'Set up 1Password Teams or Bitwarden Business',d:'Share client account passwords securely with VAs. Never paste passwords in Slack, email, or documents.',tool:'1Password / Bitwarden'},
+    {t:'Create a client account access log',d:'Spreadsheet: Client → Platform → Username → Access level → Who has access. Audit monthly.'},
+    {t:'Enable 2FA on all agency accounts',d:'Google Workspace, GHL, Meta Business Manager, Stripe, and domain registrar. Use Authy or Google Authenticator.'},
+    {t:'Set up role-based access in Meta Business Manager',d:'Add VAs as employees with limited access — not admins. They can create and manage ads but cannot add/remove people or change billing.'},
+    {t:'Create a data breach response SOP',d:'If a client account is compromised: immediately change all passwords, notify client within 24 hours, and document the incident.'},
+  ]},
+]},
+
+// ══════════════════════════════════════════════════════════════════
+// LAUNCH
+// ══════════════════════════════════════════════════════════════════
+
+{ section:'launch', color:'orange', badge:'Week 3–Ongoing', title:'COLD DM & ORGANIC OUTREACH SYSTEM', tasks:[
+  { title:'Build your prospect list and research system', desc:'You cannot send a great DM to a bad list. List quality determines outreach quality. Spend time here — it pays back 10x.', tags:['sales','outreach','dm'], priority:'critical', subs:[
+    {t:'Build initial prospect list of 500 home service business owners',d:'Use Google Maps, Yelp, Instagram location tags, and Angi/HomeAdvisor. Collect: business name, owner name, email, phone, IG handle, LinkedIn URL, website URL, number of Google reviews, last social post date. Store in a master Google Sheet.',tool:'Google Maps + Yelp + Angi'},
+    {t:'Identify the owner/decision-maker (not the receptionist)',d:'For each business, research: who owns it, their name, their personal IG or LinkedIn profile. Google "[business name] + owner" or check their Google Business Profile. Cold DMs to owner profiles convert 3–5x better than business pages.',tool:'Google + LinkedIn + Facebook'},
+    {t:'Find owner email addresses',d:'Use Hunter.io (verify domain email format), Apollo.io free tier, or [firstname]@[domain].com format. Verify all emails with NeverBounce before sending.',tool:'Hunter.io / Apollo.io + NeverBounce'},
+    {t:'Research each prospect before reaching out (2 minutes per prospect)',d:'Check: their Google review count and rating, last Instagram post date and quality, their Facebook Ad Library (are they running ads?), and website speed (GTmetrix quick check). These details feed your personalized opener.'},
+    {t:'Segment prospect list by signal strength',d:'Tier 1 (Priority): 3–4 star rating, weak social presence, no ads running, slow website — these are in pain and ready to buy. Tier 2: Active on social but no paid ads. Tier 3: Running ads but low review count. DM Tier 1 first.'},
+    {t:'Create prospect research template for VA',d:'VA fills this for each prospect before any outreach is sent: Business name | Owner name | IG handle | Google rating | Last post date | Ads running (Y/N) | Website speed score | One specific problem to reference in the DM.',tool:'Google Sheet'},
+  ]},
+  { title:'Instagram DM outreach system — your #1 full-time-friendly channel', desc:'Instagram DMs can be sent from your phone in 5 minutes at any time of day. No walking into offices. No scheduled calls. Work it before and after your day job. This is your primary outreach channel.', tags:['dm','sales','outreach'], priority:'critical', subs:[
+    {t:'Optimize your personal Instagram profile before sending a single DM',d:'Bio must instantly communicate who you help and what you do. Example: "I help HVAC, plumbing & roofing businesses get more calls through AI-powered marketing 🔧 | Free audit below 👇." Profile photo: your real face. Link: your lead magnet landing page.',tool:'Instagram'},
+    {t:'Write your primary Instagram DM script (cold opener)',d:'Keep it under 3 sentences. Formula: 1. Specific genuine observation about their business. 2. One clear pain or insight. 3. Soft CTA — not a sales pitch. Example: "Hey [Name] — noticed [Business] has great reviews but your last post was from [X weeks] ago. Most contractors I work with are leaving serious leads on the table without consistent content. Would a quick free audit of your online presence be useful?" NO LINKS in the first message — Instagram will suppress it.',tool:'Google Docs (DM script bank)'},
+    {t:'Write 5 DM script variations (A/B/C/D/E)',d:'Variation A: Pain-led — "I noticed your Google rating is 3.9 — even a 4.2 could double your click rate from Maps." Variation B: Competitor angle — "I\'ve been running ads for [similar trade] in [city] and noticed [Business] doesn\'t show up for [keyword]." Variation C: Compliment + gap — genuine compliment on their work, then one specific gap you spotted. Variation D: Free audit offer — direct, no setup. Variation E: Question-based — a genuine question about their current marketing that opens a conversation.',tool:'Google Docs'},
+    {t:'Write follow-up DM scripts for non-responders',d:'Follow-up 1 (Day 3): Different angle, shorter, softer. "Just wanted to bump this — happy to share the audit either way, no strings attached." Follow-up 2 (Day 7): Share a relevant result or stat. "FYI — just helped a [trade] in [city] go from 3.8 to 4.6 stars and double their call volume in 60 days. Happy to show you how." Maximum 2 follow-ups on Instagram. More will get you blocked.',},
+    {t:'Set up Instagram DM daily cadence (works around your job)',d:'Morning routine (6–7 AM before work): Send 10 cold DMs from prospect list. Evening routine (7–8 PM after work): Check and respond to all replies. Lunch break: Send 5–10 more if possible. Target: 20–30 DMs per day total. At this volume, you will book 3–5 calls per week within 30 days.',},
+    {t:'Build an Instagram DM response bank for common replies',d:'Reply 1: "What do you charge?" — do not reveal pricing in DMs. Book a call. Reply 2: "We already have someone." — validate and offer audit as a second opinion. Reply 3: "Not interested." — "No problem at all! Can I ask what you\'re currently doing for leads?" Reply 4: "Tell me more." — send a brief value summary + audit offer + call booking link.',tool:'Google Doc (DM reply bank)'},
+    {t:'Track all DM outreach in GHL pipeline',d:'Every business you DM is a contact in GHL. Status: DM Sent → Reply Received → Audit Offered → Call Booked → Proposal Sent. VA manages this daily. You lose track without a CRM.',tool:'GHL'},
+    {t:'Use Instagram story interactions to warm up cold targets before DMing',d:'Before sending a cold DM to a prospect, watch and react to 2–3 of their recent Stories over 3–5 days. This puts your name in their notification feed before your DM arrives. Warm-touch DMs convert 2–3x better than completely cold ones.',},
+    {t:'Join and engage in contractor Instagram hashtag communities',d:'Follow and genuinely comment on: #HVACbusiness, #plumbingbusiness, #roofingcontractor, #contractorlife, #homeservices. The goal is visibility in the feed of business owners you want as clients. Build name recognition before outreach.',},
+  ]},
+  { title:'LinkedIn DM outreach system — your best B2B channel for higher-ticket clients', desc:'LinkedIn is where home service business owners with bigger budgets and more sophistication live. The platform was built for B2B outreach. This is your most professional DM channel and best source of high-ticket clients.', tags:['dm','sales','outreach'], priority:'critical', subs:[
+    {t:'Optimize your LinkedIn profile to convert prospects who check you out',d:'Headline: "Helping Home Service Businesses Get More Calls Using AI-Powered Marketing | Book a Free Audit Below." About: 3–4 paragraphs covering who you help, how you help them, what results look like, and a CTA. Featured section: your 3 lead magnets pinned. Profile photo: professional, real face.',tool:'LinkedIn'},
+    {t:'Build your LinkedIn connection strategy (before DMing)',d:'Send connection requests to: HVAC business owners, plumbing company owners, roofing contractors, general contractors, and home service business owners. Add a personal note: "Hey [Name] — I work with [trade] businesses on marketing. Thought we should be connected." Send 20–30 connection requests per day maximum (LinkedIn limits this). Target: 100 new connections per week.',tool:'LinkedIn'},
+    {t:'Write your LinkedIn connection note (must be 300 characters or less)',d:'Formula: "Hey [Name] — I help [trade] businesses in [region] get more leads through AI-powered marketing. Saw your profile and thought we should connect." Keep it short, specific to their industry, and non-salesy. DO NOT pitch in the connection request.',},
+    {t:'Write your primary LinkedIn cold DM script (send after they accept)',d:'Wait 24 hours after they accept, then send: "Hey [Name] — thanks for connecting! I noticed [specific thing about their business — review count, no social activity, no ads visible on Facebook Ad Library]. I put together a free 5-point marketing audit for [trade] businesses in [city]. Would it be useful if I ran one on [Business Name]? No pitch — just insights you can use." This message is NEVER a pitch. It is an offer of value.',tool:'Google Docs (DM script bank)'},
+    {t:'Write 3 LinkedIn DM follow-up variations',d:'Follow-up 1 (Day 4 — if no reply): Share a relevant insight or mini case study. "By the way — a [trade] client of mine in [state] went from 12 to 43 leads/month just by fixing their Google Business Profile. Happy to check yours for free." Follow-up 2 (Day 10 — final): Short and direct. "Hey [Name] — last message, I promise! Just wanted to offer the free audit one more time. If the timing\'s off, no worries — feel free to reach out whenever."',},
+    {t:'Create your LinkedIn DM daily cadence',d:'Before work (30 min): Accept connections and send first follow-up messages to connections accepted. Lunch break (15 min): Send new connection requests (20/day). After work (20 min): Respond to all LinkedIn messages and book calls. Total time: ~65 minutes per day, spread across the day. Fully compatible with full-time work.',},
+    {t:'LinkedIn Sales Navigator for advanced targeting (Month 2+)',d:'At $99/mo, Sales Navigator lets you filter by: industry (HVAC/plumbing/roofing), company size, geography, and job title (Owner, Founder, CEO). You can build a hyper-targeted prospect list and track warm signals (profile views, content likes). Upgrade when organic outreach volume exceeds what free LinkedIn allows.',tool:'LinkedIn Sales Navigator'},
+    {t:'Post content daily BEFORE sending DMs to warm up your profile',d:'When a LinkedIn prospect receives your DM, the first thing they do is check your profile and your recent posts. If your last post was 6 months ago, you lose credibility. Post consistently for 2+ weeks before launching DM outreach. Your content presence IS your social proof.',},
+  ]},
+  { title:'Facebook DM and group outreach system', desc:'Facebook groups are where home service business owners share problems, ask questions, and look for solutions. Show up with value first. When they DM you or engage with your content, you have a warm lead.', tags:['dm','social','outreach'], priority:'high', subs:[
+    {t:'Identify and join the 15 best Facebook groups for your niche',d:'Groups to join: "HVAC Business Owners," "Plumbing Business Owners," "Roofing Contractors USA," "Home Service Business Owners," "Contractor Profit Zone," "Service Business Mastery," "Trades Business Growth," "[Your City] Business Owners," "[Your City] Entrepreneurs," "Local Business Marketing Tips," "Google Business Profile Help for Contractors," and trade-specific regional groups.',tool:'Facebook Groups search'},
+    {t:'Establish a value-first presence in each group (30 days before promoting)',d:'For the first 30 days in every group: only comment, answer questions, and share helpful insights. Never promote. Never post lead magnets. Build name recognition. When group members see your name frequently giving value, they will DM YOU.',},
+    {t:'Post original value content in groups weekly (VA task)',d:'VA posts 1 original educational post per week per active group. Topics: "5 things I checked on a contractor\'s Google listing this week," "Why your HVAC ad isn\'t converting (3 common mistakes I see)," "A checklist we use before running ads for a roofing company." Always educational. Never salesy. Link only in comments if allowed.',},
+    {t:'Write Facebook DM script for warm leads (people who engage with your posts)',d:'When someone likes or comments on your group post: "Hey [Name] — thanks for the comment! You mentioned [X]. I\'ve actually worked with several [trade] businesses on this exact issue. Happy to send over a free audit if it would be useful?" This is a WARM DM — much higher conversion than cold.',},
+    {t:'Write Facebook DM script for cold outreach to group members',d:'Research the person first (scroll their profile). "Hey [Name] — saw you in [Group Name]. I help [trade] businesses get more leads from Google and paid ads. Noticed [specific thing — their review count, that they mentioned struggling with leads]. Running a free audit this week — would it be useful for [Business Name]?" 3 sentences max.',},
+    {t:'Track all Facebook group engagement and DMs in GHL',d:'Every person you DM on Facebook is a contact in GHL. VA logs all interactions. Status: Seen in Group → DM Sent → Reply → Audit Offered → Call Booked.',tool:'GHL'},
+  ]},
+  { title:'Cold email outreach system (VA-managed, scalable)', desc:'Cold email is your highest-volume outbound channel and the most scalable. Your VA manages it entirely. You review the system weekly, not daily. Fully compatible with working full-time.', tags:['email','outreach','va','sales'], priority:'critical', subs:[
+    {t:'Buy a secondary sending domain and set up Google Workspace on it',d:'NEVER send cold emails from your main domain. Buy a secondary domain (example: amplify-growth.co or amplifygrwth.com for ~$12). Set up Google Workspace on it ($6/mo). This protects your main domain from spam reputation damage.',tool:'Namecheap + Google Workspace'},
+    {t:'Warm up the secondary domain for 3 weeks before sending',d:'Use Lemwarm or Mailreach to automatically send and reply to emails between inboxes. This builds sender reputation. Do not skip this — cold emails sent without warm-up go straight to spam.',tool:'Lemwarm ($29/mo) / Mailreach'},
+    {t:'Set up Instantly.ai for cold email sequencing',d:'Connect secondary domain. Import your verified prospect list. Configure: 30 emails/day max per inbox (scale to 50 after 2 weeks), random send times (not on the hour), and pause on reply.',tool:'Instantly.ai ($37/mo)'},
+    {t:'Write cold email subject lines (write 10, test 2 at a time)',d:'Best-performing formats for home services marketing: "Quick find for [Business Name]" | "[Trade] businesses in [City] — quick question" | "I checked your Google listing, [Name]" | "Why [Business Name] isn\'t showing up in [City] Maps" | "Your reviews vs. competitors in [City]" — subject line is 80% of whether it gets opened.',},
+    {t:'Write cold email body — Variation A (Audit Hook)',d:'Subject: "Quick find for [Business Name]". Body: "Hey [First Name] — I was looking at marketing for [trade] businesses in [City] and pulled up [Business Name]. Noticed [specific observation — e.g., you only have 12 reviews vs. your top competitor\'s 87, or your website isn\'t showing on Google Maps for [keyword]]. I put together a quick breakdown. Worth sending over? Takes me 10 minutes." Sign-off: your name, title, phone. PS: [your website]. 5 sentences max.',},
+    {t:'Write cold email body — Variation B (Result Lead)',d:'Subject: "[Trade] in [City] — quick question". Body: "Hey [First Name] — we helped a [trade] business in [state] go from 8 Google reviews to 61 and 3x their monthly calls in 90 days. I looked up [Business Name] and think you have similar potential. Would it make sense to do a quick free audit? Takes 10 minutes on my end — no pitch, just a breakdown of what I\'d fix first." Sign-off: name, website, phone.',},
+    {t:'Write cold email body — Variation C (Curiosity Hook)',d:'Subject: "I checked your Facebook ad library, [First Name]". Body: "Most [trade] businesses I look up aren\'t running any paid ads — and [Business Name] is in the same boat. That\'s not a criticism — it\'s actually an opportunity. Competitors who aren\'t running ads = easier wins for you. I\'d love to show you what a $500/mo campaign would look like for [Business Name]. Free, no obligation — want me to put it together?" Sign-off: name, website.',},
+    {t:'Write 4-touch cold email sequence (follow-up emails)',d:'Touch 2 (Day 3): Add value — share a free tip or insight specific to their trade. Touch 3 (Day 7): Mini case study — "Here\'s what we did for a [similar trade] business." Touch 4 (Day 14): "Last try" — short, direct, no pressure. "Happy to leave it here if the timing\'s off — just wanted to make sure you got the audit offer."',},
+    {t:'Set up VA to manage all cold email replies daily',d:'VA monitors Instantly.ai inbox daily. Positive replies → VA follows up within 1 hour → offers audit or books discovery call in GHL calendar → logs in GHL as "Warm Lead" with full notes. Negative replies → tags "Not Interested" in GHL. No replies after sequence → tags "Sequence Complete."',tool:'Instantly.ai + GHL + Calendly'},
+    {t:'Set up prospect list building workflow (ongoing, VA task)',d:'VA builds 100 new verified prospect contacts per week: pull from Google Maps, Yelp, and Angi. Collect: owner name, email (verify with NeverBounce), phone, IG handle, website. Load into Instantly.ai campaign. This keeps the pipeline always full.',tool:'Google Maps + Hunter.io + NeverBounce + Instantly.ai'},
+  ]},
+  { title:'SMS and voicemail outreach system', desc:'SMS has a 98% open rate vs. 20% for email. For prospects who have already engaged with a lead magnet or replied to a DM — a strategic SMS dramatically increases call booking rates.', tags:['email','outreach','sales'], priority:'high', subs:[
+    {t:'Only send SMS to prospects who have opted in or engaged first',d:'NEVER cold SMS someone who has not engaged with you first (DM reply, lead magnet download, email reply, or website visit). Cold SMS without consent is illegal under TCPA. Warm SMS to engaged prospects converts extremely well.',},
+    {t:'Write SMS script for lead magnet downloaders (Day 1)',d:'Send within 5 minutes of download: "Hey [First Name]! This is [Your Name] from Amplify Growth Media — your [Scorecard/Checklist] results just landed in your inbox. Quick question: would a 15-min call to review your score be useful? Here\'s my calendar: [Calendly link]." 160 characters max. Always identify yourself.',tool:'GHL SMS'},
+    {t:'Write SMS script for non-responsive email prospects (Day 5)',d:'Only send if they opened the email (GHL/Instantly.ai will show this): "Hey [First Name] — [Your Name] here. Sent you an email about [Business Name]\'s Google listing a few days back. Just wanted to make sure it didn\'t get buried. Worth a quick chat? [Calendly link]." 160 characters max.',tool:'GHL SMS'},
+    {t:'Set up missed call text-back for every missed call to your agency line',d:'Any call that goes unanswered within 20 seconds → GHL auto-sends: "Hey! Sorry I missed your call — I\'m [Your Name] from Amplify Growth Media. What can I help you with?" This recovers leads that would otherwise be lost while you\'re at your day job.',tool:'GHL Missed Call Text Back'},
+    {t:'Write SMS follow-up sequence for post-audit non-bookers',d:'If someone received their audit video but has not booked a call: SMS Day 2: "Hey [First Name] — did you get a chance to watch the audit? Happy to walk through it together on a quick call — no pitch, just clarity: [Calendly link]." SMS Day 5: "Last SMS from me, I promise! Just want to make sure the audit was useful. If you ever want to chat, my calendar is always open: [Calendly link]."',tool:'GHL SMS'},
+  ]},
+  { title:'Lead qualification funnel — filter before they reach your calendar', desc:'Every minute spent on an unqualified call is a minute not recovering from your day job. Filter aggressively. Your calendar should only contain high-probability prospects.', tags:['sales','sop','outreach'], priority:'critical', subs:[
+    {t:'Build a Typeform qualification filter between DM/email and your calendar',d:'Questions: Q1: What type of business do you own? (dropdown — HVAC / Plumbing / Roofing / Other Home Service / Other). Q2: How many years have you been in business? Q3: What is your approximate monthly revenue? (Under $10K / $10K–$50K / $50K–$100K / $100K+). Q4: What is your monthly marketing budget or willingness to invest? (Under $500 / $500–$1,500 / $1,500–$3,000 / $3,000+). Q5: What is your #1 marketing challenge right now? Anyone below your minimum threshold gets a polite "not the right fit" auto-response.',tool:'Typeform'},
+    {t:'Write rejection response for unqualified prospects (kind and professional)',d:'"Thanks so much for your interest in Amplify Growth Media! Based on your responses, we don\'t think we\'re the best fit for your business right now — we typically work with home service businesses with a minimum marketing investment of [your minimum]. That said, here\'s a free resource that may help: [lead magnet link]. We\'d love to revisit when the time is right!"',},
+    {t:'Build your VSSL (Video Sales Letter) page for high-intent prospects',d:'Qualified prospects from Typeform land on a VSSL page before seeing your calendar. Page structure: brief intro video (3–5 min) explaining what you do, who you help, and what results look like. Below: "If this sounds like a fit, let\'s talk" → calendar embed. This page warms them before the call and dramatically improves show rate.',tool:'GHL / Framer'},
+    {t:'Set up post-booking confirmation page with pre-call video',d:'After booking: redirect to a personalized thank-you page with a short video. Structure: proof first (a result or testimonial) → who you are (be genuine — show personality) → what to expect on the call. A good pre-call page produces 60%+ show rates.',tool:'GHL'},
+    {t:'Optimize conversion event for calendar booking completed (not opt-in)',d:'Only prospects who passed all Typeform questions AND booked a call get marked as a conversion in Meta Ads Manager. This teaches Meta\'s AI to find prospects who actually qualify — not just anyone who clicks.',},
+  ]},
+  { title:'Write cold outreach scripts that work — master reference bank', desc:'Your script bank is a living document. Add to it every week. When something works, document it. When something fails, document why.', tags:['sales','outreach','dm','sop'], priority:'high', subs:[
+    {t:'Document every DM and email variation with performance notes',d:'Track in a Google Sheet: Platform | Script Version | Sent Count | Reply Rate | Call Booking Rate | Best Performing Opener. Review weekly and replace scripts with below-average reply rates.',tool:'Google Sheet'},
+    {t:'Build an objection handling bank for all outreach channels',d:'Objection 1: "We already have someone doing our marketing." Response: "Great to hear! I\'m not here to replace them — but I\'d love to show you what a competitor analysis would reveal about gaps in your current strategy. Would a free 10-min audit be useful?" Objection 2: "How much do you charge?" Response: "I\'d love to share that — but it varies based on your specific situation. Can we hop on a 15-min call so I can understand your goals first? [Calendly link]." Objection 3: "Not interested." Response: "Totally understand! Can I ask — is it the timing, the budget, or just not the right fit right now?" This often reopens the conversation.',},
+    {t:'Build a free audit hook email for all channels',d:'Subject: "Quick find for [Business Name]". Body: "I noticed [specific issue] on your [website/ads/Instagram/Google listing]. I put together a quick breakdown — want me to send it over?" This is the highest-converting cold opener across email, Instagram DM, LinkedIn DM, and Facebook DM. Personalize the "specific issue" per prospect.',},
+    {t:'Write a "case study" follow-up message (works on all platforms)',d:'"By the way — I wanted to share a quick win: [Trade] company in [State] went from [X] to [Y] in [timeframe] using the exact strategy I\'d use for [Business Name]. Here\'s what we did: [1–2 sentences]. Happy to do the same — audit is free and takes me 10 minutes."',},
+    {t:'Create a 30-day outreach plan tracker',d:'Columns: Day | Platform | Prospect Name | Business Name | Script Used | Sent | Reply (Y/N) | Reply Content | Next Action | Status in GHL. VA fills this daily. You review Friday mornings. This tracker tells you exactly what is working and what to double down on.',tool:'Google Sheet'},
+  ]},
+]},
+
+{ section:'launch', color:'blue', badge:'Month 1 Ongoing', title:'PAID ADVERTISING — YOUR OWN AGENCY ADS', tasks:[
+  { title:'Meta Ads for your own agency — lead generation campaigns', desc:'Run your own paid ads to prove to clients you do for yourself what you promise to do for them. Every ad, every result, and every optimization is also content and credibility.', tags:['paid','social','marketing'], priority:'critical', subs:[
+    {t:'Set up Meta Business Manager and Ad Account correctly',d:'Verify business, add payment method, set up Meta Pixel on website (all pages), configure conversion events (lead form submits, Calendly bookings). Set up custom audiences: website visitors (all, 30 days), video viewers (75%), page engagers (60 days).',tool:'Meta Business Manager'},
+    {t:'Build Audience 1: Cold — Home Service Business Owners (Nationwide)',d:'Age: 35–60. Locations: United States. Broad targeting — no interests, no detailed targeting. What you say in the ad IS the targeting. Meta\'s Andromeda AI reads your copy and finds the right audience. Trust it.',tool:'Meta Ads Manager'},
+    {t:'Build Audience 2: Lookalike (once you have 100+ email contacts)',d:'Create custom audience from email list in GHL. Export as CSV → upload to Meta → create 1% Lookalike audience (United States). Typically 2–3x better CPL than cold targeting.',tool:'Meta Ads Manager'},
+    {t:'Build Audience 3: Retargeting — Website Visitors (30 days)',d:'Create custom audience: all website visitors — last 30 days. Run warm retargeting ads to people who visited your website but did not opt in. This is your highest-ROAS campaign.',tool:'Meta Ads Manager'},
+    {t:'Campaign 1: Scorecard Lead Gen — 60% of budget',d:'Objective: Leads. Ad set: Audience 1 (cold). Creative: video ad (30 sec) + 3 static image variations. Copy hook: "Is your phone not ringing? Take our free 2-minute marketing scorecard." Budget: $10–15/day. Target CPL: under $20.',tool:'Meta Ads Manager + Canva'},
+    {t:'Campaign 2: Retargeting — Book a Call — 30% of budget',d:'Objective: Conversions (Calendly booking). Ad set: Audience 3 (website visitors). Budget: $3–5/day. Target cost per booking: under $40.',tool:'Meta Ads Manager'},
+    {t:'Campaign 3: Checklist Download — 10% of budget (test)',d:'Objective: Leads. Ad set: Audience 1. Creative: mockup image of the PDF checklist. Compare CPL vs. scorecard campaign.',tool:'Meta Ads Manager'},
+    {t:'Write 5 ad copy variations for A/B testing',d:'Variation A: Pain-led. B: Result-led. C: Question hook. D: Curiosity hook. E: Social proof with specific numbers. Test one at a time.',tool:'Google Docs'},
+    {t:'Use Luminify to generate ad creatives for all 3 campaigns',d:'Generate: 5 static image ads per campaign, 2 video ad scripts. Test square (1:1) and vertical (4:5) formats. Vertical outperforms square by up to 15% in Feed.',tool:'Luminify + Canva'},
+    {t:'Set up weekly ad performance review process (VA task)',d:'Every Monday, VA checks: CPL per campaign, CTR per ad, CPC, frequency. Pause underperforming ads (CPL 2x target). Scale budget 20% on winning ad sets. Report findings in Slack.',tool:'Meta Ads Manager + Google Sheet'},
+    {t:'Ad campaign structure: 1 campaign → 1 ad set → 10–15 creative variations',d:'Let Meta\'s Andromeda AI pick winners. Never turn off individual ads inside the set — evaluate and pause at the ad set level only. Scale horizontally (more ad sets at $100–200/day) not vertically.'},
+  ]},
+  { title:'Google Ads — search campaigns for high-intent traffic', desc:'Google Search captures people actively searching for help RIGHT NOW. Lower volume than Meta but higher intent — these people are already looking for what you offer.', tags:['paid','seo'], priority:'high', subs:[
+    {t:'Set up Google Ads account and conversion tracking',d:'Create account, link to GA4, link to Google Search Console. Set up conversion actions: Calendly booking, phone call clicks, form submissions. Start with Maximize Conversions bidding.',tool:'Google Ads + GA4'},
+    {t:'Build keyword list for Search Campaign (20–30 keywords)',d:'High intent: "marketing agency for HVAC companies," "plumber marketing agency," "roofing contractor marketing." Add negative keywords: "free," "DIY," "jobs," "salary," "how to."',tool:'Google Keyword Planner + Ubersuggest'},
+    {t:'Write 5 responsive search ads',d:'Headline examples: "HVAC Marketing Agency | Get More Leads" / "We Grow Home Service Businesses" / "Free Audit — Book Today." Description: specific results, social proof, CTA.',tool:'Google Ads'},
+    {t:'Build a dedicated landing page for Google Ads traffic',d:'Dedicated page (not your homepage). Matches search intent exactly. Above fold: UVP + form + phone number. No navigation menu (reduces bounce). Headline matches the ad.',tool:'GHL / Framer'},
+    {t:'Set up Google Local Services Ads (if eligible)',d:'LSAs appear above regular search ads and charge per lead. Apply for LSA for "Marketing Agency" category. Set budget: $20–40/day.',tool:'Google Local Services Ads'},
+    {t:'Set budget allocation',d:'Month 1: $5/day to test. Month 2: $10–15/day. Total budget allocation: Meta 70%, Google 30%.',tool:'Google Ads'},
+  ]},
+  { title:'YouTube Pre-Roll Ads for contractor audience targeting', desc:'Reach home service business owners while they are watching trade content on YouTube. Low cost, high targeting precision.', tags:['paid','content'], priority:'med', subs:[
+    {t:'Set up YouTube advertising through Google Ads',d:'Campaign type: Video. Subtype: Skippable In-Stream. Targeting: YouTube channels related to HVAC School, Roofer\'s Coffee Shop, ServiceTitan. Age: 30–60.',tool:'Google Ads — Video Campaign'},
+    {t:'Write and record a 30-second YouTube pre-roll ad script',d:'Hook (first 5 seconds — before skip button): "If you\'re a contractor and your phone isn\'t ringing..." Main message: "Take our free 2-minute scorecard at [URL]." This hook must be extremely specific to make them stop scrolling.',tool:'Loom / CapCut / Canva Video'},
+    {t:'Research and target specific contractor YouTube channels',d:'Use TubeTarget to identify the exact YouTube channels your target clients watch. Instead of demographic targeting alone, place ads on: "HVAC School Podcast," "Roofer\'s Coffee Shop," "Service Business Mastery." Dramatically reduces wasted impressions.',tool:'TubeTarget'},
+  ]},
+]},
+
+{ section:'launch', color:'green', badge:'Month 1 Ongoing', title:'EMAIL MARKETING & SMS NURTURE STRATEGY', tasks:[
+  { title:'Build and launch "The Growth Signal" weekly email newsletter', desc:'A weekly email to your growing list of home service business owners. One marketing tip per week. Keeps you top of mind, builds authority, and drives call bookings from people who are not ready to buy immediately.', tags:['email','content','va'], priority:'high', subs:[
+    {t:'Design the newsletter template in GHL',d:'Structure: Subject line (curiosity/benefit-driven). Preview text: 1-sentence hook. Header: AGM logo + "The Growth Signal" + issue number + date. Content: ONE main marketing tip (400–600 words). CTA: book a call or download another lead magnet.',tool:'GHL Email Builder'},
+    {t:'Write first 8 newsletter issues in advance (batch)',d:'Issue 1: How to rank #1 on Google Maps in 30 days. Issue 2: The Google review formula that doubles call volume. Issue 3: Facebook ads for contractors — what works in 2025. Issue 4: The 2-minute lead follow-up system. Issue 5: GBP conversion hacks. Issue 6: The 5-minute SEO fix. Issue 7: Case study — contractor 3x monthly calls. Issue 8: Email templates for re-engaging old leads.',tool:'Google Docs'},
+    {t:'Set up newsletter send schedule and automation in GHL',d:'Send day: Every Tuesday at 9:00 AM EST. Set up: new subscribers automatically receive last 3 issues before joining live send. No one starts mid-stream.',tool:'GHL Email Automation'},
+    {t:'Grow newsletter list via all lead magnets and social profiles',d:'Add newsletter subscribe CTA to: every lead magnet delivery email, website footer, LinkedIn profile, Instagram bio, Facebook page CTA button, and at the bottom of every blog post. Goal: 500 subscribers by month 3.',tool:'GHL + Metricool'},
+    {t:'Track email performance metrics weekly (VA task)',d:'VA monitors weekly: Open rate (target 35%+), click rate (target 4%+), unsubscribe rate (under 0.5%). A/B test subject lines on every send. Report in Monday Slack message.',tool:'GHL Analytics'},
+  ]},
+  { title:'Build outbound cold email system (VA-managed)', desc:'Your VAs send personalized cold emails to home service business owners pulled from Google Maps, Angi, and Yelp. This is your highest-volume outbound channel and fully compatible with working full-time.', tags:['email','va','outreach'], priority:'high', subs:[
+    {t:'Build prospect list of 1,000 home service business owners',d:'VA uses Google Maps across 20 major metros. Collect: business name, owner name, email (Hunter.io), phone, website URL. Verify emails with NeverBounce before sending.',tool:'Google Maps + Hunter.io + NeverBounce'},
+    {t:'Set up Instantly.ai for cold email sequencing',d:'Connect secondary domain. Import verified prospect list. Configure: 30 emails/day max per inbox, random send times, pause on reply.',tool:'Instantly.ai ($37/mo)'},
+    {t:'Write 5-touch cold email sequence',d:'Touch 1 (Day 1): Short, personalized, audit hook. Touch 2 (Day 3): Value email — free tip relevant to their trade. Touch 3 (Day 7): Case study for their exact trade. Touch 4 (Day 14): "Last try" short email with new angle. Touch 5 (Day 30): Circle-back after a pause — "Things have changed and I wanted to reach back out."',tool:'Google Docs + Instantly.ai'},
+    {t:'VA manages cold email responses and books calls',d:'VA monitors Instantly.ai inbox daily. Positive replies → follow up within 1 hour → book discovery call in GHL calendar → log as "Warm Lead" in GHL pipeline.',tool:'Instantly.ai + GHL + Calendly'},
+  ]},
+  { title:'Build comprehensive SMS marketing system in GHL', desc:'SMS has a 98% open rate vs. 20% for email. Every lead magnet opt-in who gives their phone number enters an SMS sequence. Your fastest path to a booked call.', tags:['email','va','outreach'], priority:'high', subs:[
+    {t:'Set up GHL SMS A2P 10DLC registration (do this in Week 1)',d:'Register your number for A2P 10DLC compliance in GHL. Takes 2–4 weeks for approval. Without this, messages will be filtered as spam. Start the moment you open GHL.',tool:'GHL + Twilio (via GHL)'},
+    {t:'Write SMS sequences for each lead magnet',d:'Scorecard SMS: 3 messages over 7 days. Checklist SMS: 3 messages over 7 days. Audit SMS: 2 messages over 4 days. Each message: under 160 characters, personalized with first name, one clear next step.',tool:'GHL SMS Builder'},
+    {t:'Build SMS broadcast strategy for newsletter list',d:'Monthly SMS broadcast to full opted-in list. Content: announcement of a new piece of content, a limited-time offer, or a case study. Compliance: always include opt-out instruction (STOP to unsubscribe).',tool:'GHL Broadcasts'},
+    {t:'Set up missed call text-back automation',d:'Prospect calls your business number → you do not answer within 20 seconds (you are at work) → GHL auto-sends: "Hey! This is [Your Name] from AGM. What can I help you with?" This captures the lead while you are unavailable.',tool:'GHL Missed Call Text Back'},
+  ]},
+]},
+
+{ section:'launch', color:'gold', badge:'Week 3–5', title:'SALES ENGINE & DISCOVERY CALL PROCESS', tasks:[
+  { title:'Build your outbound prospecting system', desc:'Inbound takes months to build. Outbound starts day one. Build a machine, not a manual process. Your VAs execute the volume. You close the calls.', tags:['sales','outreach'], priority:'high', subs:[
+    {t:'Reach out to your existing warm network first',d:'Text, DM, or email every business owner you know personally. Offer a discounted first month in exchange for a testimonial and case study rights. Warm leads close 5x faster than cold.',},
+    {t:'Offer 1 free pilot client (30 days, by application only)',d:'Pick a home service business you can deliver clear results for. Document everything: before screenshots, weekly updates, after metrics. The case study from this client is worth 10x the free work.',},
+    {t:'Target 2 paying clients at starter retainer price',d:'At $750–1,000/mo, they are low risk to acquire. Focus on quick, visible wins in month 1. Every win becomes content, every result becomes a case study, every happy client becomes a referral source.',},
+    {t:'Segment your outreach by business readiness signal',d:'Prospect with 3.8 stars and no ads running = hot lead. Prospect with active Facebook ads and 4.7 stars = cold lead who is already being served. Prioritize prospects showing pain signals: low reviews, no social activity, no ads visible in Facebook Ad Library.',},
+    {t:'Set daily outreach volume targets (around your full-time job)',d:'Morning (30 min before work): 10 Instagram DMs + check LinkedIn messages. Lunch (15 min): Send LinkedIn connection requests (20). Evening (45 min): Respond to all DMs and emails + write tomorrow\'s cold emails for VA. Weekend: batch-write content, update prospect lists, review metrics. Total: ~90 min/day on weekdays, 2 hours on one weekend day.',},
+  ]},
+  { title:'Set up your CRM and sales pipeline (GHL)', desc:'Every lead tracked. Every follow-up scheduled. Nothing falls through the cracks — especially critical when your attention is split between two jobs.', tags:['sales','ops','tech'], priority:'high', subs:[
+    {t:'Set up GoHighLevel pipeline stages',d:'Prospect Identified → Outreach Sent → Reply Received → Audit Offered → Audit Delivered → Call Booked → Proposal Sent → Negotiation → Won → Lost. Every contact from every channel enters here.',tool:'GoHighLevel'},
+    {t:'Define pipeline stage SLAs',d:'Reply received: followed up within 2 hours (VA handles). Audit requested: delivered within 24 hours (VA does). Call Booked: confirmation + 24hr + 1hr reminder sent automatically (GHL automation). Proposal: delivered within 48 hours of call.',},
+    {t:'Create custom fields for agency prospect data',d:'Track: niche, monthly ad budget, current agency (yes/no), how they heard of you, outreach channel, last contact date, and estimated deal value.',},
+    {t:'Set up automated follow-up workflows in GHL',d:'Call booked → confirmation email + SMS + reminder 24 hrs before + reminder 1 hr before. Reduces no-shows by 60%. Proposal sent → automatic follow-up on Day 3 if not opened. If opened but not signed → follow-up Day 7.',tool:'GHL Workflows'},
+    {t:'Train your admin VA on daily CRM maintenance',d:'VA updates every lead status daily, logs all DM/email/call outcomes, flags stale deals (no contact in 7+ days) for your review each Friday morning.',},
+  ]},
+  { title:'Build your discovery call and sales process', desc:'The call is where money is made. Have a system, not a freestyle conversation. Every minute on the call matters — you are fitting this around a full-time job.', tags:['sales','sop'], priority:'high', subs:[
+    {t:'Set up Calendly with pre-call qualification questions',d:'Ask: What is your monthly marketing budget? What are your top 3 goals? What have you tried before? What is your biggest challenge right now? This filters time-wasters before they ever appear on your calendar.',tool:'Calendly'},
+    {t:'Build a discovery call framework (30–45 min maximum)',d:'Minutes 0–5: Intro + rapport + "tell me about [Business Name]." Minutes 5–15: Deep dive — their situation, their pain, what they have tried. Minutes 15–25: Your framework + how you would approach their specific business. Minutes 25–35: Offer + pricing — state it confidently. Minutes 35–45: Q&A + next steps.',},
+    {t:'Create a sales deck for calls (under 12 slides)',d:'Slide order: Their problem → Market reality for their trade → Your agency story → How it works (3 steps) → Case study with numbers → Packages + pricing → Next steps. Keep it visual, keep it short.',tool:'Beautiful.ai / Canva'},
+    {t:'Prepare objection handling scripts',d:'Objection 1: "Too expensive." — "Would you want to be the cheapest contractor in town? We price based on the value we create, not hours we spend. For a plumbing business, one new client is worth $500–$2,000. We bring 15–20 per month." Objection 2: "Let me think about it." — "Of course! What specifically would help you feel confident moving forward?" Objection 3: "We tried agencies before." — "That is actually why I\'d like to show you exactly how our process differs — specifically our 30-day roadmap and weekly reporting. Most agencies you\'ve tried were not tracking ROI the way we do."',},
+    {t:'Practice your close: 3 closing techniques',d:'Assumptive close: "So which package makes the most sense for where you are right now — Starter or Growth?" Urgency close: "We take on 2 new clients per month so I can give everyone proper attention — I have one spot left this month." Summary close: Recap the 3 key problems they shared and show how your package addresses each one — then ask.',},
+    {t:'Set up proposal + contract automation',d:'After verbal yes: auto-send proposal via PandaDoc. Once signed: auto-send onboarding intake form via GHL. Should take under 10 minutes of your time per new client.',tool:'PandaDoc / GHL'},
+    {t:'Create your first case study (use it immediately on sales calls)',d:'Use the free pilot client result. Write it in Problem → Solution → Result format. Get written permission + client quote. Create 3 formats: 1-page PDF (for proposals), Instagram carousel (for social), and a full page on your website.',},
+  ]},
+  { title:'Build your referral and partner program', desc:'The fastest, cheapest source of high-quality clients. A warm referral closes 5x faster than cold outreach and costs you nothing but a commission check.', tags:['partner','sales','marketing'], priority:'high', subs:[
+    {t:'Identify 20 potential referral partners in your area',d:'Web designers, photographers, accountants, CPAs, business coaches, insurance brokers, commercial equipment suppliers, contractor association leaders. These already have trust with your exact target client — leverage it.',},
+    {t:'Reach out to partners with a clear value exchange via DM or email',d:'Reach out to each partner via LinkedIn DM or email: "Hey [Name] — I run Amplify Growth Media, a marketing agency for home service businesses in [area]. I have clients who sometimes need [their service] and I love making referrals. I also pay a 15% commission on any client they send my way who signs. Would you be open to a quick 15-min call to see if it makes sense?" This is NOT cold outreach — it is a peer conversation.',},
+    {t:'Create a co-branded one-pager for partners to share',d:'1-page PDF showing what you do, who you help, your UVP, and one case study. Include your logo and theirs side by side. Partners share this in their own client conversations.',tool:'Canva Pro'},
+    {t:'Build a simple referral tracking sheet (VA-maintained)',d:'Columns: Partner name → Referral business name → Date introduced → Deal status → Commission owed → Commission paid → Payment date. Admin VA maintains this weekly.',tool:'Google Sheet'},
+    {t:'Pay referral commissions within 7 days of client payment',d:'Fast payment builds trust with partners and incentivizes more referrals. Pay via Zelle, PayPal, or check within 7 days of the new client\'s first retainer payment. Never make a partner chase a commission.',},
+    {t:'Join Hernando County Chamber of Commerce',d:'Annual fee: $200–400. Access to member directory, networking events, and a credibility boost. Attend monthly mixer events. Post about your attendance on LinkedIn and Instagram Stories — this builds social proof without being in-person dependent.',tool:'HernandoChamber.com'},
+  ]},
+]},
+
+{ section:'launch', color:'violet', badge:'Month 1–2', title:'CLIENT ONBOARDING & DELIVERY SYSTEM', tasks:[
+  { title:'Build your client onboarding process', desc:'The first 7 days set the tone for the entire relationship. A seamless onboarding process makes clients feel confident they made the right choice — and dramatically reduces early churn.', tags:['ops','cx','sop'], priority:'high', subs:[
+    {t:'Create an onboarding checklist (10 steps)',d:'Contract signed → Deposit received → Welcome email sent → Intake form sent → Access requested → Kickoff call scheduled → Kickoff call held → 30-day roadmap delivered → Account access confirmed → First deliverable date set.',},
+    {t:'Write a welcome email sequence (3 emails)',d:'Email 1 (Day 0): "We\'re excited to work with you" + what to expect + intake form link. Email 2 (Day 2): Intake form reminder + kickoff call calendar link. Email 3 (Day 5): Kickoff prep tips and what to have ready.',tool:'GHL'},
+    {t:'Build a client intake form (15 questions)',d:'Ask: business goals, target audience, competitors, brand assets access, past marketing efforts, ad account access, Google Analytics access, social media login details, preferred communication channel, and monthly ad budget.',},
+    {t:'Create a 30-day roadmap template per service',d:'Week 1: Setup & access. Week 2: Strategy & first content/ads. Week 3: Launch & monitor. Week 4: Optimize & report. Customize per client, deliver in kickoff call as a shared document.',},
+    {t:'Automate the entire onboarding flow in GHL',d:'Trigger: contract signed in PandaDoc → GHL sends welcome email → 2-day intake form reminder → 5-day kickoff scheduling email. Zero manual steps after the contract signature.',tool:'GHL + PandaDoc'},
+    {t:'Set up ClickUp project template for every new client',d:'Pre-built list of 40+ standard tasks for onboarding, month 1 delivery, and reporting. Duplicate for every new client. Admin VA creates the project and assigns tasks the day the contract is signed.',tool:'ClickUp'},
+  ]},
+  { title:'Create SOPs for every service you deliver', desc:'If it only lives in your head, you cannot scale. Document everything your VA needs to execute your services consistently without you being involved in every step.', tags:['ops','sop','va'], priority:'high', subs:[
+    {t:'Write SOP: Meta Ads campaign setup (client campaigns)',d:'Covers: access collection via Business Manager partner link, Pixel check, CAPI setup, audience building (3 target groups), campaign structure (2-campaign method), ad creative upload, copy formula, budget setting, QA checklist. Every step written so a VA can execute.',},
+    {t:'Write SOP: Social media content creation workflow',d:'Covers: content calendar creation, caption writing, graphic design in Canva using brand kit, hashtag strategy, scheduling in Metricool, and engagement monitoring. VA executes this entirely.',},
+    {t:'Write SOP: Monthly client reporting process',d:'Covers: data collection from Meta/GA4/GBP, key metrics to include (results vs. benchmark), report template population in Looker Studio, Loom recording format (3–5 min walkthrough), and delivery email template. Report delivered 28th of every month.',},
+    {t:'Write SOP: New client ad account audit',d:'First thing done for any new paid ads client. Documents: current campaign structure, audience settings, pixel health, creative performance history, and budget efficiency. Deliver as a Loom + 1-page PDF.',},
+    {t:'Write SOP: Cold DM + cold email outreach (for sales VAs)',d:'Daily routine, script bank location, how to research a prospect, how to personalize the opener, how to log in GHL, how to handle replies, how to book a call, and how to escalate a hot lead to you.',},
+    {t:'Store all SOPs in Notion with version history',d:'Organize by service category. Every SOP has: last updated date, owner, version number, and a "tested by" field confirming a VA has actually used it successfully.',tool:'Notion'},
+  ]},
+  { title:'Build your monthly client reporting system', desc:'Retention is driven by perceived value. Reports prove value. Make them clear, visual, and personal — not data dumps that clients skip.', tags:['ops','cx','analytics'], priority:'high', subs:[
+    {t:'Design a branded monthly report template',d:'Sections: Executive summary (3 bullets), KPIs vs. last month, top wins, what was done, what\'s next, budget overview. Branded with client logo + yours. Professional and scannable.',tool:'Canva / Google Data Studio'},
+    {t:'Connect data sources to Looker Studio',d:'Connect: Google Analytics 4, Meta Ads, Google Search Console, GBP. Auto-populate charts. No manual data entry for recurring reports.',tool:'Looker Studio (free)'},
+    {t:'Record a 3–5 minute Loom walkthrough of every report',d:'Personalized video explaining the numbers in plain language. Clients who watch video reports churn less and upsell faster. Never just email the PDF without a Loom.',tool:'Loom'},
+    {t:'Set report delivery date as the 28th of every month — no exceptions',d:'Never on the 1st (people are busy) or the last day. 28th gives prep time and buffer for questions.',},
+    {t:'Include a "Next Month Focus" section in every report',d:'3 bullet points: what you are testing, what you are launching, and what metric you are optimizing for next month. Shows proactivity and makes the client feel managed — not forgotten.',},
+  ]},
+  { title:'Set up invoicing, payment collection, and financial operations', desc:'Get paid on time. Auto-charge retainers. Eliminate payment chasing forever.', tags:['finance','ops'], priority:'high', subs:[
+    {t:'Set up Stripe for agency payments',d:'Create products for each retainer tier and add-on. Enable auto-pay for recurring retainers. Clients give card on file at signing.',tool:'Stripe'},
+    {t:'Connect Stripe to invoicing software (Wave or QuickBooks)',d:'Retainer invoices sent on 25th, auto-charged on 1st of following month.',tool:'Wave / QuickBooks'},
+    {t:'Define your payment policy in every contract',d:'Projects: 50% upfront, 50% on delivery. Retainers: auto-charge on 1st of month. 15-day grace period then service pauses. Late fee: 1.5%/month on outstanding balances.',},
+    {t:'Set up automated payment reminder emails',d:'3 days before charge: reminder email. Failed payment: immediate notification + 48hr to update card before service pause.',tool:'Stripe Billing'},
+    {t:'Track accounts receivable weekly (VA task)',d:'Admin VA maintains a simple sheet: Client → Invoice date → Amount → Status (paid/overdue). Flag anything 5+ days overdue for your attention.',},
+  ]},
+  { title:'Integrate Luminify into your service delivery stack', desc:'You built the tool — use it. This is your biggest competitive advantage over every other local marketing agency competing for the same clients.', tags:['tech','ops'], priority:'high', subs:[
+    {t:'Map each Luminify tool to a client service use case',d:'Ad creative generation → Meta Ads clients. Social caption generator → Social media retainer clients. Business audit tool → Prospect free audits and new client onboarding. Research agent → Competitor analysis and keyword research.',tool:'Luminify'},
+    {t:'Create a "Powered by AI" positioning line in your proposals',d:'"We use proprietary AI tools to generate and test creatives 5x faster than traditional agencies. This means your campaigns iterate faster, learn faster, and improve faster." This is a genuine differentiator — sell it hard.',},
+    {t:'Train VAs on which Luminify tools to use for which task',d:'Create a 1-page quick reference guide: Task → Luminify Tool → Step-by-step instructions. Document it in Notion.',},
+    {t:'Build a credit budget per client into your pricing',d:'Estimate Luminify credits used per client per month. Include credit cost in your service cost of goods sold (COGS) calculation to ensure every client is profitable.',},
+  ]},
+]},
+
+// ══════════════════════════════════════════════════════════════════
+// POST-LAUNCH
+// ══════════════════════════════════════════════════════════════════
+
+{ section:'post', color:'cyan', badge:'Month 1–2', title:'PEOPLE, TEAM & VA SETUP', tasks:[
+  { title:'Hire and onboard your Admin VA', desc:'This person is your operations backbone. Hire them first — they free up your selling time and allow you to keep managing your day job without dropping client work.', tags:['people','ops'], priority:'high', subs:[
+    {t:'Write a detailed job description for Admin VA',d:'Include: daily tasks (GHL admin, social scheduling, report prep, invoice tracking), required tools (GHL, Canva, Google Workspace, ClickUp), communication expectations, hourly rate ($4–6), and growth potential.',},
+    {t:'Post on OnlineJobs.ph and/or Upwork',d:'OnlineJobs.ph: $69/mo, best quality for long-term Filipino VAs. Upwork: hourly contracts, faster to hire. Post both simultaneously.',tool:'OnlineJobs.ph / Upwork'},
+    {t:'Filter applications — look for GHL experience, English fluency, agency background',d:'Shortlist candidates who have worked for marketing agencies before. English fluency is non-negotiable for client-facing tasks.',},
+    {t:'Do a 15-minute video interview + give a test task',d:'Test task: "Update this CRM record, schedule this post in Metricool, and send this email draft." Pay them for the task ($10–15). Their completion quality reveals their real skill level.',},
+    {t:'Create admin VA onboarding SOP',d:'Day 1: tool access set up. Day 2–3: shadow your workflows on Loom recordings. Day 4–5: handle tasks with supervision. Week 2: fully autonomous with daily Slack standup.',tool:'Notion / Google Docs'},
+    {t:'Build a VA daily task checklist',d:'AM: inbox scan, CRM updates, social scheduling check. Midday: client reporting, invoice follow-ups. PM: EOD report in Slack. Standardize this from day one so you never need to manage tasks manually.',},
+  ]},
+  { title:'Hire your Sales VA for outreach execution', desc:'A commission-driven sales VA executes the high-volume outreach you do not have time for. They send the DMs, write the emails, build the prospect lists, and book the calls — you close them.', tags:['people','sales','outreach'], priority:'high', subs:[
+    {t:'Write Sales VA job description with commission structure clearly stated',d:'Base: $3–5/hr (20 hrs/week). Commission: 5–10% of first month retainer on closed deals. Monthly target: 2 closed clients (bookings they generate, you close). Daily outreach target: 30 DMs + 20 cold emails.',},
+    {t:'Screen for: sales aptitude, English confidence, persistence, and coachability',d:'Interview question: "Walk me through how you handled a rejection." Their answer reveals everything about their sales mindset. Look for resilience, not just experience.',},
+    {t:'Give a sales-specific test task',d:'Brief: "Write an Instagram DM to a local HVAC business owner who has not run ads. Now handle this objection: \'We already have someone doing our social media.\'" Pay them ($15–20). Grade: personalization, professionalism, and confidence.',},
+    {t:'Set 30-60-90 day performance targets',d:'30 days: 800 DMs/emails sent, 15 calls booked. 60 days: 3 proposals sent. 90 days: 1 deal closed. These numbers are based on industry benchmarks for VA-managed outreach.',},
+    {t:'Train sales VA using a Loom video library',d:'Record: your DM scripts and why each word matters, your objection handling, your discovery call walkthrough (use a past call recording), and your CRM workflow in GHL.',tool:'Loom'},
+    {t:'Set up commission tracking in a shared Google Sheet',d:'Columns: VA name, Prospect name, Deal name, Close date, Retainer value, Commission %, Commission $, Payment date. VA cannot see other VAs\' data — use a tab per VA.',tool:'Google Sheet'},
+  ]},
+  { title:'Build your team communication and accountability system', desc:'Remote teams fall apart without structure. Build the system once and run it forever — especially critical when you are managing a team while working a full-time job.', tags:['people','ops'], priority:'high', subs:[
+    {t:'Set up Slack with channels for each function',d:'Channels: #general, #sales-updates, #client-wins, #admin-tasks, #daily-standups, #urgent, #ideas. Each channel has a purpose — enforce it.',tool:'Slack'},
+    {t:'Implement daily async standup ritual',d:'Each VA posts by 9 AM (their time): ✅ Done yesterday / 🔄 Doing today / 🚫 Blockers. You reply to blockers only. No standup call needed — read it on your commute.',},
+    {t:'Set up weekly team call (30 min, Mondays via Google Meet)',d:'Agenda: last week wins, this week targets, any blockers, shoutouts. Keep energy high. Short. This is the only call of the week.',tool:'Google Meet / Zoom'},
+    {t:'Create a 1:1 check-in schedule with each VA (bi-weekly)',d:'15 minutes each, every 2 weeks. Ask: "What\'s going well? What\'s frustrating? What do you need from me?" This is how you catch problems before they become resignations.',},
+    {t:'Build a KPI scorecard per VA reviewed weekly',d:'Admin VA: tasks completed on time, error rate, client satisfaction signals. Sales VA: outreach volume, reply rate, calls booked, proposals sent, deals closed.',},
+  ]},
+  { title:'Set up international payroll and contractor compliance', desc:'Pay on time, every time. Your reputation as a good employer spreads in the Filipino VA community — it directly affects your ability to hire quality people.', tags:['people','finance','legal'], priority:'med', subs:[
+    {t:'Choose a payment platform for international transfers',d:'Wise: lowest fees, fastest transfers. Payoneer: popular with Filipino freelancers. PayPal: works but 4–5% fees. Wise is strongly recommended.',tool:'Wise / Payoneer'},
+    {t:'Set up weekly payment schedule',d:'Filipino VAs strongly prefer weekly pay. It builds trust and dramatically improves retention. Automate recurring transfers in Wise — set it and forget it.',},
+    {t:'Have each VA sign an Independent Contractor Agreement',d:'They are NOT employees. Include: scope, rate, commission structure, IP assignment, confidentiality, and 2-week termination notice. Use your IC agreement template.',},
+    {t:'Set up Clockify for time tracking',d:'VAs log hours daily in Clockify. Linked to weekly payment calculation. You see real-time hours worked. Prevents disputes and keeps everyone accountable.',tool:'Clockify (free)'},
+  ]},
+]},
+
+{ section:'post', color:'teal', badge:'Month 1 Ongoing', title:'ANALYTICS, REPORTING & OPTIMIZATION', tasks:[
+  { title:'Set up complete analytics infrastructure', desc:'You cannot optimize what you do not measure. Every marketing action must have a measurable outcome tracked in one place.', tags:['analytics','tech'], priority:'critical', subs:[
+    {t:'Set up GA4 properly with all conversion events',d:'Configure in Google Tag Manager: Lead form submissions, Calendly booking confirmed, phone number click, "Book a Call" button click, blog post engagement. Verify all fire correctly in GA4 DebugView.',tool:'Google Analytics 4 + Google Tag Manager'},
+    {t:'Build a Looker Studio marketing dashboard',d:'Connect: GA4, Meta Ads, Google Ads, GHL. Build 1-page dashboard: weekly leads by source, conversion rates by channel, total ad spend vs. CPL, email open/click rates, top landing pages.',tool:'Looker Studio (free) + GA4 + Meta + Google Ads'},
+    {t:'Set up UTM parameter tracking for all marketing links',d:'Conventions: source (facebook/google/linkedin/email/instagram/dm), medium (cpc/social/email/organic/dm), campaign (scorecard/checklist/audit/newsletter). Apply to every link you share anywhere.',tool:'Google UTM Builder + GA4'},
+    {t:'Set up GHL pipeline analytics and sales reporting',d:'Track: Leads by source, Contact → call booked rate, Call booked → proposal sent rate, Proposal → closed deal rate, Average deal value. Review GHL pipeline report every Friday.',tool:'GHL Reporting Dashboard'},
+    {t:'Create a weekly marketing KPI scorecard (VA task)',d:'VA completes Google Sheet every Monday: New leads (total + by source + by outreach channel), Calls booked, Deals closed, Total ad spend, CPL by channel, DM reply rate, cold email reply rate, email open rate, social follower growth, top performing content.',tool:'Google Sheet + GHL + Meta'},
+  ]},
+  { title:'Meta ads performance benchmarks and diagnostic framework', desc:'Know your numbers. When something is off, this tells you exactly where to look — saving hours of guesswork every week.', tags:['paid','analytics','sop'], priority:'critical', subs:[
+    {t:'Set up your key ads manager column view',d:'Columns to monitor: Amount Spent | Results | Cost per Result | Unique Outbound CTR (benchmark 1–2%) | CPM | Hook Rate — 3-sec plays/impressions (target >20%) | Frequency (keep under 1.5 for cold traffic) | ROAS.',},
+    {t:'Per $1,000 spent — client campaign targets',d:'100 quality clicks | 10 solid leads | 3–4 sales | $15,000+ in revenue. Track this weekly in a simple spreadsheet per client.',},
+    {t:'Diagnostic framework — when performance drops',d:'Low clicks → fix the ad creative (hook, visual, or copy). High clicks, no leads → fix the landing page or offer. High leads, no sales → fix the follow-up or sales call process. ROAS below 3x → diagnose all three before spending more.',},
+    {t:'When to pause an ad set',d:'Cost per result exceeds 2x your target for 3+ consecutive days → pause immediately. Do not let underperforming ad sets drain budget while hoping they turn around.',},
+    {t:'When to scale an ad set',d:'Cost per result at or below target for 7+ consecutive days → increase budget by 10–20%. Never increase by more than 20% in one go — larger increases reset the learning phase.',},
+    {t:'Frequency monitoring and creative refresh triggers',d:'Frequency above 1.5 on cold traffic = fatigue risk. Above 3 in a 7-day window → launch a new creative batch immediately. This is the #1 signal for when new ads are needed.',},
+    {t:'ROAS benchmarks by campaign type',d:'Cold traffic campaign: target 2x+ ROAS minimum. Retargeting campaigns: target 4x+ (highest-ROAS type). Email-driven traffic: target 5x+ (cheapest to run, highest return). If cold traffic ROAS is below 2x after $500 in spend → stop and diagnose creative and audience.',},
+  ]},
+  { title:'Monthly marketing review and optimization ritual', desc:'Marketing only improves if you systematically review what is working and cut what is not. Build this ritual from Month 1 and it compounds over time.', tags:['analytics','va','ops'], priority:'high', subs:[
+    {t:'Build the monthly marketing review template',d:'Sections: MRR from marketing, Leads by source + conversion rates, Ad performance by campaign, Email metrics, Social metrics, Outreach metrics (DM reply rate, cold email reply rate, calls booked from each channel), Top 3 wins, Top 3 problems, Changes for next month, Budget reallocation decisions.',tool:'Google Docs / Notion'},
+    {t:'Run monthly A/B test for each active channel',d:'Meta Ads: test 1 new creative variation per week. Cold Email: test 2 subject line variations per send. Landing pages: test 1 new headline per month. Newsletter: A/B test subject line on every send.',tool:'Meta / GHL / Instantly.ai'},
+    {t:'Quarterly marketing strategy review',d:'Every 90 days: which channels deliver leads at target CPL? Double budget on winners. Cut or pause underperformers. Introduce 1 new channel based on what is working.',tool:'Google Analytics + Looker Studio'},
+    {t:'Build a testimonial and case study capture system',d:'After every client win: VA sends a templated "result capture" email asking for specific numbers, a 2-sentence testimonial quote, and permission to use name and logo. Log all testimonials in Notion. These feed your DM scripts, cold emails, and ad creative.',tool:'GHL + Notion'},
+  ]},
+]},
+
+{ section:'post', color:'rose', badge:'Month 2 Ongoing', title:'FINANCE, PROFITABILITY & PRICING POWER', tasks:[
+  { title:'Build your agency P&L model', desc:'Know your numbers every single month. Profitable businesses are built on intentional finance, not hopeful revenue.', tags:['finance'], priority:'high', subs:[
+    {t:'Set up a monthly P&L tracker',d:'Columns: Revenue (retainers + projects + performance fees), COGS (VA wages + ad tools + Luminify credits + software), Gross Profit, Operating Expenses, Net Profit. Review the 1st of every month.',tool:'Google Sheets / Wave'},
+    {t:'Calculate your target profit margin',d:'At $5–15K/mo revenue with VA team, target 50–65% net margin. VA wages ($1,200–2,000/mo) + tools ($300–600/mo) = ~$2,000 overhead. Every dollar above that is profit.',},
+    {t:'Track MRR (Monthly Recurring Revenue) separately',d:'MRR = retainer income only. Track monthly: new MRR added, churned MRR, net MRR growth. This is the single most important financial metric for an agency.',},
+    {t:'Set a revenue milestone dashboard',d:'Visual tracker: Current MRR → $3K → $5K → $7.5K → $10K → $15K → $20K. Post it somewhere visible. Update the first of every month.',},
+  ]},
+  { title:'Define your client economics and pricing floor', desc:'Know exactly what each client costs you and what they must pay to be worth your time. At scale, unprofitable clients are worse than no clients.', tags:['finance','sales'], priority:'high', subs:[
+    {t:'Calculate cost-to-serve per client type',d:'Add up: VA hours spent × hourly rate + tools allocated + your time value ($50/hr minimum). A $750/mo client using 15 VA hours + 5 of your hours may cost $500+ to serve. That is a 33% margin — too low.',},
+    {t:'Set a minimum retainer floor ($1,000/mo minimum new clients)',d:'Below this, most clients cost more to serve than they pay after your time and VA costs. Firm on this number. Grandfather any existing clients below this floor.',},
+    {t:'Build pricing that accounts for client acquisition cost (CAC)',d:'If you spent $150 in ad spend and 3 sales calls (at your time value) to acquire a client, they need to stay at least 3 months to break even. Build a 3-month minimum into every contract.',},
+    {t:'Define your Minimum Viable Client profile',d:'Financial floor: $1,000/mo minimum commitment. $1,000+ monthly ad budget (for ad clients). 3-month minimum agreement. Decision-maker access on the discovery call. Any prospect not meeting all 4 criteria gets declined or referred.',},
+  ]},
+  { title:'Track your path to $15K/month with a revenue model', desc:'Reverse-engineer the number. Know exactly how many clients at what price get you to the goal.', tags:['finance','sales'], priority:'high', subs:[
+    {t:'Build a client count model',d:'Scenario A: 10 clients at $1,500/mo = $15K. Scenario B: 6 clients at $2,000 + 3 at $1,000 = $15K. Scenario C: 5 clients at $3,000 = $15K. Know your path and which scenario requires the least clients (highest price) and therefore least operational load.',},
+    {t:'Set monthly new client acquisition targets',d:'To reach $10K MRR in 6 months: you need ~2 new clients/month assuming 0 churn. Build in 10% monthly churn realistically. To offset that, you need 2.5 new clients per month.',},
+    {t:'Track LTV (Lifetime Value) per client',d:'Avg retainer × avg months retained. If clients stay 8 months at $1,500 = $12,000 LTV. This number determines how much you can profitably spend to acquire a client (CAC must be below 30% of LTV).',},
+    {t:'Set upsell revenue targets per quarter',d:'20% of revenue should come from upsells by month 6. Plan: which upsell to offer each client, when to offer it (60-day milestone), and what the expected conversion rate is.',},
+  ]},
+]},
+
+{ section:'post', color:'lime', badge:'Month 2 Ongoing', title:'CLIENT RETENTION, UPSELLS & SCALE', tasks:[
+  { title:'Set client communication standards and SLAs', desc:'Most agency churn is not about results — it is about feeling ignored. Over-communicate. Especially critical when you are managing clients around a full-time job.', tags:['cx','ops'], priority:'high', subs:[
+    {t:'Define and document your response time SLA',d:'Standard: 24-hour response to all client messages on business days. Urgent (their ads down, account flagged): 4-hour response. Set expectations in the contract AND onboarding call — not after a complaint.',},
+    {t:'Set up a dedicated Slack channel per client',d:'Create a shared Slack channel with each retainer client. Assign admin VA as primary responder. You handle escalations only. Client feels served; your VA handles day-to-day.',tool:'Slack Connect'},
+    {t:'Define your preferred client communication channels',d:'Email for formal updates. Slack for quick questions. Loom for screen share explanations. Phone/video only for scheduled calls. Never give your personal cell to clients.',},
+    {t:'Create an escalation protocol for client complaints',d:'Client expresses dissatisfaction → VA flags it immediately in Slack #urgent → You respond personally within 2 hours → Schedule a call within 24 hours → Present a solution on the call. Never let a complaint go unaddressed for more than 24 hours.',},
+  ]},
+  { title:'Build a client success and retention playbook', desc:'Retention is revenue. One client staying 12 months vs. 4 months = 3x the value. Build the retention system before you need it.', tags:['cx','ops'], priority:'high', subs:[
+    {t:'30-day check-in: Send a satisfaction survey',d:'3 questions only: "What\'s going well?", "What could be better?", "How likely are you to refer us?" NPS-style. Address every response personally within 24 hours.',tool:'Typeform (free)'},
+    {t:'60-day milestone celebration',d:'Send a branded "Month 2 Wins" recap email with their top metrics highlighted. Make them feel great about the investment. Attach one upsell seed: "Based on these results, I think adding [X] could 2x your leads."',},
+    {t:'90-day strategic review call',d:'30-minute video call. Celebrate results, discuss next 90 days, introduce one upsell idea, and ask for a referral. Script the referral ask: "Do you know 2–3 other business owners who could benefit from what we\'ve done for you?"',},
+    {t:'Create a proactive churn risk signal list',d:'Red flags: stopped opening emails (VA checks weekly), missed two calls, complained once, asked about pricing unexpectedly, payment declined. Any of these → immediate personal check-in call from you — not the VA.',},
+    {t:'Build a "make-good" policy for service failures',d:'When you mess up: own it immediately in a personal call, explain what happened and what changed, offer a credit or extra service this month, document the incident in GHL. Clients who receive a great recovery often become your most loyal advocates.',},
+    {t:'Track NRR (Net Revenue Retention) monthly',d:'Formula: (Starting MRR + Expansion MRR − Churned MRR) / Starting MRR. Above 100% = growing without new clients. Below 100% = losing ground every month. Target: 105%+ by month 6.',},
+  ]},
+  { title:'Build your upsell and expansion revenue engine', desc:'Your easiest sale is always to an existing happy client. Build upsell offers into the service roadmap from the beginning.', tags:['cx','sales'], priority:'high', subs:[
+    {t:'Create an upsell menu of logical add-on services',d:'If on social media retainer → upsell Meta Ads. If on Meta Ads → upsell content creation. If on basic reporting → upsell Looker Studio dashboard + weekly calls. Map every logical next step for every current service.',},
+    {t:'Plant the upsell seed at 60 days (before the 90-day call)',d:'Email: "Based on your results so far, I think adding [X service] could 2x your leads. I want to walk you through the idea on our next call — no pressure, just a recommendation I want to make."',},
+    {t:'Present upsells as performance-driven diagnoses',d:'Never pitch — diagnose. "Your ads are converting well but you\'re losing 60% of leads at the landing page. If we fix that, I estimate [result]. Want to discuss?" Clients say yes to this because it is in their interest.',},
+    {t:'Introduce annual contract pricing with a discount',d:'Offer 2 months free for annual payment upfront. Locks in $16K–$22K cash upfront per client. Dramatically improves your runway and reduces churn. Pitch this at the 90-day call.',},
+    {t:'Track upsell conversion rate monthly',d:'Target: 1 upsell closed per 4 existing clients per quarter. If below this, identify which service is the most natural upsell path and make that the only offer — do not present multiple options at once.',},
+  ]},
+  { title:'Collect testimonials, generate referrals, and build PR', desc:'Your clients are your best salespeople. Activate them intentionally. One referral client costs you zero in acquisition — and closes 5x faster than any cold outreach.', tags:['cx','marketing','partner'], priority:'high', subs:[
+    {t:'Ask for a Google review at 90 days',d:'Send the exact Google review link via email. Include 3 bullet points suggesting what they can mention: the process, the results, and who you would recommend us to. Do this at their happiest moment — immediately after a great result or milestone.',},
+    {t:'Record a video testimonial from your best clients',d:'3-minute Zoom or Loom recording: "What was the problem before? What happened after? Who would you recommend us to?" These video testimonials go on your website, in your cold email follow-ups, and in your Instagram DM follow-ups.',},
+    {t:'Build a formal referral ask into the 90-day review call',d:'Script: "Do you know 2–3 other business owners who could benefit from what we\'ve done for you? We would take great care of them and pay you 15% of their first month retainer as a thank-you." Make it easy: "Who comes to mind right now?"',},
+    {t:'Set up HARO (Help a Reporter Out) for earned media coverage',d:'Sign up at Connectively.us (HARO\'s new platform). Monitor daily emails for queries tagged: Marketing, Small Business, Home Improvement, Entrepreneurship. Respond within 1 hour. Target: 2 media placements per month.',tool:'Connectively.us'},
+    {t:'Pitch guest articles to contractor trade publications',d:'Target: Contractor Magazine, HVAC Business Magazine, Plumbing & Mechanical Magazine, Roofing Contractor Magazine. Pitch articles on common contractor marketing mistakes.',tool:'Email pitch + LinkedIn'},
+    {t:'Send a quarterly "Client Appreciation" email',d:'Not promotional. A genuine thank-you + a small value-add: a free report, a tool recommendation, or early access to a new service. Clients who feel appreciated refer and stay longer.',},
+  ]},
+]},
+
+{ section:'post', color:'orange', badge:'Month 3–6', title:'SCALE & GROWTH — $10K TO $50K MONTHS', tasks:[
+    { title:'Systematize your sales and hit consistent $10K MRR', desc:'Once you have proven the model, scale the machine — not the hustle.', tags:['sales','ops'], priority:'high', subs:[
+      {t:'Audit your sales funnel: where are you losing deals?',d:'Review last 10 lost deals: lost at outreach, call, proposal, or negotiation? Each stage reveals a different fix. Low DM reply rate → fix the opener. Low call-to-proposal rate → fix the discovery call. Low proposal close rate → fix the offer or pricing.',},
+      {t:'Double your outreach volume by optimizing VA output',d:'If sales VAs are sending 30 DMs/day, systematize to 50 quality DMs/day using templates + personalization layers. Add a second sales VA if the first is at capacity and ROI is proven.',},
+      {t:'A/B test your cold outreach subject lines and openers monthly',d:'Test 2 subject lines per email campaign. Winner by open rate. Test 2 DM openers. Winner by reply rate. Document in the outreach tracking sheet and replace the loser.',},
+      {t:'Add LinkedIn Sales Navigator as a serious outbound tool',d:'$99/mo. Precise targeting: filter by industry (HVAC/plumbing/roofing), company size, geography, and job title (Owner, Founder, CEO). Connect + personalized message sequence. Quality of LinkedIn leads is significantly higher than Instagram.',tool:'LinkedIn Sales Navigator'},
+      {t:'Build a referral flywheel from happy clients',d:'Client gets results → you ask for referral at month 3 → pay referral bonus within 7 days of new client payment → ask again at month 6. One referral per month from an active client base of 10 = sustainable growth without increasing ad spend.',},
+    ]},
+    { title:'Raise your prices and improve margin', desc:'At $10K MRR, you have proof. Proof equals pricing power. Stop competing on price — compete on results.', tags:['finance','sales'], priority:'high', subs:[
+      {t:'Raise minimum new client retainer to $1,500–2,000/mo',d:'Stop taking $750 clients. Each new client at $1,500 adds MRR 2x faster. Grandfather existing clients if they are profitable — do not raise their price without delivering something new.',},
+      {t:'Reposition using case study results to justify higher fees',d:'Update proposals, website, and DM follow-up scripts with real results. "We helped an HVAC company in [State] go from 8 calls/month to 43 in 90 days" justifies $2,000+ immediately.',},
+      {t:'Introduce annual contract pricing with a discount',d:'2 months free for annual payment upfront. Locks in $18K–$24K cash upfront. Dramatically improves financial stability and reduces churn. Present this at the 90-day review call.',},
+      {t:'Remove or retire your lowest-margin service',d:'Identify which service takes the most VA time for the least revenue. Discontinue it for new clients. Redirect that VA capacity to your highest-margin service.',},
+    ]},
+    { title:'Build your personal brand as agency founder', desc:'People hire people. Your face and voice sell better than any agency page. Building a personal brand while working full-time is possible — 2–3 posts per week is enough.', tags:['marketing','sales'], priority:'med', subs:[
+      {t:'Post your agency journey on LinkedIn (2–3x/week)',d:'Share: wins, lessons, behind-the-scenes, client results (anonymized if needed), and honest takes on home service marketing. Text-only posts get the best reach. Carousel posts get the most saves. Alternate between the two.',},
+      {t:'Create a "founder story" Instagram and LinkedIn post',d:'Your background in GHL, the decision to build Luminify, why you started AGM, and where you are going. This is the post that makes people root for you. People do not just buy services — they buy into the founder.',},
+      {t:'Build a founder email list',d:'Weekly email: one marketing insight for local business owners. Even with 100 subscribers, this builds authority and generates inbound leads from people who were never cold-targeted. Use GHL or ConvertKit.',},
+      {t:'Pitch yourself for one local podcast or contractor-focused podcast',d:'Pitch yourself as a "marketing expert for home service businesses." Identify 5 target podcasts. Send a personalized pitch to each. One appearance = 10 warm leads over the following 30 days.',},
+    ]},
+    { title:'Add specialist capacity without adding overhead', desc:'Do not hire full-time before demand is proven. Use project-based specialists for overflow and specialized work.', tags:['people','ops'], priority:'med', subs:[
+      {t:'Build a freelancer network for overflow work',d:'Identify and pre-vet: a copywriter, a video editor, a web developer, and a Google Ads specialist. Pay per project. Have a contract ready for each. You can spin up capacity in 48 hours when client demand spikes.',},
+      {t:'Create a standard freelancer brief template',d:'Every project brief includes: deliverable, timeline, examples, brand guidelines, revision limit, payment terms, and communication channel. No ambiguity = no scope creep = on-time delivery.',},
+      {t:'Establish quality control process for outsourced work',d:'Nothing goes to a client without internal review. Admin VA does first check against SOP checklist. You do final approval. Never let a freelancer deliver directly to a client.',},
+      {t:'Track capacity vs. demand monthly',d:'When VAs are at 80%+ capacity for 2 consecutive months: either raise prices (reduce demand) or hire another VA (increase supply). Never stay at 80%+ without a decision.',},
+    ]},
+    { title:'Run your 90-day business audit — every quarter, no exceptions', desc:'Cut what is not working. Double down on what is. Every 90 days, your business should look measurably different from the previous quarter.', tags:['ops','finance'], priority:'high', subs:[
+      {t:'Review MRR growth vs. target',d:'If ahead: increase price or add a new service. If behind: audit outreach volume, close rate, and churn rate. One of these three is always the bottleneck.',},
+      {t:'Audit each client: profitable or not?',d:'Calculate: Revenue − (VA hours × rate + your hours × $50 + tool allocation). Any client below 40% gross margin needs repricing or offboarding. Do not carry unprofitable clients out of guilt.',},
+      {t:'Review outreach channel performance',d:'Which channel (Instagram DMs / LinkedIn DMs / Facebook Groups / cold email / referrals / paid ads) produced the most qualified calls at the lowest cost and time investment? Double the budget and VA time on that channel.',},
+      {t:'Review team performance against KPI scorecards',d:'Sales VA: hitting outreach volume and booking targets? Admin VA: tasks delivered on time, error-free? Any VA consistently underperforming after coaching → performance plan → replacement.',},
+      {t:'Audit your tool stack — cut anything unused',d:'List every paid tool. For each: used more than 10x last month? Can it be replaced by GHL or a free tool? Cancel anything that does not pass. Tool bloat is a silent margin killer.',},
+      {t:'Set next 90-day goals and priorities',d:'Set 3 goals: 1 revenue goal (specific MRR target), 1 operations goal (new SOP, new hire, new system), 1 team/culture goal (VA retention, training, performance). Write them down. Share with your VAs. Post them. Revisit in 90 days.',},
+    ]},
+  ]
+},
+];
+
+// ════════════════════════════════════════════════════════
+// RENDER ENGINE
+// ════════════════════════════════════════════════════════
+const SECTION_META = {
+  pre:   { num:'01', label:'Pre-Launch', desc:'Foundation, legal, brand, lead magnets, website, SEO, tech stack, and SOP creation — everything built before acquiring your first client.' },
+  launch:{ num:'02', label:'Launch',     desc:'Cold DM & email outreach system, paid ads (your own + clients), email marketing, sales process, and client onboarding. No in-person required.' },
+  post:  { num:'03', label:'Post-Launch',desc:'Team hiring, analytics, finance, client retention, upsell strategy, referrals, and scaling to $50K months — all designed around a full-time job schedule.' }
+};
+
+const COLORS = ['orange','blue','green','gold','rose','violet','cyan','teal','lime'];
+
+let curSection = 'all';
+let curTag = 'all';
+
+function buildUI() {
+  const main = document.getElementById('mainContent');
+  const congrats = document.getElementById('congrats');
+  main.innerHTML = '';
+  main.appendChild(congrats);
+
+  ['pre','launch','post'].forEach(sec => {
+    const secPhases = PHASES.filter(p => p.section === sec);
+    if (!secPhases.length) return;
+    const meta = SECTION_META[sec];
+    const totalSubs = secPhases.reduce((a,p) => a + p.tasks.reduce((b,t) => b + (t.subs ? t.subs.length : 0), 0), 0);
+
+    const banner = document.createElement('div');
+    banner.className = `section-banner ${sec}`;
+    banner.dataset.sec = sec;
+    banner.innerHTML = `
+      <div class="sb-num">${meta.num}</div>
+      <div class="sb-info">
+        <div class="sb-tag">Section ${meta.num} · AGM Agency SOP</div>
+        <div class="sb-title">${meta.label}</div>
+        <div class="sb-desc">${meta.desc}</div>
+      </div>
+      <div class="sb-right">
+        <div class="sb-count">${totalSubs}</div>
+        <div class="sb-clabel">Action Items</div>
+        <div class="sb-prog-wrap"><div class="sb-prog-fill ${sec}" id="sbp-${sec}" style="width:0%"></div></div>
+      </div>`;
+    main.appendChild(banner);
+
+    secPhases.forEach((phase, pIdx) => {
+      const color = COLORS[pIdx % COLORS.length];
+      const allTags = [...new Set(phase.tasks.flatMap(t => t.tags || []))];
+      const totalPhaseSubs = phase.tasks.reduce((a,t) => a + (t.subs ? t.subs.length : 0), 0);
+      const phEl = document.createElement('div');
+      phEl.className = `phase collapsed pc-${color}`;
+      phEl.dataset.sec = sec;
+      phEl.dataset.tags = allTags.join(',');
+      phEl.dataset.pid = `${sec}-${pIdx}`;
+      phEl.innerHTML = `
+        <div class="phase-head" onclick="togglePhase(this.parentElement)">
+          <div class="ph-dot ${sec}"></div>
+          <div class="ph-num">${String(pIdx+1).padStart(2,'0')}</div>
+          <div class="ph-info">
+            <div class="ph-title">${phase.title}</div>
+            <div class="ph-sub">${phase.badge} · ${phase.tasks.length} task groups · ${totalPhaseSubs} action items</div>
+          </div>
+          <span class="ph-badge">${phase.badge}</span>
+          <span class="ph-prog" id="php-${sec}-${pIdx}">0 / ${totalPhaseSubs}</span>
+          <span class="ph-toggle">▼</span>
+        </div>
+        <div class="phase-body"></div>`;
+
+      const body = phEl.querySelector('.phase-body');
+
+      phase.tasks.forEach((task, tIdx) => {
+        if (!task) return;
+        const subs = task.subs || [];
+        const tgEl = document.createElement('div');
+        tgEl.className = 'task-group';
+        tgEl.dataset.tags = (task.tags || []).join(',');
+        const priCls = {critical:'p-critical',high:'p-high',med:'p-med',low:'p-low'}[task.priority] || 'p-low';
+        const tagsHtml = (task.tags||[]).map(t=>`<span class="tag tag-${t}">${t}</span>`).join('');
+        tgEl.innerHTML = `
+          <div class="task-row" onclick="toggleTask(this)">
+            <div class="task-check">✓</div>
+            <div class="task-content">
+              <div class="task-title">${task.title}</div>
+              <div class="task-desc">${task.desc}</div>
+              <div class="task-meta">${tagsHtml}<span class="priority ${priCls}">${task.priority}</span>${subs.length?`<span class="sub-count">${subs.length} steps</span>`:''}</div>
+            </div>
+            ${subs.length?`<span class="expand-btn" onclick="event.stopPropagation();this.closest('.task-group').classList.toggle('sub-open')">▶</span>`:''}
+          </div>`;
+        if (subs.length) {
+          const subList = document.createElement('div');
+          subList.className = 'subtask-list';
+          subs.forEach(sub => {
+            const sr = document.createElement('div');
+            sr.className = 'subtask-row';
+            sr.innerHTML = `
+              <div class="sub-check">✓</div>
+              <div class="sub-body">
+                <div class="sub-title">${sub.t}</div>
+                ${sub.d?`<div class="sub-detail">${sub.d}</div>`:''}
+                ${sub.tool?`<span class="sub-tool">🔧 ${sub.tool}</span>`:''}
+              </div>`;
+            sr.addEventListener('click', function(e){e.stopPropagation();this.classList.toggle('done');updateProgress();});
+            subList.appendChild(sr);
+          });
+          tgEl.appendChild(subList);
+        }
+        body.appendChild(tgEl);
+      });
+
+      main.appendChild(phEl);
+    });
+  });
+
+  updateProgress();
+  applyFilters();
+}
+
+function togglePhase(el){el.classList.toggle('collapsed');}
+
+function toggleTask(row){
+  row.classList.toggle('done');
+  updateProgress();
+}
+
+function updateProgress(){
+  const allSubs = document.querySelectorAll('.subtask-row');
+  const doneSubs = document.querySelectorAll('.subtask-row.done');
+  const total = allSubs.length, done = doneSubs.length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('sTotal').textContent = total;
+  document.getElementById('sDone').textContent = done;
+  document.getElementById('sLeft').textContent = total-done;
+  document.getElementById('sPct').textContent = pct+'%';
+  document.getElementById('progFill').style.width = pct+'%';
+  document.getElementById('progLabel').textContent = `${done} / ${total} complete`;
+
+  ['pre','launch','post'].forEach(sec=>{
+    const secSubs = document.querySelectorAll(`.phase[data-sec="${sec}"] .subtask-row`);
+    const secDone = document.querySelectorAll(`.phase[data-sec="${sec}"] .subtask-row.done`);
+    const sp = document.getElementById(`sbp-${sec}`);
+    if(sp) sp.style.width = (secSubs.length ? Math.round(secDone.length/secSubs.length*100) : 0)+'%';
+
+    PHASES.filter(p=>p.section===sec).forEach((phase,pIdx)=>{
+      const phSubs = document.querySelectorAll(`.phase[data-pid="${sec}-${pIdx}"] .subtask-row`);
+      const phDone = document.querySelectorAll(`.phase[data-pid="${sec}-${pIdx}"] .subtask-row.done`);
+      const lbl = document.getElementById(`php-${sec}-${pIdx}`);
+      if(lbl) lbl.textContent = `${phDone.length} / ${phSubs.length}`;
+    });
+  });
+
+  if(total>0&&done===total) document.getElementById('congrats').classList.add('show');
+  else document.getElementById('congrats').classList.remove('show');
+}
+
+function filterSection(sec, btn){
+  curSection = sec;
+  document.querySelectorAll('.src-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+function filterTag(tag, btn){
+  curTag = tag;
+  document.querySelectorAll('.ftag').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+function applyFilters(){
+  document.querySelectorAll('.section-banner').forEach(b=>{
+    b.style.display=(curSection==='all'||curSection===b.dataset.sec)?'flex':'none';
+  });
+  document.querySelectorAll('.phase').forEach(ph=>{
+    const secOk = curSection==='all'||curSection===ph.dataset.sec;
+    const phTags = (ph.dataset.tags||'').split(',');
+    const tagOk = curTag==='all'||phTags.includes(curTag);
+    ph.classList.toggle('hidden',!(secOk&&tagOk));
+  });
+  document.querySelectorAll('.task-group').forEach(tg=>{
+    const tgTags=(tg.dataset.tags||'').split(',');
+    tg.classList.toggle('filtered-out',curTag!=='all'&&!tgTags.includes(curTag));
+  });
+}
+
+buildUI();
+</script>
+</body>
+</html>
